@@ -1,0 +1,77 @@
+{% extends "post_base.html" %}
+
+{% block pre_modules %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/index.css" />
+<script src="https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/method.min.js"></script>
+<style>
+    div#post-card {
+        margin-bottom: 2rem;
+    }
+    .post-info .post-info-item span {
+        font-size: 0.9rem;
+    }
+    div#toc {
+        position: sticky;
+        top: 1rem;
+    }
+    .breadcrumb-item a {
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/" class="text-muted">Home</a></li>
+            <li class="breadcrumb-item"><a href="/post/" class="text-muted">Posts</a></li>
+            <li class="breadcrumb-item"><span class="text-muted">{{post.title}}</span></li>
+        </ol>
+    </nav>
+</div>
+{% endblock %}
+
+{% block main_left %}
+<div id="post-card">
+    <h1 id="title" class="py-2">{{ post.title }}</h1>
+    <div class="hstack gap-3 text-muted post-info">
+        <div id="post-author" class="post-info-item"><i class="bi bi-pencil-fill pe-2"></i><span>HPDell</span></div>
+        <div class="vr"></div>
+        <div id="post-date" class="post-info-item"><i class="bi bi-calendar pe-2"></i><span>{{post.date}}</span></div>
+        {% if post.category %}
+        <div class="vr"></div>
+        <div id="post-date" class="post-info-item"><i class="bi bi-archive-fill pe-2"></i><span>{{post.category.name}}</span></div>
+        {% endif %}
+    </div>
+</div>
+<div id="post"></div>
+<p id="copyright" class="lead mt-4 text-muted">
+    <small>Thanks for your reading. Copyright preserved by MyZone.</small>
+</p>
+{% endblock %}
+
+{% block main_right %}
+{{ block.super }}
+<div id="toc" class="row mt-4">
+    <h5 id="toc-header" class="border-start border-4 border-dark">Contents</h5>
+    <div id="toc-content" class="ps-0"></div>
+</div>
+{% endblock %}
+
+{% block post_modules %}
+<script>
+    const markdown = `{{ post.content }}`;
+    const contentElement = document.getElementById("post");
+    Vditor.preview(contentElement, markdown, {
+        after() {
+            const outlineElement = document.getElementById("toc-content");
+            Vditor.outlineRender(contentElement, outlineElement);
+            if (outlineElement.innerText.trim() !== '') {
+                outlineElement.style.display = 'block';
+            }
+        }
+    });
+</script>
+{% endblock %}

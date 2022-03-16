@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}
+Posts
+{% endblock %}
+
+{% block pre_modules %}
+<style>
+    div#main-sidebar {
+        font-size: 0.9rem;
+    }
+    #category-header, #tag-header, #toc-header {
+        padding-left: 1rem;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block header %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">MyZone</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/post/">Blog</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block main %}
+<div class="container py-3">
+    {% block breadcrumb %}
+    {% endblock %}
+    <div class="row">
+        <div class="col-9">
+        {% block main_left %}
+        {% endblock %}
+        </div>
+        <div id="main-sidebar" class="col col-lg-3">
+            {% block main_right %}
+            <div id="category" class="row">
+                <h5 id="category-header" class="border-start border-4 border-dark ps-3"><strong>Categories</strong></h5>
+                <ul id="category-list" class="list-group list-group-flush ps-3">
+                    {% for item in category %}
+                    <a href="#" class="list-group-item">{{item.name}}</a>
+                    {% endfor %}
+                    <a href="#" class="list-group-item">Not Categoried</a>
+                </ul>
+            </div>
+            <div id="tag" class="row mt-4">
+                <h5 id="tag-header" class="border-start border-4 border-dark ps-3"><strong>Tags</strong></h5>
+                <ul id="tag-list" class="hstack ps-3">
+                    {% for item in tags %}
+                    <a href="#"><span class="badge bg-secondary">{{item.name}}</span></a>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
