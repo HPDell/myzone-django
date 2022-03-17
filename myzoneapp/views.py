@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http.request import HttpRequest
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import permission_required
+from django.core.files.storage import FileSystemStorage
 from pathlib import Path
 from myzone import settings 
 
@@ -97,7 +98,10 @@ def post_new(request: HttpRequest):
                 category.save()
             new_post = Post()
             new_post.title = from_data['title']
-            new_post.cover = from_data['cover']
+            fss = FileSystemStorage()
+            cover_file = request.FILES['cover']
+            cover = fss.save(cover_file.name, cover_file)
+            new_post.cover = cover
             new_post.date = from_data['date']
             new_post.category = category
             new_post.content = from_data['content']

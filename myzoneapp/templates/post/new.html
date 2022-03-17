@@ -29,7 +29,7 @@ New Post
         </nav>
     </div>
     <h1>New Post</h1>
-    <form action="/post/new/" method="post" class="py-3">
+    <form action="/post/new/" method="post" class="py-3" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
             <div class="col-9">
@@ -48,7 +48,7 @@ New Post
             <div class="col-3">
                 <div class="mb-3">
                     <label class="form-label" for="post-cover"><h5>Cover</h5></label>
-                    <input type="file" name="cover" class="form-control" name="cover" id="post-cover">
+                    <input type="file" name="cover" class="form-control" name="cover" id="post-cover" accept="*.png, *.jpg, *.bmp, *.jpeg">
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="post-date"><h5>Date</h5></label>
@@ -65,12 +65,18 @@ New Post
                 </div>
                 <div class="mb-3">
                     <h5>Tags</h5>
-                    {% for item in tags %}
-                    <div class="form-check form-check-inline">
-                        <input type="checkbox" class="form-check-input" value="{{item.name}}" name="tags" id="post-tag-{{item.id}}">
-                        <label class="form-check-label" for="post-tag-{{item.id}}">{{item.name}}</label>
+                    <div id="tags-checks">
+                        {% for item in tags %}
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" value="{{item.name}}" name="tags" id="post-tag-{{item.id}}">
+                            <label class="form-check-label" for="post-tag-{{item.id}}">{{item.name}}</label>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="New tag..." id="new-tag" aria-describedby="button-new-tag">
+                        <button class="btn btn-sm btn-outline-secondary" type="button" id="button-new-tag" onclick="onBtnNewTagClick()"><i class="bi bi-cloud-plus pe-1"></i>Add</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,6 +92,14 @@ New Post
         cache: {
             enabled: false
         },
+        upload: {
+            url: '/vditor/uploads/',
+            linkToImgUrl: '/vditor/uploads/',
+            accept: '.jpg,.png,.gif,.jpeg',
+            filename(name) {
+                return name.replace(/\?|\\|\/|:|\||<|>|\*|\[|\]|\s+/g, '-')
+            },
+        },
         after() {
             vditor.clearCache()
             vditor.setValue(document.getElementById('post-content').value)
@@ -94,5 +108,36 @@ New Post
             document.getElementById('post-content').value = md
         }
     })
+
+    var createdTagNum = 0;
+
+    function newTagGroup(tagName) {
+        var container = document.createElement('div');
+        container.setAttribute('class', 'form-check form-check-inline');
+        var tag_id = `post-tag-${createdTagNum+1}`;
+        var tag_input = document.createElement('input');
+        tag_input.setAttribute('type', 'checkbox');
+        tag_input.setAttribute('class', 'form-check-input');
+        tag_input.setAttribute('value', tagName);
+        tag_input.setAttribute('name', 'tags');
+        tag_input.setAttribute('id', tag_id);
+        var tag_label = document.createElement('label');
+        tag_label.setAttribute('class', 'form-check-label')
+        tag_label.setAttribute('for', tag_id);
+        var tag_label_text = document.createTextNode(tagName);
+        tag_label.append(tag_label_text);
+        container.appendChild(tag_input);
+        container.appendChild(tag_label);
+        return container;
+    }
+
+    function onBtnNewTagClick () {
+        var newTagName = document.getElementById('new-tag').value.trim();
+        if (newTagName !== '') {
+            const tagChecks = document.getElementById('tags-checks');
+            tagChecks.appendChild(newTagGroup(newTagName));
+        }
+        document.getElementById('new-tag').value = ''
+    }
 </script>
 {% endblock %}
