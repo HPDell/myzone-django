@@ -19,9 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('', include('myhome.urls')),
+    path('', include('myzoneapp.urls')),
     path('admin/', admin.site.urls),
-    path('post/', include('myzoneapp.urls')),
     path('vditor/', include('vditor.urls')),
 ]
 
