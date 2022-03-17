@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http.request import HttpRequest
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import permission_required
+from pathlib import Path
+from myzone import settings 
 
 from .models import Post, Category, Tag
 from .forms import PostForm
@@ -12,7 +14,12 @@ def home(request: HttpRequest):
     """
     Home page. `/`
     """
-    return render(request, 'index.html')
+    md_file = Path(settings.STATICFILES_DIRS[0]) / 'index.md'
+    posts = Post.objects.order_by("-date").all()[:5]
+    return render(request, 'index.html', {
+        'profile': md_file.read_text(),
+        'posts': posts
+    })
 
 
 def post_list(request: HttpRequest):

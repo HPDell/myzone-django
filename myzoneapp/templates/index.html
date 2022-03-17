@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 
+{% block pre_modules %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/index.css" />
+<script src="https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/method.min.js"></script>
+<style>
+    #profile pre {
+        visibility: hidden;
+    }
+</style>
+{% endblock %}
+
 {% block header_nav %}
 <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
@@ -11,4 +22,44 @@
         </li>
     </ul>
 </div>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row py-3 gx-5">
+        <div class="col-2">
+
+        </div>
+        <div class="col-7">
+            <div id="profile">
+                <pre>{{ profile }}</pre>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header h5 py-3">
+                    Recent Posts
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for item in posts %}
+                    <a class="list-group-item text-truncate" href="/post/{{item.id}}/">{{ item.title }}</a>
+                    {% endfor %}
+                    <a class="list-group-item" href="/post/">See All...</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block post_modules %}
+<script>
+    const contentElement = document.getElementById("profile");
+    const markdown = contentElement.textContent.trim();
+    Vditor.preview(contentElement, markdown, {
+        after() {
+            
+        }
+    });
+</script>
 {% endblock %}

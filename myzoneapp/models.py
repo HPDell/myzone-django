@@ -1,6 +1,8 @@
+from email.policy import default
 from django.db import models
 from vditor.fields import VditorTextField
 from myzone.settings import MEDIA_ROOT
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Category(models.Model):
@@ -27,3 +29,8 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return f"{self.title} | {self.date}"
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    content = VditorTextField(default='')
