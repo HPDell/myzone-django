@@ -41,6 +41,11 @@
     {% for item in posts %}
     <div class="col-3 col-xs-12 post-list-col">
         <a href="/post/{{item.id}}/" class="post-link-card"><div class="card">
+            {% if item.avatar %}
+            <img src="/media/{{item.avatar}}" alt="" srcset="">
+            {% else %}
+            <img src="/media/avatars/default.jpg" alt="" srcset="">
+            {% endif %}
             <div class="card-body">
                 <h5 class="card-title"><strong>{{ item.title }}</strong></h5>
                 <div class="text-muted post-info d-flex flex-row flex-wrap justify-content-between">

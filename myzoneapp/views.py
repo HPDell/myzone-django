@@ -15,26 +15,27 @@ def post_list(request: HttpRequest):
     """
     Post list page. `/post/`
     """
-    posts = None
+    posts_qs = None
     ''' Filter by categories
     '''
     if (category_id := request.GET.get('category')) is not None:
         if category_id == 'null':
-            posts = Post.objects.filter(category__isnull=True).all()
+            posts_qs = Post.objects.filter(category__isnull=True)
         elif (category := Category.objects.filter(pk=category_id).first()) is not None:
-            posts = Post.objects.filter(category=category).all()
+            posts_qs = Post.objects.filter(category=category)
         else:
-            posts = Post.objects.all()
+            posts_qs = Post.objects
     ''' Filter by tags
     '''
     if (tag_id := request.GET.get('tag')) is not None:
         if (tag := Tag.objects.filter(pk=tag_id).first()) is not None:
-            posts = Post.objects.filter(tags=tag).all()
+            posts_qs = Post.objects.filter(tags=tag)
         else:
-            posts = Post.objects.all()
+            posts_qs = Post.objects
     ''' If not filtered, return all data.
     '''
-    posts = Post.objects.all() if posts is None else posts
+    posts_qs = Post.objects if posts_qs is None else posts_qs
+    posts = posts_qs.order_by("-date").all()
     ''' Get other data
     '''
     categories = Category.objects.all()

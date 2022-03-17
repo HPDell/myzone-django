@@ -8,6 +8,9 @@
     div#post-card {
         margin-bottom: 2rem;
     }
+    #post-avatar {
+        width: 100%;
+    }
     .post-info .post-info-item span {
         font-size: 0.9rem;
     }
@@ -35,6 +38,9 @@
 
 {% block main_left %}
 <div id="post-card">
+    {% if post.avatar %}
+    <img src="/media/{{post.avatar}}" id="post-avatar" class="pb-3" alt="" srcset="">
+    {% endif %}
     <h1 id="title" class="py-2 fw-bold">{{ post.title }}</h1>
     <div class="hstack gap-3 text-muted post-info">
         <div id="post-author" class="post-info-item"><i class="bi bi-pencil-fill pe-2"></i><span>HPDell</span></div>
@@ -46,7 +52,9 @@
         {% endif %}
     </div>
 </div>
-<div id="post"></div>
+<div id="post">
+    <pre>{{ post.content }}</pre>
+</div>
 <p id="copyright" class="lead mt-4 text-muted">
     <small>Thanks for your reading. Copyright preserved by MyZone.</small>
 </p>
@@ -62,8 +70,8 @@
 
 {% block post_modules %}
 <script>
-    const markdown = `{{ post.content }}`;
     const contentElement = document.getElementById("post");
+    const markdown = contentElement.innerText;
     Vditor.preview(contentElement, markdown, {
         after() {
             const outlineElement = document.getElementById("toc-content");
