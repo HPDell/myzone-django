@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('myblog', '0004_auto_20220316_1746'),
+        ('myzoneapp', '0004_auto_20220316_1746'),
     ]
 
     operations = [
@@ -20,6 +20,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='tags',
-            field=models.ManyToManyField(null=True, to='myblog.Tag'),
+            field=models.ManyToManyField(null=True, to='myzoneapp.Tag'),
         ),
     ]

@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('myblog', '0003_post_date'),
+        ('myzoneapp', '0003_post_date'),
     ]
 
     operations = [
@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='category',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='myblog.category'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='myzoneapp.category'),
         ),
     ]

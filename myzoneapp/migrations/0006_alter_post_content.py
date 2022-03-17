@@ -7,7 +7,7 @@ import vditor.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('myblog', '0005_auto_20220316_1820'),
+        ('myzoneapp', '0005_auto_20220316_1820'),
     ]
 
     operations = [

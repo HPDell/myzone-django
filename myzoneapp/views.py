@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 
-from myblog.models import Post, Category, Tag
+from myzoneapp.models import Post, Category, Tag
 
 # Create your views here.
 def post_list(request):
