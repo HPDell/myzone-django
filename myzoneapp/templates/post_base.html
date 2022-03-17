@@ -34,6 +34,22 @@ Posts
                 </li>
             </ul>
         </div>
+        <div class="text-end">
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item dropdown">
+                    <a href="#" id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{user.username}}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a href="/logout/" class="dropdown-item">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+            {% else %}
+            <a href="/login/" class="btn btn-dark">Login</a>
+            {% endif %}
+        </div>
     </div>
 </nav>
 {% endblock %}

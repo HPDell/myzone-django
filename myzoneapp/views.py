@@ -1,6 +1,8 @@
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http.request import HttpRequest
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import permission_required
 
 from .models import Post, Category, Tag
 from .forms import PostForm
@@ -63,6 +65,8 @@ def post_page(request: HttpRequest, post_id: int):
         'tags': tags
     })
 
+
+@permission_required('myzoneapp.add_post')
 def post_new(request: HttpRequest):
     """
     """
@@ -102,3 +106,23 @@ def post_new(request: HttpRequest):
             return redirect(to='post_page', post_id=new_post.id)
         else:
             return HttpResponseBadRequest()
+
+
+def user_login(request: HttpRequest):
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(to='home')
+        else:
+            return HttpResponseForbidden()
+
+
+def user_logout(request: HttpRequest):
+    logout(request)
+    return redirect(to='home')

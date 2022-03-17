@@ -39,7 +39,9 @@
 <div id="post-list" class="row">
     <h5 id="post-list-header" class="border-start border-4 border-dark ps-3 my-3">
         <strong>Post List</strong>
+        {% if perms.myzoneapp.add_post %}
         <a href="/post/new/" class="btn btn-sm btn-secondary float-end" role="button">New</a>
+        {% endif %}
     </h5>
     {% for item in posts %}
     <div class="col-3 col-xs-12 post-list-col gx-2 gy-3">
