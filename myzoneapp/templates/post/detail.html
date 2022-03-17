@@ -8,7 +8,7 @@
     div#post-card {
         margin-bottom: 2rem;
     }
-    #post-avatar {
+    #post-cover {
         width: 100%;
     }
     .post-info .post-info-item span {
@@ -38,8 +38,8 @@
 
 {% block main_left %}
 <div id="post-card">
-    {% if post.avatar %}
-    <img src="/media/{{post.avatar}}" id="post-avatar" class="pb-3" alt="" srcset="">
+    {% if post.cover %}
+    <img src="/media/{{post.cover}}" id="post-cover" class="pb-3" alt="" srcset="">
     {% endif %}
     <h1 id="title" class="py-2 fw-bold">{{ post.title }}</h1>
     <div class="hstack gap-3 text-muted post-info">

@@ -19,7 +19,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
-    avatar = models.ImageField(upload_to='avatars', null=True, blank=True)
+    cover = models.ImageField(upload_to='covers', null=True, blank=True)
     date = models.DateField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     tags = models.ManyToManyField(Tag, null=True, blank=True)
