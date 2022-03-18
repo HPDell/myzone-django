@@ -28,7 +28,7 @@ def home(request: HttpRequest):
             'posts': posts
         })
     else:
-        content = (settings.STATICFILES_DIRS[0] / 'index.md').read_text()
+        content = (settings.STATIC_ROOT / 'index.md').read_text()
         return render(request, 'index.html', {
             'profile': content,
             'posts': posts
