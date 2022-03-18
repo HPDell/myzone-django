@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-18 18:49+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: myzoneapp/templates/index.html:19 myzoneapp/templates/post/edit.html:30
+#: myzoneapp/templates/post/list.html:48 myzoneapp/templates/post_base.html:27
+#: templates/base.html:30
+msgid "Home"
+msgstr "首页"
+
+#: myzoneapp/templates/index.html:22 myzoneapp/templates/post_base.html:30
+#: templates/base.html:33
+msgid "Blog"
+msgstr "博客"
+
+#: myzoneapp/templates/index.html:46
+msgid "Recent Posts"
+msgstr "最近博客"
+
+#: myzoneapp/templates/index.html:53
+msgid "See All..."
+msgstr "查看全部"
+
+#: myzoneapp/templates/index.html:55
+msgid "No posts."
+msgstr "没有博客"
+
+#: myzoneapp/templates/post/detail.html:81
+msgid "Edit"
+msgstr "编辑"
+
+#: myzoneapp/templates/post/detail.html:84
+#: myzoneapp/templates/post/detail.html:99
+msgid "Delete"
+msgstr "删除"
+
+#: myzoneapp/templates/post/detail.html:89
+msgid "Delete Confirm"
+msgstr "确认删除"
+
+#: myzoneapp/templates/post/detail.html:98
+msgid "Close"
+msgstr "关闭"
+
+#: myzoneapp/templates/post/detail.html:110
+msgid "Contents"
+msgstr "目录"
+
+#: myzoneapp/templates/post/edit.html:31 myzoneapp/templates/post/list.html:49
+msgid "Posts"
+msgstr "博客"
+
+#: myzoneapp/templates/post/edit.html:37
+msgid "Edit Post"
+msgstr "编辑"
+
+#: myzoneapp/templates/post/edit.html:40
+msgid "New Post"
+msgstr "新建博客"
+
+#: myzoneapp/templates/post/edit.html:47
+msgid "Title"
+msgstr "标题"
+
+#: myzoneapp/templates/post/edit.html:63
+msgid "Submit"
+msgstr "提交"
+
+#: myzoneapp/templates/post/edit.html:68
+msgid "Cover"
+msgstr "封面"
+
+#: myzoneapp/templates/post/edit.html:74
+msgid "Clear"
+msgstr "清除"
+
+#: myzoneapp/templates/post/edit.html:85
+msgid "Date"
+msgstr "日期"
+
+#: myzoneapp/templates/post/edit.html:93
+msgid "Category"
+msgstr "分类"
+
+#: myzoneapp/templates/post/edit.html:106 myzoneapp/templates/post_base.html:57
+msgid "Tags"
+msgstr "标签"
+
+#: myzoneapp/templates/post/list.html:58
+msgid "Post List"
+msgstr "博客列表"
+
+#: myzoneapp/templates/post/list.html:60
+msgid "New"
+msgstr "新建"
+
+#: myzoneapp/templates/post_base.html:48
+msgid "Categories"
+msgstr "分类"
+
+#: myzoneapp/templates/post_base.html:53
+msgid "Not Categoried"
+msgstr "未分类"

@@ -24,7 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('vditor/', include('vditor.urls')),
     re_path(r'^static/(?P<path>.*)$', serve, { 'document_root': STATIC_ROOT }),
-    re_path(r'^media/(?P<path>.*)$', serve, { 'document_root': MEDIA_ROOT })
+    re_path(r'^media/(?P<path>.*)$', serve, { 'document_root': MEDIA_ROOT }),
+    path('i18n/', include('django.conf.urls.i18n'))
 ]
 
 if settings.DEBUG:

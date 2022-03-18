@@ -1,4 +1,5 @@
 {% extends "post_base.html" %}
+{% load i18n %}
 
 {% block pre_modules %}
 {{ block.super }}
@@ -44,8 +45,8 @@
 <div class="row">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb text-muted">
-            <li class="breadcrumb-item"><a href="/" class="text-muted">Home</a></li>
-            <li class="breadcrumb-item">Posts</li>
+            <li class="breadcrumb-item"><a href="/" class="text-muted">{% translate "Home" %}</a></li>
+            <li class="breadcrumb-item">{% translate "Posts" %}</li>
         </ol>
     </nav>
 </div>
@@ -54,9 +55,9 @@
 {% block main_left %}
 <div id="post-list" class="row">
     <h5 id="post-list-header" class="border-start border-4 border-dark ps-3 my-3">
-        <strong>Post List</strong>
+        <strong>{% translate "Post List" %}</strong>
         {% if perms.myzoneapp.add_post %}
-        <a href="/post/new/" class="btn btn-sm btn-secondary float-end" role="button">New</a>
+        <a href="/post/new/" class="btn btn-sm btn-secondary float-end" role="button">{% translate "New" %}</a>
         {% endif %}
     </h5>
     {% for item in posts %}
