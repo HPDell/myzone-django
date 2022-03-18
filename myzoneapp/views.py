@@ -179,7 +179,10 @@ def post_edit(request: HttpRequest, post_id: int):
 
 def user_login(request: HttpRequest):
     if request.method == 'GET':
-        return render(request, 'login.html')
+        redirect_to = request.GET.get('redirect') or 'home'
+        return render(request, 'login.html', {
+            'redirect': redirect_to
+        })
     
     if request.method == 'POST':
         username = request.POST['username']
@@ -187,11 +190,13 @@ def user_login(request: HttpRequest):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(to='home')
+            redirect_to = request.POST.get('redirect') or 'home'
+            return redirect(to=redirect_to)
         else:
             return HttpResponseForbidden()
 
 
 def user_logout(request: HttpRequest):
     logout(request)
-    return redirect(to='home')
+    redirect_to = request.GET.get('redirect') or 'home'
+    return redirect(to=redirect_to)

@@ -48,12 +48,12 @@
                             <li><a href="/admin/" class="dropdown-item">Control Panel</a></li>
                             <li><hr class="dropdown-divider"></li>
                             {% endif %}
-                            <li><a href="/logout/" class="dropdown-item">Logout</a></li>
+                            <li><a href="/logout/?redirect={{request.build_absolute_uri | escape}}" class="dropdown-item">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
                 {% else %}
-                <a href="/login/" class="btn btn-dark">Login</a>
+                <a href="/login/?redirect={{ request.build_absolute_uri | escape }}" class="btn btn-dark">Login</a>
                 {% endif %}
             </div>
         </div>
