@@ -80,7 +80,7 @@
 
 {% block main_right %}
 {% if user.is_authenticated %}
-<div id="actions" class="row d-grid gap-2 my-4 px-2">
+<div id="actions" class="row d-grid gap-2 my-4 px-3">
     {% if perms.myzoneapp.change_post %}
     <a href="/post/{{post.id}}/edit/" class="btn btn-sm btn-secondary" role="button">{% translate "Edit" %}</a>
     {% endif %}
@@ -110,7 +110,7 @@
 </div>
 {% endif %}
 {{ block.super }}
-<div id="toc" class="row mt-4 px-2">
+<div id="toc" class="row mt-4 px-3">
     <h5 id="toc-header" class="border-start border-4 border-dark">{% translate "Contents" %}</h5>
     <div id="toc-content" class="ps-0"></div>
 </div>

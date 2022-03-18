@@ -44,7 +44,7 @@ Posts
         </div>
         <div id="main-sidebar" class="col-xl-3 col-lg-4 col-xs-12">
             {% block main_right %}
-            <div id="category" class="row my-3 px-2">
+            <div id="category" class="row my-3 px-3">
                 <h5 id="category-header" class="border-start border-4 border-dark ps-3">{% translate "Categories" %}</h5>
                 <ul id="category-list" class="list-group list-group-flush ps-3">
                     {% for item in category %}
@@ -55,7 +55,7 @@ Posts
                     {% endif %}
                 </ul>
             </div>
-            <div id="tag" class="row my-4 px-2">
+            <div id="tag" class="row my-4 px-3">
                 <h5 id="tag-header" class="border-start border-4 border-dark ps-3">{% translate "Tags" %}</h5>
                 <ul id="tag-list" class="hstack ps-3 py-2 gap-1">
                     {% for item in tags %}
