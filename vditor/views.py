@@ -27,7 +27,7 @@ def VditorImagesUploadView(request):
             try:
                 os.makedirs(VditorImagesUploadPath)
             except Exception as err:
-                print("upload failed：%s" % str(err))
+                print("upload failed: %s" % str(err))
         else:
             with open(os.path.join(VditorImagesUploadPath, VditorImagesNameFull), 'wb+') as file:
                 for chunk in VditorImagesUpload.chunks():
