@@ -1,0 +1,44 @@
+{% load static %}
+<br><br>
+<div id="VditorText">
+</div>
+<!--<textarea> is blocked in Vditor, so use the external <textarea> value-->
+<textarea {{ final_attrs|safe }} style="display: none">{{ value }}</textarea>
+
+<script type="text/javascript">
+    const vditor = new Vditor("VditorText", {
+        width: '{{ config.width|safe }}',
+        height: '{{ config.height }}',
+        lang: '{{ config.lang|safe }}',
+        typewriterMode: '{{ config.typewriterMode|safe }}',
+        mode: '{{ config.mode|safe }}',
+        debugger: '{{ config.debugger|safe }}',
+        value: '{{ config.value|safe }}',
+        theme: '{{ config.theme|safe }}',
+        icon: '{{ config.icon|safe }}',
+        outline: '{{config.outline }}',
+        cdn: '/static',
+        preview: {
+            theme: {
+                current: '{{ config.preview_theme|safe }}',
+                path: '/static/dist/css/content-theme'
+            },
+        },
+        upload: {
+            url: '/vditor/uploads/',
+            linkToImgUrl: '/vditor/uploads/',
+            accept: '.jpg,.png,.gif,.jpeg',
+            filename(name) {
+                return name.replace(/\?|\\|\/|:|\||<|>|\*|\[|\]|\s+/g, '-')
+            },
+        },
+        input(md) {
+            document.getElementById('id_content').value = md
+        },
+        after() {
+            //clear cache
+            vditor.clearCache();
+            vditor.setValue(document.getElementById('id_content').value)
+        }
+    })
+</script>
