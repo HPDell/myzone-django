@@ -27,10 +27,14 @@
 {% block main %}
 <div class="container">
     <div class="row py-3 gx-5">
+        {% if avatar %}
         <div class="col-2">
-            <img src="/static/avatar.jpg" class="img-thumbnail" alt="">
+            <img src="/media/{{ avatar }}" class="img-thumbnail" alt="">
         </div>
         <div class="col-7">
+        {% else %}
+        <div class="col-9">
+        {% endif %}
             <div id="profile">
                 <pre>{{ profile }}</pre>
             </div>
@@ -44,7 +48,11 @@
                     {% for item in posts %}
                     <a class="list-group-item text-truncate" href="/post/{{item.id}}/">{{ item.title }}</a>
                     {% endfor %}
+                    {% if posts %}
                     <a class="list-group-item" href="/post/">See All...</a>
+                    {% else %}
+                    <li class="list-group-item text-truncate">No posts.</li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

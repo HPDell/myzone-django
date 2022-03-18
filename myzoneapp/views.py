@@ -3,13 +3,14 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbid
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http.request import HttpRequest
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
 from django.core.files.storage import FileSystemStorage
 from pathlib import Path
 from myzone import settings
 from django.db.models import ImageField
 
-from .models import Post, Category, Tag
+from .models import Post, Category, Tag, Profile
 from .forms import PostForm
 
 # Create your views here.
@@ -17,12 +18,21 @@ def home(request: HttpRequest):
     """
     Home page. `/`
     """
-    md_file = Path(settings.STATICFILES_DIRS[0]) / 'index.md'
     posts = Post.objects.order_by("-date").all()[:5]
-    return render(request, 'index.html', {
-        'profile': md_file.read_text(),
-        'posts': posts
-    })
+    adminUser = User.objects.get(pk=1)
+    if not (profile_qs := Profile.objects.filter(user=adminUser)).exists():
+        profile = profile_qs.first()
+        return render(request, 'index.html', {
+            'avatar': profile.avatar,
+            'profile': profile.content,
+            'posts': posts
+        })
+    else:
+        content = (settings.STATICFILES_DIRS[0] / 'index.md').read_text()
+        return render(request, 'index.html', {
+            'profile': content,
+            'posts': posts
+        })
 
 
 def post_list(request: HttpRequest):
