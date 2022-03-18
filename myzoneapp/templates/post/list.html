@@ -54,14 +54,14 @@
 
 {% block main_left %}
 <div id="post-list" class="row">
-    <h5 id="post-list-header" class="border-start border-4 border-dark ps-3 my-3">
+    <h5 id="post-list-header" class="border-start border-4 border-dark ps-3 mx-2 my-3">
         <strong>{% translate "Post List" %}</strong>
         {% if perms.myzoneapp.add_post %}
-        <a href="/post/new/" class="btn btn-sm btn-secondary float-end" role="button">{% translate "New" %}</a>
+        <a href="/post/new/" class="btn btn-sm btn-secondary float-end me-2" role="button">{% translate "New" %}</a>
         {% endif %}
     </h5>
     {% for item in posts %}
-    <div class="col-3 col-xs-12 post-list-col gx-2 gy-3">
+    <div class="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12 post-list-col gx-2 gy-3 px-2">
         <a href="/post/{{item.id}}/" class="post-link-card"><div class="card">
             {% if item.cover %}
             <div class="card-img-outer">

@@ -19,7 +19,7 @@
     .post-info .post-info-item span {
         font-size: 0.9rem;
     }
-    div#toc {
+    #toc {
         position: sticky;
         top: 1rem;
     }
@@ -35,7 +35,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/" class="text-muted">Home</a></li>
             <li class="breadcrumb-item"><a href="/post/" class="text-muted">Posts</a></li>
-            <li class="breadcrumb-item"><span class="text-muted">{{post.title}}</span></li>
+            <li class="breadcrumb-item"><span class="text-muted text-truncate">{{post.title}}</span></li>
         </ol>
     </nav>
 </div>
@@ -47,21 +47,25 @@
     <img src="/media/{{post.cover}}" id="post-cover" class="py-4" alt="" srcset="">
     {% endif %}
     <h1 id="title" class="py-2 fw-bold">{{ post.title }}</h1>
-    <div class="hstack gap-3 text-muted post-info">
-        <div id="post-author" class="post-info-item"><i class="bi bi-pencil-fill pe-2"></i><span>HPDell</span></div>
-        <div class="vr"></div>
-        <div id="post-date" class="post-info-item"><i class="bi bi-calendar pe-2"></i><span>{{post.date}}</span></div>
-        {% if post.category %}
-        <div class="vr"></div>
-        <div id="post-category" class="post-info-item"><i class="bi bi-archive-fill pe-2"></i><span>{{post.category.name}}</span></div>
-        {% endif %}
+    <div class="d-flex flex-row flex-wrap gap-3 text-muted post-info">
+        <div class="gap-3 d-flex flex-row flex-wrap">
+            <div id="post-author" class="post-info-item"><i class="bi bi-pencil-fill pe-2"></i><span>HPDell</span></div>
+            <div class="vr"></div>
+            <div id="post-date" class="post-info-item"><i class="bi bi-calendar pe-2"></i><span>{{post.date}}</span></div>
+            {% if post.category %}
+            <div class="vr"></div>
+            <div id="post-category" class="post-info-item"><i class="bi bi-archive-fill pe-2"></i><span>{{post.category.name}}</span></div>
+            {% endif %}
+            <div class="vr"></div>
+        </div>
         {% if post_tags %}
-        <div class="vr"></div>
-        <div id="post-tags" class="post-info-item">
-            <i class="bi bi-tag-fill"></i>
-            {% for item in post_tags %}
-            <span class="badge bg-light text-dark fw-normal">{{item.name}}</span>
-            {% endfor %}
+        <div>
+            <div id="post-tags" class="post-info-item">
+                <i class="bi bi-tag-fill"></i>
+                {% for item in post_tags %}
+                <span class="badge bg-light text-dark fw-normal">{{item.name}}</span>
+                {% endfor %}
+            </div>
         </div>
         {% endif %}
     </div>
@@ -76,7 +80,7 @@
 
 {% block main_right %}
 {% if user.is_authenticated %}
-<div id="actions" class="row d-grid gap-2 my-4">
+<div id="actions" class="row d-grid gap-2 my-4 px-2">
     {% if perms.myzoneapp.change_post %}
     <a href="/post/{{post.id}}/edit/" class="btn btn-sm btn-secondary" role="button">{% translate "Edit" %}</a>
     {% endif %}
@@ -106,7 +110,7 @@
 </div>
 {% endif %}
 {{ block.super }}
-<div id="toc" class="row mt-4">
+<div id="toc" class="row mt-4 px-2">
     <h5 id="toc-header" class="border-start border-4 border-dark">{% translate "Contents" %}</h5>
     <div id="toc-content" class="ps-0"></div>
 </div>

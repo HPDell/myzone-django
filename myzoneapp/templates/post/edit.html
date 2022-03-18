@@ -18,7 +18,7 @@ New Post
         display: none;
     }
     #vditor {
-        height: 50vh;
+        height: 60vh;
     }
 </style>
 {% endblock %}
@@ -43,7 +43,7 @@ New Post
     {% endif %}
         {% csrf_token %}
         <div class="row">
-            <div class="col-9">
+            <div class="col-xl-8 col-lg-9 col-xs-12">
                 <div class="mb-3">
                     <label for="post-title" class="form-label"><h5>{% translate "Title" %}</h5></label>
                     {% if post %}
@@ -60,11 +60,8 @@ New Post
                     <textarea name="content" id="post-content" cols="40" rows="10"></textarea>
                     {% endif %}
                 </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
-                </div>
             </div>
-            <div class="col-3">
+            <div class="col-xl-4 col-lg-3 col-xs-12">
                 <div class="mb-3">
                     <label class="form-label" for="post-cover"><h5>{% translate "Cover" %}</h5></label>
                     {% if post %}
@@ -122,6 +119,9 @@ New Post
                         <button class="btn btn-sm btn-outline-secondary" type="button" id="button-new-tag" onclick="onBtnNewTagClick()"><i class="bi bi-cloud-plus pe-1"></i>Add</button>
                     </div>
                 </div>
+            </div>
+            <div class="col-12 mb-3">
+                <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
             </div>
         </div>
     </form>
