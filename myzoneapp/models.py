@@ -24,7 +24,7 @@ class Post(models.Model):
     cover = models.ImageField(upload_to='covers', null=True, blank=True)
     date = models.DateField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
-    tags = models.ManyToManyField(Tag, null=True, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
     content = VditorTextField(default='')
 
     def __str__(self) -> str:
