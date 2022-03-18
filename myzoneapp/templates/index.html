@@ -29,18 +29,22 @@
 <div class="container">
     <div class="row py-3 gx-5">
         {% if avatar %}
-        <div class="col-2">
-            <img src="/media/{{ avatar }}" class="img-thumbnail" alt="">
-        </div>
-        <div class="col-7">
-        {% else %}
-        <div class="col-9">
-        {% endif %}
-            <div id="profile">
+        <div class="col-xxl-7 col-xl-6 col-md-9 col-xs-12">
+            <div id="profile" class="pb-5">
                 <pre>{{ profile }}</pre>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-xxl-2 col-xl-2 col-md-3 col-xs-12 py-3">
+            <img src="/media/{{ avatar }}" class="img-thumbnail" alt="">
+        </div>
+        {% else %}
+        <div class="col-xxl-9 col-xl-8 col-md-12 col-xs-12">
+            <div id="profile" class="pb-5">
+                <pre>{{ profile }}</pre>
+            </div>
+        </div>
+        {% endif %}
+        <div class="col-xxl-3 col-xl-4 col-md-12 col-xs-12 py-3">
             <div class="card">
                 <div class="card-header h5 py-3">
                     {% translate "Recent Posts" %}
