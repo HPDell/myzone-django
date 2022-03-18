@@ -126,9 +126,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = []
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -156,3 +156,5 @@ VDITOR_CONFIGS = { # remember to write "' '"
 
 mimetypes.add_type("text/css", ".css", True)
 mimetypes.add_type("text/html", ".html", True)
+mimetypes.add_type("image/png", ".png", True)
+mimetypes.add_type("image/jpg", ".jpg", True)
