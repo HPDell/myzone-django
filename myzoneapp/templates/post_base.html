@@ -50,7 +50,9 @@ Posts
                     {% for item in category %}
                     <a href="/post/?category={{item.id}}" class="list-group-item">{{item.name}}</a>
                     {% endfor %}
+                    {% if show_not_categoried %}
                     <a href="/post/?category=null" class="list-group-item">{% translate "Not Categoried" %}</a>
+                    {% endif %}
                 </ul>
             </div>
             <div id="tag" class="row my-4 px-2">

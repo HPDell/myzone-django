@@ -66,7 +66,8 @@ def post_list(request: HttpRequest):
     return render(request, 'post/list.html', {
         'posts': posts,
         'category': categories,
-        'tags': tags
+        'tags': tags,
+        'show_not_categoried': Post.objects.filter(category__isnull=True).exists()
     })
 
 
