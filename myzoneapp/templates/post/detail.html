@@ -80,7 +80,27 @@
     <a href="/post/{{post.id}}/edit/" class="btn btn-sm btn-secondary" role="button">Edit</a>
     {% endif %}
     {% if perms.myzoneapp.delete_post %}
-    <a href="#" class="btn btn-sm btn-danger" role="button">Delete</a>
+    <a href="#" class="btn btn-sm btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#post-delete-modal">Delete</a>
+    <div class="modal fade" id="post-delete-modal" tabindex="-1" aria-labelledby="post-delete-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="post-delete-modal-title">Delete Confirm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure to delete post <i>{{post.title}}</i>?
+                </div>
+                <div class="modal-footer">
+                    <form action="/post/{{post.id}}/delete/" method="post">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endif %}
 </div>
 {% endif %}

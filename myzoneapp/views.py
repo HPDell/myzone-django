@@ -177,6 +177,13 @@ def post_edit(request: HttpRequest, post_id: int):
             return HttpResponseBadRequest()
 
 
+@permission_required('myzoneapp.delete_post')
+def post_delete(request: HttpRequest, post_id: int):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, pk=post_id)
+        post.delete()
+        return redirect(to='post_list')
+
 
 def user_login(request: HttpRequest):
     if request.method == 'GET':
