@@ -35,10 +35,10 @@ New Post
         </nav>
     </div>
     {% if post %}
-    <h1>{% translate "Edit Post" %}</h1>
+    <h1 class="fw-bold">{% translate "Edit Post" %}</h1>
     <form action="/post/{{post.id}}/edit/" method="post" class="py-3" enctype="multipart/form-data">
     {% else %}
-    <h1>{% translate "New Post" %}</h1>
+    <h1 class="fw-bold">{% translate "New Post" %}</h1>
     <form action="/post/new/" method="post" class="py-3" enctype="multipart/form-data">
     {% endif %}
         {% csrf_token %}
