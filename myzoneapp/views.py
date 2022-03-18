@@ -20,8 +20,7 @@ def home(request: HttpRequest):
     """
     posts = Post.objects.order_by("-date").all()[:5]
     adminUser = User.objects.get(pk=1)
-    if (profile_qs := Profile.objects.filter(user=adminUser)).exists():
-        profile = profile_qs.first()
+    if (profile_qs := Profile.objects.filter(user=adminUser)).exists() and (profile := profile_qs.first()) is not None:
         return render(request, 'index.html', {
             'avatar': profile.avatar,
             'profile': profile.content,
