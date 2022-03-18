@@ -18,7 +18,7 @@ New Post
         display: none;
     }
     #vditor {
-        height: 60vh;
+        min-height: 60vh;
     }
 </style>
 {% endblock %}
@@ -43,7 +43,7 @@ New Post
     {% endif %}
         {% csrf_token %}
         <div class="row">
-            <div class="col-xl-8 col-lg-9 col-xs-12">
+            <div class="col-xl-8 col-lg-9 col-xs-12 d-flex flex-column">
                 <div class="mb-3">
                     <label for="post-title" class="form-label"><h5>{% translate "Title" %}</h5></label>
                     {% if post %}
@@ -52,8 +52,8 @@ New Post
                     <input name="title" id="post-title" class="form-control" type="text">
                     {% endif %}
                 </div>
-                <div class="mb-3">
-                    <div id="vditor"></div>
+                <div class="mb-3 flex-grow-1 d-flex flex-col align-items-stretch">
+                    <div id="vditor" class="flex-grow-1"></div>
                     {% if post %}
                     <textarea name="content" id="post-content" cols="40" rows="10">{{ post.content }}</textarea>
                     {% else %}
@@ -133,6 +133,9 @@ New Post
     const contentElement = document.getElementById("post");
     const vditor = new Vditor('vditor', {
         value: '',
+        toolbarConfig: {
+            pin: true
+        },
         cache: {
             enabled: false
         },
