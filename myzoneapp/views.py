@@ -100,10 +100,11 @@ def post_new(request: HttpRequest):
                 category.save()
             new_post = Post()
             new_post.title = from_data['title']
-            fss = FileSystemStorage()
-            cover_file = request.FILES['cover']
-            cover = fss.save(cover_file.name, cover_file)
-            new_post.cover = cover
+            if (new_cover := request.FILES.get('cover')) is not None:
+                fss = FileSystemStorage()
+                cover_file = request.FILES['cover']
+                cover = fss.save(cover_file.name, cover_file)
+                new_post.cover = cover
             new_post.date = from_data['date']
             new_post.category = category
             new_post.content = from_data['content']
