@@ -1,3 +1,4 @@
+import imp
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http.request import HttpRequest
@@ -5,7 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import permission_required
 from django.core.files.storage import FileSystemStorage
 from pathlib import Path
-from myzone import settings 
+from myzone import settings
+from django.db.models import ImageField
 
 from .models import Post, Category, Tag
 from .forms import PostForm
@@ -81,7 +83,7 @@ def post_new(request: HttpRequest):
     if request.method == "GET":
         categories = Category.objects.all()
         tags = Tag.objects.all()
-        return render(request, 'post/new.html', {
+        return render(request, 'post/edit.html', {
             'categories': categories,
             'tags': tags
         })
@@ -117,6 +119,62 @@ def post_new(request: HttpRequest):
             return redirect(to='post_page', post_id=new_post.id)
         else:
             return HttpResponseBadRequest()
+
+
+@permission_required('myzoneapp.change_post')
+def post_edit(request: HttpRequest, post_id: int):
+    """
+    """
+    if request.method == "GET":
+        post = get_object_or_404(Post, pk=post_id)
+        categories = Category.objects.all()
+        tags = Tag.objects.all()
+        return render(request, 'post/edit.html', {
+            'categories': categories,
+            'tags': tags,
+            'post': post,
+            'post_tags': [x.name for x in post.tags.all()]
+        })
+    
+    elif request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            from_data = form.cleaned_data
+            category_name = from_data['category']
+            if (category_query := Category.objects.filter(name=category_name)).exists():
+                category = category_query.first()
+            else:
+                category = Category(name=category_name)
+                category.save()
+            new_post: Post = get_object_or_404(Post, pk=post_id)
+            new_post.title = from_data['title']
+            old_cover: ImageField = new_post.cover
+            if (new_cover := request.FILES.get('cover')) is not None:
+                fss = FileSystemStorage()
+                if old_cover:
+                    fss.delete(old_cover.name)
+                cover = fss.save(new_cover.name, new_cover)
+                new_post.cover = cover
+            elif request.POST.get('cover_delete'):
+                if old_cover:
+                    old_cover.storage.delete(old_cover.name)
+                    new_post.cover = None
+            new_post.date = from_data['date']
+            new_post.category = category
+            new_post.content = from_data['content']
+            new_post.save()
+            tag_name_list = request.POST.getlist('tags')
+            for tag in tag_name_list:
+                if (tag_query := Tag.objects.filter(name=tag)).exists():
+                    new_post.tags.add(tag_query.first())
+                else:
+                    tag_new = Tag(name=tag)
+                    tag_new.save()
+                    new_post.tags.add(tag_new)
+            return redirect(to='post_page', post_id=new_post.id)
+        else:
+            return HttpResponseBadRequest()
+
 
 
 def user_login(request: HttpRequest):

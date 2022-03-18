@@ -1,5 +1,9 @@
 {% extends "post_base.html" %}
 
+{% block title %}
+{{post.title}} | {{post.date|date:"Y-m-d"}}
+{% endblock %}
+
 {% block pre_modules %}
 {{ block.super }}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/index.css" />
@@ -39,7 +43,7 @@
 {% block main_left %}
 <div id="post-card">
     {% if post.cover %}
-    <img src="/media/{{post.cover}}" id="post-cover" class="pb-3" alt="" srcset="">
+    <img src="/media/{{post.cover}}" id="post-cover" class="py-4" alt="" srcset="">
     {% endif %}
     <h1 id="title" class="py-2 fw-bold">{{ post.title }}</h1>
     <div class="hstack gap-3 text-muted post-info">
@@ -70,6 +74,16 @@
 {% endblock %}
 
 {% block main_right %}
+{% if user.is_authenticated %}
+<div id="actions" class="row d-grid gap-2 my-4">
+    {% if perms.myzoneapp.change_post %}
+    <a href="/post/{{post.id}}/edit/" class="btn btn-sm btn-secondary" role="button">Edit</a>
+    {% endif %}
+    {% if perms.myzoneapp.delete_post %}
+    <a href="#" class="btn btn-sm btn-danger" role="button">Delete</a>
+    {% endif %}
+</div>
+{% endif %}
 {{ block.super }}
 <div id="toc" class="row mt-4">
     <h5 id="toc-header" class="border-start border-4 border-dark">Contents</h5>
