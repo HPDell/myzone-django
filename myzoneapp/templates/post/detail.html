@@ -44,7 +44,7 @@
 {% block main_left %}
 <div id="post-card">
     {% if post.cover %}
-    <img src="/media/{{post.cover}}" id="post-cover" class="py-4" alt="" srcset="">
+    <img src="/media/{{post.cover}}" id="post-cover" class="py-3" alt="" srcset="">
     {% endif %}
     <h1 id="title" class="py-2 fw-bold">{{ post.title }}</h1>
     <div class="d-flex flex-row flex-wrap gap-3 text-muted post-info">
@@ -80,7 +80,7 @@
 
 {% block main_right %}
 {% if user.is_authenticated %}
-<div id="actions" class="row d-grid gap-2 my-4 px-3">
+<div id="actions" class="row d-grid gap-2 my-3 px-3">
     {% if perms.myzoneapp.change_post %}
     <a href="/post/{{post.id}}/edit/" class="btn btn-sm btn-secondary" role="button">{% translate "Edit" %}</a>
     {% endif %}
