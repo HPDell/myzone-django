@@ -57,7 +57,7 @@ Posts
             </div>
             <div id="tag" class="row my-4 px-3">
                 <h5 id="tag-header" class="border-start border-4 border-dark ps-3">{% translate "Tags" %}</h5>
-                <ul id="tag-list" class="hstack ps-3 py-2 gap-1">
+                <ul id="tag-list" class="d-flex flex-row flex-wrap ps-3 py-2 gap-1">
                     {% for item in tags %}
                     <a href="/post/?tag={{item.id}}"><span class="badge bg-secondary">{{item.name}}</span></a>
                     {% endfor %}
