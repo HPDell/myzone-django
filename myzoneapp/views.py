@@ -38,6 +38,23 @@ def post_list(request: HttpRequest):
     """
     Post list page. `/post/`
     """
+    ''' Get categories and tags
+    '''
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
+    ''' Drafts
+    '''
+    if request.GET.get('draft'):
+        posts = Post.objects.filter(draft=True).order_by("-date").all()
+        return render(request, 'post/list.html', {
+            'posts': posts,
+            'category': categories,
+            'tags': tags,
+            'show_not_categoried': Post.objects.filter(category__isnull=True).exists(),
+            'draft_mode': True
+        })
+    ''' Non-drafts
+    '''
     posts_qs = None
     ''' Filter by categories
     '''
@@ -59,10 +76,6 @@ def post_list(request: HttpRequest):
     '''
     posts_qs = Post.objects if posts_qs is None else posts_qs
     posts = posts_qs.order_by("-date").all()
-    ''' Get other data
-    '''
-    categories = Category.objects.all()
-    tags = Tag.objects.all()
     return render(request, 'post/list.html', {
         'posts': posts,
         'category': categories,

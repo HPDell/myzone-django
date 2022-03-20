@@ -58,8 +58,15 @@
         <h5 id="post-list-header" class="border-start border-4 border-dark ps-3 my-3 flex-grow-1">
             <strong>{% translate "Post List" %}</strong>
         </h5>
+        {% if perms.myzoneapp.change_post %}
+        {% if draft_mode %}
+        <a href="/post/" class="btn btn-sm btn-outline-secondary me-2" role="button">{% translate "Published" %}</a>
+        {% else %}
+        <a href="/post/?draft=1" class="btn btn-sm btn-outline-secondary me-2" role="button">{% translate "Drafts" %}</a>
+        {% endif %}
+        {% endif %}
         {% if perms.myzoneapp.add_post %}
-        <a href="/post/new/" class="btn btn-sm btn-secondary float-end me-2" role="button">{% translate "New" %}</a>
+        <a href="/post/new/" class="btn btn-sm btn-secondary me-2" role="button">{% translate "New" %}</a>
         {% endif %}
     </div>
     {% for item in posts %}

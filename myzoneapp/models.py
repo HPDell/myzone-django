@@ -25,6 +25,7 @@ class Post(models.Model):
     date = models.DateField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
+    draft = models.BooleanField(default=False)
     content = VditorTextField(default='')
 
     def __str__(self) -> str:
