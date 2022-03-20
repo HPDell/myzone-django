@@ -244,4 +244,9 @@ New Post
         document.getElementById('new-tag').value = ''
     }
 </script>
+<script>
+    window.onbeforeunload = function () {
+        return '{% translate "Are you sure to leave?" %}';
+    }
+</script>
 {% endblock %}
