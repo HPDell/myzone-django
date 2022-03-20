@@ -82,7 +82,8 @@ def post_page(request: HttpRequest, post_id: int):
         'post': post,
         'post_tags': post.tags.all(),
         'category': categories,
-        'tags': tags
+        'tags': tags,
+        'show_not_categoried': Post.objects.filter(category__isnull=True).exists()
     })
 
 
@@ -102,12 +103,6 @@ def post_new(request: HttpRequest):
         form = PostForm(request.POST)
         if form.is_valid():
             from_data = form.cleaned_data
-            category_name = from_data['category']
-            if (category_query := Category.objects.filter(name=category_name)).exists():
-                category = category_query.first()
-            else:
-                category = Category(name=category_name)
-                category.save()
             new_post = Post()
             new_post.title = from_data['title']
             if (new_cover := request.FILES.get('cover')) is not None:
@@ -116,7 +111,16 @@ def post_new(request: HttpRequest):
                 cover = fss.save(cover_file.name, cover_file)
                 new_post.cover = cover
             new_post.date = from_data['date']
-            new_post.category = category
+            category_name = from_data['category']
+            if len(category_name) > 0:
+                if (category_query := Category.objects.filter(name=category_name)).exists():
+                    category = category_query.first()
+                else:
+                    category = Category(name=category_name)
+                    category.save()
+                new_post.category = category
+            else:
+                new_post.category = None
             new_post.content = from_data['content']
             new_post.save()
             tag_name_list = request.POST.getlist('tags')
@@ -151,12 +155,6 @@ def post_edit(request: HttpRequest, post_id: int):
         form = PostForm(request.POST)
         if form.is_valid():
             from_data = form.cleaned_data
-            category_name = from_data['category']
-            if (category_query := Category.objects.filter(name=category_name)).exists():
-                category = category_query.first()
-            else:
-                category = Category(name=category_name)
-                category.save()
             new_post: Post = get_object_or_404(Post, pk=post_id)
             new_post.title = from_data['title']
             old_cover: ImageField = new_post.cover
@@ -171,7 +169,16 @@ def post_edit(request: HttpRequest, post_id: int):
                     old_cover.storage.delete(old_cover.name)
                     new_post.cover = None
             new_post.date = from_data['date']
-            new_post.category = category
+            category_name = from_data['category']
+            if len(category_name) > 0:
+                if (category_query := Category.objects.filter(name=category_name)).exists():
+                    category = category_query.first()
+                else:
+                    category = Category(name=category_name)
+                    category.save()
+                new_post.category = category
+            else:
+                new_post.category = None
             new_post.content = from_data['content']
             new_post.save()
             tag_name_list = request.POST.getlist('tags')

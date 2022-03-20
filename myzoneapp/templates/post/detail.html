@@ -52,7 +52,7 @@
             <div id="post-author" class="post-info-item"><i class="bi bi-pencil-fill pe-2"></i><span>HPDell</span></div>
             <div class="vr"></div>
             <div id="post-date" class="post-info-item"><i class="bi bi-calendar pe-2"></i><span>{{post.date}}</span></div>
-            {% if post.category %}
+            {% if post.category and post.category.name %}
             <div class="vr"></div>
             <div id="post-category" class="post-info-item"><i class="bi bi-archive-fill pe-2"></i><span>{{post.category.name}}</span></div>
             {% endif %}
