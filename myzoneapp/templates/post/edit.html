@@ -132,12 +132,18 @@ New Post
 <script>
     const contentElement = document.getElementById("post");
     const vditor = new Vditor('vditor', {
+        width: '100%',
         value: '',
         toolbarConfig: {
             pin: true
         },
         cache: {
             enabled: false
+        },
+        preview: {
+            math: {
+                inlineDigit: true
+            }
         },
         upload: {
             url: '/vditor/uploads/',
