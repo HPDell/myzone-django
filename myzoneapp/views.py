@@ -75,7 +75,7 @@ def post_list(request: HttpRequest):
     ''' If not filtered, return all data.
     '''
     posts_qs = Post.objects if posts_qs is None else posts_qs
-    posts = posts_qs.order_by("-date").all()
+    posts = posts_qs.filter(draft=False).order_by("-date").all()
     return render(request, 'post/list.html', {
         'posts': posts,
         'category': categories,
@@ -192,6 +192,7 @@ def post_edit(request: HttpRequest, post_id: int):
                 new_post.category = category
             else:
                 new_post.category = None
+            new_post.draft = True if 'draft' in request.POST else False
             new_post.content = from_data['content']
             new_post.save()
             tag_name_list = request.POST.getlist('tags')

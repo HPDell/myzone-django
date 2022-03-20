@@ -120,8 +120,10 @@ New Post
                     </div>
                 </div>
             </div>
-            <div class="col-12 mb-3">
-                <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
+            <div class="hstack gap-2">
+                <button type="submit" name="publish" class="btn btn-primary">{% translate "Submit" %}</button>
+                <div class="vr"></div>
+                <button type="submit" name="draft" class="btn btn-outline-secondary">{% translate "Save Draft" %}</button>
             </div>
         </div>
     </form>
