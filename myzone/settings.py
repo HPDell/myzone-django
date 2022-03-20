@@ -166,5 +166,6 @@ VDITOR_CONFIGS = { # remember to write "' '"
 
 mimetypes.add_type("text/css", ".css", True)
 mimetypes.add_type("text/html", ".html", True)
+mimetypes.add_type("application/javascript", ".js", True)
 mimetypes.add_type("image/png", ".png", True)
 mimetypes.add_type("image/jpg", ".jpg", True)
