@@ -57,10 +57,10 @@
     <div class="d-flex flex-row align-items-center">
         <h5 id="post-list-header" class="border-start border-4 border-dark ps-3 my-3 flex-grow-1">
             <strong>{% translate "Post List" %}</strong>
-            {% if perms.myzoneapp.add_post %}
-            {% endif %}
         </h5>
+        {% if perms.myzoneapp.add_post %}
         <a href="/post/new/" class="btn btn-sm btn-secondary float-end me-2" role="button">{% translate "New" %}</a>
+        {% endif %}
     </div>
     {% for item in posts %}
     <div class="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12 post-list-col gx-2 gy-3 px-2">
