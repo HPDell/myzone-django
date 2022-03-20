@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-7$)6&e-_p*_s5o_e(+638(vmrpveojftu4ldu5glmk5f39)yul
 DEBUG = (os.getenv('MYZONE_MODE', 'RELEASE').upper() == 'DEBUG')
 
 ALLOWED_HOSTS = [
-    os.getenv('MYZONE_HOST', 'localhost')
+    *os.getenv('MYZONE_HOST', 'localhost').split(";")
 ]
 
 
