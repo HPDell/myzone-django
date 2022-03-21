@@ -92,7 +92,7 @@
 {% endblock %}
 
 {% block main_right %}
-{% if user.is_authenticated %}
+{% if 'crawler' not in request.COOKIES and user.is_authenticated %}
 <div id="actions" class="row d-grid gap-2 my-3 px-3">
     {% if perms.myzoneapp.change_post %}
     <a href="/post/{{post.id}}/edit/" class="btn btn-sm btn-secondary" role="button">{% translate "Edit" %}</a>
