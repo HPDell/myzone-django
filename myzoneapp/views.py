@@ -2,7 +2,7 @@ import imp
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http.request import HttpRequest
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
 from django.core.files.storage import FileSystemStorage
@@ -219,9 +219,12 @@ def post_delete(request: HttpRequest, post_id: int):
 def user_login(request: HttpRequest):
     if request.method == 'GET':
         redirect_to = request.GET.get('redirect') or 'home'
-        return render(request, 'login.html', {
-            'redirect': redirect_to
-        })
+        if get_user(request).is_authenticated:
+            return redirect(to=redirect_to)
+        else:
+            return render(request, 'login.html', {
+                'redirect': redirect_to
+            })
     
     if request.method == 'POST':
         username = request.POST['username']
@@ -236,6 +239,7 @@ def user_login(request: HttpRequest):
 
 
 def user_logout(request: HttpRequest):
-    logout(request)
+    if get_user(request).is_authenticated:
+        logout(request)
     redirect_to = request.GET.get('redirect') or 'home'
     return redirect(to=redirect_to)
