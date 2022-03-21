@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: |
-        docker build . --file Dockerfile --tag my-image-name:latest
-        docker tag my-image-name:latest my-image-name:${MYZONE_DJANGO_VERSION:1}
+#     - name: Build the Docker image
+#       run: |
+#         docker build . --file Dockerfile --tag hpdell/myzone-django:latest
+#         docker tag hpdell/myzone-django:latest hpdell/myzone-django:${MYZONE_DJANGO_VERSION:1}
     - name: Log in to Docker Hub
       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
       with:
@@ -32,5 +32,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${"${{ steps.meta.outputs.tags }}":1}
+        tags: hpdell/myzone-django:latest,hpdell/myzone-django:${MYZONE_DJANGO_VERSION:1}
         labels: ${{ steps.meta.outputs.labels }}
