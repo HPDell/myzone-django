@@ -121,9 +121,9 @@ New Post
                 </div>
             </div>
             <div class="hstack gap-2">
-                <button type="submit" name="publish" class="btn btn-primary">{% translate "Submit" %}</button>
+                <button type="submit" name="publish" class="btn btn-primary" onclick="formSubmit()">{% translate "Submit" %}</button>
                 <div class="vr"></div>
-                <button type="submit" name="draft" class="btn btn-outline-secondary">{% translate "Save Draft" %}</button>
+                <button type="submit" name="draft" class="btn btn-outline-secondary" onclick="formSubmit()">{% translate "Save Draft" %}</button>
             </div>
         </div>
     </form>
@@ -245,8 +245,20 @@ New Post
     }
 </script>
 <script>
-    window.onbeforeunload = function () {
-        return '{% translate "Are you sure to leave?" %}';
+    var showLeaveAlert = true;
+    function formSubmit() {
+        console.log("formSubmit");
+        showLeaveAlert = false;
     }
+    window.addEventListener("beforeunload", function (e) {
+        e = e || window.event;
+        if (showLeaveAlert) {
+            e.preventDefault()
+            if (e) {
+                e.returnValue = '{% translate "Are you sure to leave?" %}';
+            }
+            return '{% translate "Are you sure to leave?" %}';
+        }
+    }, false);
 </script>
 {% endblock %}
