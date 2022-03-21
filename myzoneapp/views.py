@@ -62,6 +62,9 @@ def post_list(request: HttpRequest):
     ''' Drafts
     '''
     if request.GET.get('draft'):
+        if 'Crawler' in request.headers:
+            return redirect(to='post_list')
+        
         posts = Post.objects.filter(draft=True).order_by("-date").all()
         return render(request, 'post/list.html', {
             'posts': [{
@@ -162,6 +165,9 @@ def post_page(request: HttpRequest, post_id: int):
 def post_new(request: HttpRequest):
     """
     """
+    if 'Crawler' in request.headers:
+        return redirect(to='post_list')
+    
     if request.method == "GET":
         return render(request, 'post/edit.html', {
             **get_categories_tags(request)
@@ -211,6 +217,9 @@ def post_new(request: HttpRequest):
 def post_edit(request: HttpRequest, post_id: int):
     """
     """
+    if 'Crawler' in request.headers:
+        return redirect(to='post_list')
+    
     if request.method == "GET":
         lang = get_language_suffix_from_request(request)
         post = get_object_or_404(Post, pk=post_id)
@@ -277,6 +286,9 @@ def post_edit(request: HttpRequest, post_id: int):
 
 @permission_required('myzoneapp.delete_post')
 def post_delete(request: HttpRequest, post_id: int):
+    if 'Crawler' in request.headers:
+        return redirect(to='post_list')
+    
     if request.method == 'POST':
         post = get_object_or_404(Post, pk=post_id)
         post.delete()
@@ -284,6 +296,9 @@ def post_delete(request: HttpRequest, post_id: int):
 
 
 def user_login(request: HttpRequest):
+    if 'Crawler' in request.headers:
+        return redirect(to='home')
+    
     if request.method == 'GET':
         redirect_to = request.GET.get('redirect') or 'home'
         if get_user(request).is_authenticated:
@@ -306,7 +321,11 @@ def user_login(request: HttpRequest):
 
 
 def user_logout(request: HttpRequest):
+    if 'Crawler' in request.headers:
+        return redirect(to='home')
+    
     if get_user(request).is_authenticated:
         logout(request)
+    
     redirect_to = request.GET.get('redirect') or 'home'
     return redirect(to=redirect_to)

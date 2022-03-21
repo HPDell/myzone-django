@@ -48,10 +48,18 @@ Posts
                 <h5 id="category-header" class="border-start border-4 border-dark ps-3">{% translate "Categories" %}</h5>
                 <ul id="category-list" class="list-group list-group-flush ps-2">
                     {% for item in categories %}
-                    <a href="/post/?category={{item.id}}" class="list-group-item">{{item.name}}</a>
+                        {% if "Crawler" in request.headers %}
+                        <a href="/post/category/{{item.id}}/" class="list-group-item">{{item.name}}</a>
+                        {% else %}
+                        <a href="/post/?category={{item.id}}" class="list-group-item">{{item.name}}</a>
+                        {% endif %}
                     {% endfor %}
                     {% if show_not_categoried %}
-                    <a href="/post/?category=null" class="list-group-item">{% translate "Not Categoried" %}</a>
+                        {% if "Crawler" in request.headers %}
+                        <a href="/post/category/null/" class="list-group-item">{% translate "Not Categoried" %}</a>
+                        {% else %}
+                        <a href="/post/?category=null" class="list-group-item">{% translate "Not Categoried" %}</a>
+                        {% endif %}
                     {% endif %}
                 </ul>
             </div>
@@ -59,7 +67,11 @@ Posts
                 <h5 id="tag-header" class="border-start border-4 border-dark ps-3">{% translate "Tags" %}</h5>
                 <ul id="tag-list" class="d-flex flex-row flex-wrap ps-3 py-2 gap-1">
                     {% for item in tags %}
-                    <a href="/post/?tag={{item.id}}"><span class="badge bg-secondary">{{item.name}}</span></a>
+                        {% if "Crawler" in request.headers %}
+                        <a href="/post/tag/{{item.id}}/"><span class="badge bg-secondary">{{item.name}}</span></a>
+                        {% else %}
+                        <a href="/post/?tag={{item.id}}"><span class="badge bg-secondary">{{item.name}}</span></a>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div>

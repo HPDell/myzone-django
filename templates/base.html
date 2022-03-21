@@ -34,6 +34,7 @@
                     </li>
                 </ul>
                 {% endblock %}
+                {% if "Crawler" not in request.headers %}
                 <div class="d-flex">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item dropdown">
@@ -78,6 +79,7 @@
                         {% endif %}
                     </ul>
                 </div>
+                {% endif %}
             </div>
         </div>
     </nav>
