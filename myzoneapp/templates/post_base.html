@@ -46,7 +46,7 @@ Posts
             {% block main_right %}
             <div id="category" class="row my-3 px-3">
                 <h5 id="category-header" class="border-start border-4 border-dark ps-3">{% translate "Categories" %}</h5>
-                <ul id="category-list" class="list-group list-group-flush ps-3">
+                <ul id="category-list" class="list-group list-group-flush ps-2">
                     {% for item in category %}
                     <a href="/post/?category={{item.id}}" class="list-group-item">{{item.name}}</a>
                     {% endfor %}
