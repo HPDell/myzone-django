@@ -331,25 +331,6 @@ def user_logout(request: HttpRequest):
     return redirect(to=redirect_to)
 
 
-def static_data(request: HttpRequest):
-    posts = Post.objects.filter(draft=False).all()
-    categories = Category.objects.all()
-    tags = Tag.objects.all()
-    path_dict = {
-        'post': {
-            'index': '/post/',
-            'sub': [{f"{x.id}": f'/post/{x.id}/'} for x in posts]
-        },
-        'category': {
-            'sub': [{f"{x.id}": f'/post/?category={x.id}'} for x in categories]
-        },
-        'tag': {
-            'sub': [{f"{x.id}": f'/post/?tag={x.id}'} for x in tags]
-        }
-    }
-    return JsonResponse(path_dict)
-
-
 def dist(request: HttpRequest):
     dist_dir = settings.BASE_DIR / 'dist'
     if (not dist_dir.exists()):
