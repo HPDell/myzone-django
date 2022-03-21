@@ -39,7 +39,7 @@
                         <li class="nav-item dropdown">
                             <a href="#" id="languageDropdown" class="nav-link dropdown-toggle" role="button", data-bs-toggle="dropdown" aria-expanded="false">
                                 {% get_current_language as LANGUAGE_CODE %}
-                                {{ LANGUAGE_CODE }}
+                                {{ LANGUAGE_CODE|language_name_local }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="languageDropdown">
                                 {% get_available_languages as LANGUAGES %}

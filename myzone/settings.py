@@ -59,7 +59,7 @@ MIDDLEWARE = [
 USE_I18N = True
 LANGUAGES = [
     ("en", "English"),
-    ("zh-hans", "Chinese")
+    ("zh-cn", "Chinese")
 ]
 LOCALE_PATHS = [
     BASE_DIR / 'locale'
