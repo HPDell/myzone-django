@@ -65,15 +65,15 @@
                                 {% block header_user_menu %}
                                 {% endblock %}
                                 {% if user.is_staff %}
-                                <li><a href="/admin/" class="dropdown-item">Control Panel</a></li>
+                                <li><a href="/admin/" class="dropdown-item">{% translate "Control Panel" %}</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 {% endif %}
-                                <li><a href="/logout/?redirect={{request.build_absolute_uri | escape}}" class="dropdown-item">Logout</a></li>
+                                <li><a href="/logout/?redirect={{request.build_absolute_uri | escape}}" class="dropdown-item">{% translate "Logout" %}</a></li>
                             </ul>
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a href="/login/?redirect={{ request.build_absolute_uri | escape }}" class="nav-link">Login</a>
+                            <a href="/login/?redirect={{ request.build_absolute_uri | escape }}" class="nav-link">{% translate "Login" %}</a>
                         </li>
                         {% endif %}
                     </ul>

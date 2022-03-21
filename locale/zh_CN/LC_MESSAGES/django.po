@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 00:28+0000\n"
+"POT-Creation-Date: 2022-03-21 17:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,24 +40,24 @@ msgstr "查看全部"
 msgid "No posts."
 msgstr "没有博客"
 
-#: myzoneapp/templates/post/detail.html:91
+#: myzoneapp/templates/post/detail.html:97
 msgid "Edit"
 msgstr "编辑"
 
-#: myzoneapp/templates/post/detail.html:94
-#: myzoneapp/templates/post/detail.html:109
+#: myzoneapp/templates/post/detail.html:100
+#: myzoneapp/templates/post/detail.html:115
 msgid "Delete"
 msgstr "删除"
 
-#: myzoneapp/templates/post/detail.html:99
+#: myzoneapp/templates/post/detail.html:105
 msgid "Delete Confirm"
 msgstr "确认删除"
 
-#: myzoneapp/templates/post/detail.html:108
+#: myzoneapp/templates/post/detail.html:114
 msgid "Close"
 msgstr "关闭"
 
-#: myzoneapp/templates/post/detail.html:120
+#: myzoneapp/templates/post/detail.html:126
 msgid "Contents"
 msgstr "目录"
 
@@ -105,7 +105,8 @@ msgstr "提交"
 msgid "Save Draft"
 msgstr "保存草稿"
 
-#: myzoneapp/templates/post/edit.html:249
+#: myzoneapp/templates/post/edit.html:258
+#: myzoneapp/templates/post/edit.html:260
 msgid "Are you sure to leave?"
 msgstr "确定要离开吗？"
 
@@ -132,3 +133,15 @@ msgstr "分类"
 #: myzoneapp/templates/post_base.html:54
 msgid "Not Categoried"
 msgstr "未分类"
+
+#: templates/base.html:68
+msgid "Control Panel"
+msgstr "管理平台"
+
+#: templates/base.html:71
+msgid "Logout"
+msgstr "注销"
+
+#: templates/base.html:76
+msgid "Login"
+msgstr "登录"
