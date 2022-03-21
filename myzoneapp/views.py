@@ -1,5 +1,5 @@
 import imp
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http.request import HttpRequest
 from django.contrib.auth import authenticate, login, logout, get_user
@@ -329,3 +329,22 @@ def user_logout(request: HttpRequest):
     
     redirect_to = request.GET.get('redirect') or 'home'
     return redirect(to=redirect_to)
+
+
+def static_data(request: HttpRequest):
+    posts = Post.objects.filter(draft=False).all()
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
+    path_dict = {
+        'post': {
+            'index': '/post/',
+            'sub': [{f"{x.id}": f'/post/{x.id}/'} for x in posts]
+        },
+        'category': {
+            'sub': [{f"{x.id}": f'/post/?category={x.id}'} for x in categories]
+        },
+        'tag': {
+            'sub': [{f"{x.id}": f'/post/?tag={x.id}'} for x in tags]
+        }
+    }
+    return JsonResponse(path_dict)
