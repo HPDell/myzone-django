@@ -10,5 +10,6 @@ urlpatterns = [
     path('post/new/', views.post_new, name='post_new'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
-    path('staticdata/', views.static_data, name='static_data')
+    path('staticdata/', views.static_data, name='static_data'),
+    path('dist/', views.dist, name='dist')
 ]

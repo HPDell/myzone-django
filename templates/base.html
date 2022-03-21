@@ -34,7 +34,7 @@
                     </li>
                 </ul>
                 {% endblock %}
-                {% if "Crawler" not in request.headers %}
+                {% if "crawler" not in request.COOKIES %}
                 <div class="d-flex">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item dropdown">

@@ -1,5 +1,5 @@
-import imp
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
+from distutils.dir_util import copy_tree
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, QueryDict
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http.request import HttpRequest
 from django.contrib.auth import authenticate, login, logout, get_user
@@ -62,7 +62,7 @@ def post_list(request: HttpRequest):
     ''' Drafts
     '''
     if request.GET.get('draft'):
-        if 'Crawler' in request.headers:
+        if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
             return redirect(to='post_list')
         
         posts = Post.objects.filter(draft=True).order_by("-date").all()
@@ -165,7 +165,7 @@ def post_page(request: HttpRequest, post_id: int):
 def post_new(request: HttpRequest):
     """
     """
-    if 'Crawler' in request.headers:
+    if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
         return redirect(to='post_list')
     
     if request.method == "GET":
@@ -217,7 +217,7 @@ def post_new(request: HttpRequest):
 def post_edit(request: HttpRequest, post_id: int):
     """
     """
-    if 'Crawler' in request.headers:
+    if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
         return redirect(to='post_list')
     
     if request.method == "GET":
@@ -286,7 +286,7 @@ def post_edit(request: HttpRequest, post_id: int):
 
 @permission_required('myzoneapp.delete_post')
 def post_delete(request: HttpRequest, post_id: int):
-    if 'Crawler' in request.headers:
+    if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
         return redirect(to='post_list')
     
     if request.method == 'POST':
@@ -296,7 +296,7 @@ def post_delete(request: HttpRequest, post_id: int):
 
 
 def user_login(request: HttpRequest):
-    if 'Crawler' in request.headers:
+    if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
         return redirect(to='home')
     
     if request.method == 'GET':
@@ -321,7 +321,7 @@ def user_login(request: HttpRequest):
 
 
 def user_logout(request: HttpRequest):
-    if 'Crawler' in request.headers:
+    if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
         return redirect(to='home')
     
     if get_user(request).is_authenticated:
@@ -348,3 +348,53 @@ def static_data(request: HttpRequest):
         }
     }
     return JsonResponse(path_dict)
+
+
+def dist(request: HttpRequest):
+    dist_dir = settings.BASE_DIR / 'dist'
+    if (not dist_dir.exists()):
+        dist_dir.mkdir()
+    request.COOKIES['crawler'] = 'myzonestatic'
+    qd0 = request.GET
+    ''' Home Page
+    '''
+    (dist_dir / 'index.html').write_bytes(home(request).content)
+    ''' Posts
+    '''
+    post_dir = dist_dir / 'post'
+    if (not post_dir.exists()):
+        post_dir.mkdir()
+    (post_dir / 'index.html').write_bytes(post_list(request).content)
+    for post in Post.objects.all():
+        post_page_dir = post_dir / f"{post.id}"
+        if not post_page_dir.exists():
+            post_page_dir.mkdir()
+        (post_page_dir / 'index.html').write_bytes(post_page(request, post.id).content)
+    ''' Categories
+    '''
+    if not (category_base := dist_dir / 'category').exists():
+        category_base.mkdir()
+    for category in Category.objects.all():
+        category_dir = category_base / f"{category.id}"
+        if not category_dir.exists():
+            category_dir.mkdir()
+        qd = QueryDict(f"?category={category.id}")
+        request.GET = qd
+        (category_dir / 'index.html').write_bytes(post_list(request).content)
+    ''' Tags
+    '''
+    if not (tag_base := dist_dir / 'tag').exists():
+        tag_base.mkdir()
+    for tag in Tag.objects.all():
+        tag_dir = tag_base / f"{tag.id}"
+        if not tag_dir.exists():
+            tag_dir.mkdir()
+        qd = QueryDict(f"?tag={tag.id}")
+        request.GET = qd
+        (tag_dir / 'index.html').write_bytes(post_list(request).content)
+    request.GET = qd0
+    ''' static files
+    '''
+    copy_tree(settings.STATIC_ROOT.as_posix(), (dist_dir / 'static').as_posix())
+    copy_tree(settings.MEDIA_ROOT.as_posix(), (dist_dir / 'media').as_posix())
+    return HttpResponse(status=200)
