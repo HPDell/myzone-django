@@ -354,6 +354,7 @@ def dist(request: HttpRequest):
     dist_dir = settings.BASE_DIR / 'dist'
     if (not dist_dir.exists()):
         dist_dir.mkdir()
+    request.COOKIES['django_language'] = 'zh-hans'
     request.COOKIES['crawler'] = 'myzonestatic'
     qd0 = request.GET
     ''' Home Page
