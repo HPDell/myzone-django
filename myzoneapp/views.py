@@ -15,16 +15,21 @@ from .models import Post, Category, Tag, Profile
 from .forms import PostForm
 
 # Create your views here.
+def get_language_suffix_from_request(request: HttpRequest):
+    return get_language_from_request(request).replace('-', '_')
+
+
 def home(request: HttpRequest):
     """
     Home page. `/`
     """
+    lang = get_language_suffix_from_request(request)
     posts = Post.objects.order_by("-date").all()[:5]
     adminUser = User.objects.get(pk=1)
     if (profile_qs := Profile.objects.filter(user=adminUser)).exists() and (profile := profile_qs.first()) is not None:
         return render(request, 'index.html', {
             'avatar': profile.avatar,
-            'profile': profile.content,
+            'profile': profile.select_language(lang).content,
             'posts': posts
         })
     else:
@@ -33,10 +38,6 @@ def home(request: HttpRequest):
             'profile': content,
             'posts': posts
         })
-
-
-def get_language_suffix_from_request(request: HttpRequest):
-    return get_language_from_request(request).replace('-', '_')
 
 
 def get_categories_tags(request: HttpRequest):

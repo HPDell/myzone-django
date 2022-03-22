@@ -2,7 +2,7 @@ from typing import Union
 from email.policy import default
 from django.db import models
 from vditor.fields import VditorTextField
-from myzone.settings import MEDIA_ROOT
+from myzone.settings import MEDIA_ROOT, LANGUAGES
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -46,7 +46,7 @@ class MultilingualManager(models.Manager):
 
 class MultilingualModel(models.Model):
     # fallback/default language code
-    default_language: Union[None, str] = None
+    default_language = LANGUAGES[0][0]
 
     # currently selected language
     selected_language: Union[None, str] = None
@@ -92,8 +92,6 @@ class MultilingualModel(models.Model):
 
 
 class Category(MultilingualModel):
-    default_language = 'en'
-
     name_en = models.CharField(max_length=15, default='', blank=True)
     name_zh_cn = models.CharField(max_length=15, default='', blank=True)
 
@@ -102,8 +100,6 @@ class Category(MultilingualModel):
 
 
 class Tag(MultilingualModel):
-    default_language = 'en'
-
     name_en = models.CharField(max_length=15, default='', blank=True)
     name_zh_cn = models.CharField(max_length=15, default='', blank=True)
 
@@ -124,7 +120,8 @@ class Post(models.Model):
         return f"{self.title} | {self.date}"
 
 
-class Profile(models.Model):
+class Profile(MultilingualModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     avatar = models.ImageField(upload_to='avatars', null=True, blank=True)
-    content = VditorTextField(default='')
+    content_en = VditorTextField(default='')
+    content_zh_cn = VditorTextField(default='')
