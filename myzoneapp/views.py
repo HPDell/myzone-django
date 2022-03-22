@@ -1,5 +1,5 @@
 from distutils.dir_util import copy_tree
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, QueryDict
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotAllowed, JsonResponse, QueryDict
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http.request import HttpRequest
 from django.contrib.auth import authenticate, login, logout, get_user
@@ -332,6 +332,9 @@ def user_logout(request: HttpRequest):
 
 
 def dist(request: HttpRequest):
+    if not ((user := get_user(request)).is_authenticated and user.is_staff):
+        return HttpResponseForbidden()
+    
     dist_dir = settings.BASE_DIR / 'dist'
     if (not dist_dir.exists()):
         dist_dir.mkdir()
