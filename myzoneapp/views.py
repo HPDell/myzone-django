@@ -363,7 +363,7 @@ def dist(request: HttpRequest):
         category_dir = category_base / f"{category.id}"
         if not category_dir.exists():
             category_dir.mkdir()
-        qd = QueryDict(f"?category={category.id}")
+        qd = QueryDict(f"category={category.id}")
         request.GET = qd
         (category_dir / 'index.html').write_bytes(post_list(request).content)
     ''' Tags
@@ -374,7 +374,7 @@ def dist(request: HttpRequest):
         tag_dir = tag_base / f"{tag.id}"
         if not tag_dir.exists():
             tag_dir.mkdir()
-        qd = QueryDict(f"?tag={tag.id}")
+        qd = QueryDict(f"tag={tag.id}")
         request.GET = qd
         (tag_dir / 'index.html').write_bytes(post_list(request).content)
     request.GET = qd0
