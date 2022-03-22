@@ -28,8 +28,8 @@ class VditorWidget(forms.Textarea):
                     'id': final_attrs['id'],
                     'config': self.config,
                 }
-                )
             )
+        )
 
     def build_attrs(self, base_attrs, extra_attrs=None, **kwargs):
         attrs = dict(base_attrs, **kwargs)
