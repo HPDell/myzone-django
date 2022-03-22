@@ -64,7 +64,7 @@
         <h5 id="post-list-header" class="border-start border-4 border-dark ps-3 my-3 flex-grow-1">
             <strong>{% translate "Post List" %}</strong>
         </h5>
-        {% if "crawler" not in request.COOKIES %}
+        {% if "dist" not in request.COOKIES %}
             {% if perms.myzoneapp.change_post %}
                 {% if "draft" in request.GET %}
                 <a href="/post/" class="btn btn-sm btn-outline-secondary me-2" role="button">{% translate "Published" %}</a>

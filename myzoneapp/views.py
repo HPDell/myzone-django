@@ -62,7 +62,7 @@ def post_list(request: HttpRequest):
     ''' Drafts
     '''
     if request.GET.get('draft'):
-        if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
+        if 'dist' in request.COOKIES and request.COOKIES.get('dist').startswith('myzonestatic'):
             return redirect(to='post_list')
         
         posts = Post.objects.filter(draft=True).order_by("-date").all()
@@ -165,7 +165,7 @@ def post_page(request: HttpRequest, post_id: int):
 def post_new(request: HttpRequest):
     """
     """
-    if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
+    if 'dist' in request.COOKIES and request.COOKIES.get('dist').startswith('myzonestatic'):
         return redirect(to='post_list')
     
     if request.method == "GET":
@@ -217,7 +217,7 @@ def post_new(request: HttpRequest):
 def post_edit(request: HttpRequest, post_id: int):
     """
     """
-    if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
+    if 'dist' in request.COOKIES and request.COOKIES.get('dist').startswith('myzonestatic'):
         return redirect(to='post_list')
     
     if request.method == "GET":
@@ -286,7 +286,7 @@ def post_edit(request: HttpRequest, post_id: int):
 
 @permission_required('myzoneapp.delete_post')
 def post_delete(request: HttpRequest, post_id: int):
-    if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
+    if 'dist' in request.COOKIES and request.COOKIES.get('dist').startswith('myzonestatic'):
         return redirect(to='post_list')
     
     if request.method == 'POST':
@@ -296,7 +296,7 @@ def post_delete(request: HttpRequest, post_id: int):
 
 
 def user_login(request: HttpRequest):
-    if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
+    if 'dist' in request.COOKIES and request.COOKIES.get('dist').startswith('myzonestatic'):
         return redirect(to='home')
     
     if request.method == 'GET':
@@ -321,7 +321,7 @@ def user_login(request: HttpRequest):
 
 
 def user_logout(request: HttpRequest):
-    if 'crawler' in request.COOKIES and request.COOKIES.get('crawler').startswith('myzonestatic'):
+    if 'dist' in request.COOKIES and request.COOKIES.get('dist').startswith('myzonestatic'):
         return redirect(to='home')
     
     if get_user(request).is_authenticated:
@@ -339,7 +339,7 @@ def dist(request: HttpRequest):
     if (not dist_dir.exists()):
         dist_dir.mkdir()
     request.COOKIES['django_language'] = 'zh-hans'
-    request.COOKIES['crawler'] = 'myzonestatic'
+    request.COOKIES['dist'] = 'myzonestatic'
     qd0 = request.GET
     ''' Home Page
     '''

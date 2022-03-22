@@ -48,14 +48,14 @@ Posts
                 <h5 id="category-header" class="border-start border-4 border-dark ps-3">{% translate "Categories" %}</h5>
                 <ul id="category-list" class="list-group list-group-flush ps-2">
                     {% for item in categories %}
-                        {% if "crawler" in request.COOKIES %}
+                        {% if "dist" in request.COOKIES %}
                         <a href="/category/{{item.id}}/" class="list-group-item">{{item.name}}</a>
                         {% else %}
                         <a href="/post/?category={{item.id}}" class="list-group-item">{{item.name}}</a>
                         {% endif %}
                     {% endfor %}
                     {% if show_not_categoried %}
-                        {% if "crawler" in request.COOKIES %}
+                        {% if "dist" in request.COOKIES %}
                         <a href="/category/null/" class="list-group-item">{% translate "Not Categoried" %}</a>
                         {% else %}
                         <a href="/post/?category=null" class="list-group-item">{% translate "Not Categoried" %}</a>
@@ -67,7 +67,7 @@ Posts
                 <h5 id="tag-header" class="border-start border-4 border-dark ps-3">{% translate "Tags" %}</h5>
                 <ul id="tag-list" class="d-flex flex-row flex-wrap ps-3 py-2 gap-1">
                     {% for item in tags %}
-                        {% if "crawler" in request.COOKIES %}
+                        {% if "dist" in request.COOKIES %}
                         <a href="/tag/{{item.id}}/"><span class="badge bg-secondary">{{item.name}}</span></a>
                         {% else %}
                         <a href="/post/?tag={{item.id}}"><span class="badge bg-secondary">{{item.name}}</span></a>
