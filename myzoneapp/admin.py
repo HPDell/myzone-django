@@ -9,11 +9,11 @@ class PostAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('id', 'name_en', 'name_zh_cn')
 
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('id', 'name_en', 'name_zh_cn')
 
 
 admin.site.register(Post, PostAdmin)
