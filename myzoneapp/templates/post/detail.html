@@ -71,11 +71,11 @@
             {% endif %}
             <div class="vr"></div>
         </div>
-        {% if post_tags %}
+        {% if post.tags %}
         <div>
             <div id="post-tags" class="post-info-item">
                 <i class="bi bi-tag-fill"></i>
-                {% for item in post_tags %}
+                {% for item in post.tags %}
                 <span class="badge bg-light text-dark fw-normal">{{item.name}}</span>
                 {% endfor %}
             </div>
