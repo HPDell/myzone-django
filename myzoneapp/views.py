@@ -54,6 +54,7 @@ def post_list(request: HttpRequest):
     """
     Post list page. `/post/`
     """
+    lang = get_language_suffix_from_request(request)
     ''' Get categories and tags
     '''
     categories_tags = get_categories_tags(request)
@@ -62,7 +63,16 @@ def post_list(request: HttpRequest):
     if request.GET.get('draft'):
         posts = Post.objects.filter(draft=True).order_by("-date").all()
         return render(request, 'post/list.html', {
-            'posts': posts,
+            'posts': [{
+                'id': post.id,
+                'title': post.title,
+                'cover': post.cover,
+                'date': post.date,
+                'category': post.category.select_language(lang),
+                'tags': [x.select_language(lang) for x in post.tags.all()],
+                'draft': post.draft,
+                'content': post.content
+            } for post in posts],
             **categories_tags,
             'show_not_categoried': Post.objects.filter(category__isnull=True).exists(),
             'draft_mode': True
@@ -91,7 +101,16 @@ def post_list(request: HttpRequest):
     posts_qs = Post.objects if posts_qs is None else posts_qs
     posts = posts_qs.filter(draft=False).order_by("-date").all()
     return render(request, 'post/list.html', {
-        'posts': posts,
+        'posts': [{
+            'id': post.id,
+            'title': post.title,
+            'cover': post.cover,
+            'date': post.date,
+            'category': post.category.select_language(lang),
+            'tags': [x.select_language(lang) for x in post.tags.all()],
+            'draft': post.draft,
+            'content': post.content
+        } for post in posts],
         **categories_tags,
         'show_not_categoried': Post.objects.filter(category__isnull=True).exists()
     })
