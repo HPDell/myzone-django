@@ -57,12 +57,16 @@ MIDDLEWARE = [
 ]
 
 USE_I18N = True
+USE_TZ = True
 LANGUAGES = [
     ("en", "English"),
     ("zh-cn", "Chinese")
 ]
 LOCALE_PATHS = [
     BASE_DIR / 'locale'
+]
+FORMAT_MODULE_PATH = [
+    'myzoneapp.formats'
 ]
 
 ROOT_URLCONF = 'myzone.urls'

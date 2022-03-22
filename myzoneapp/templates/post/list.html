@@ -1,5 +1,6 @@
 {% extends "post_base.html" %}
 {% load i18n %}
+{% load l10n %}
 
 {% block pre_modules %}
 {{ block.super }}
@@ -89,7 +90,7 @@
                 <h5 class="card-title"><strong>{{ item.title }}</strong></h5>
                 <div class="text-muted post-info d-flex flex-row flex-wrap justify-content-between">
                     <div class="post-info-item"><i class="bi bi-pencil-fill pe-1"></i><span>HPDell</span></div>
-                    <div class="post-info-item"><i class="bi bi-calendar pe-1"></i><span>{{item.date}}</span></div>
+                    <div class="post-info-item"><i class="bi bi-calendar pe-1"></i><span>{{item.date|localize}}</span></div>
                     {% if item.category %}
                     <div class="post-info-item"><i class="bi bi-archive-fill pe-1"></i><span>{{item.category.name}}</span></div>
                     {% endif %}
