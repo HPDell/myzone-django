@@ -90,7 +90,7 @@ New Post
                 <div class="mb-3">
                     <label class="form-label" for="post-category"><h5>{% translate "Category" %}</h5></label>
                     {% if post %}
-                    <input type="text" name="category" class="form-control" list="category-list-options" id="post-category" placeholder="Select or create one" value="{{post.category.name}}">
+                    <input type="text" name="category" class="form-control" list="category-list-options" id="post-category" placeholder="Select or create one" value="{{post.category}}">
                     {% else %}
                     <input type="text" name="category" class="form-control" list="category-list-options" id="post-category" placeholder="Select or create one">
                     {% endif %}
@@ -105,7 +105,7 @@ New Post
                     <div id="tags-checks">
                         {% for item in tags %}
                         <div class="form-check form-check-inline">
-                            {% if post and item.name in post_tags %}
+                            {% if post and item.name in post.tags %}
                             <input type="checkbox" class="form-check-input" value="{{item.name}}" name="tags" id="post-tag-{{item.id}}" checked>
                             {% else %}
                             <input type="checkbox" class="form-check-input" value="{{item.name}}" name="tags" id="post-tag-{{item.id}}">

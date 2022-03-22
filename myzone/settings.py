@@ -156,12 +156,10 @@ LOGIN_URL = '/login/'
 
 VDITOR_CONFIGS = { # remember to write "' '"
   'default':{
-      "width": "%90", # use numbers or percentages
-      "height": 360, # use numbers
+      "width": "100%", # use numbers or percentages
       "preview_theme": "dark", # can fill in dark, light, wechat
       "typewriterMode": "false", # whether to enable typewriter mode
       "mode": "ir", # optional modes: sv, ir, wysiwyg
-      "debugger": "true", # whether to show log
       "theme": "dark", # can fill in classic, dark
       "icon": "ant", # canfill in ant, material
       "outline": "true", # show outline

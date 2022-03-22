@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout, get_user
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
 from django.core.files.storage import FileSystemStorage
+from django.utils.translation import get_language_from_request
 from pathlib import Path
 from myzone import settings
 from django.db.models import ImageField
@@ -14,16 +15,21 @@ from .models import Post, Category, Tag, Profile
 from .forms import PostForm
 
 # Create your views here.
+def get_language_suffix_from_request(request: HttpRequest):
+    return get_language_from_request(request).replace('-', '_')
+
+
 def home(request: HttpRequest):
     """
     Home page. `/`
     """
+    lang = get_language_suffix_from_request(request)
     posts = Post.objects.order_by("-date").all()[:5]
     adminUser = User.objects.get(pk=1)
     if (profile_qs := Profile.objects.filter(user=adminUser)).exists() and (profile := profile_qs.first()) is not None:
         return render(request, 'index.html', {
             'avatar': profile.avatar,
-            'profile': profile.content,
+            'profile': profile.select_language(lang).content,
             'posts': posts
         })
     else:
@@ -34,22 +40,30 @@ def home(request: HttpRequest):
         })
 
 
+def get_categories_tags(request: HttpRequest):
+    lang = get_language_suffix_from_request(request)
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
+    return {
+        'categories': [{'id': x.id, 'name': x.select_language(lang).name} for x in categories],
+        'tags': [{'id': x.id, 'name': x.select_language(lang).name} for x in tags]
+    }
+
+
 def post_list(request: HttpRequest):
     """
     Post list page. `/post/`
     """
     ''' Get categories and tags
     '''
-    categories = Category.objects.all()
-    tags = Tag.objects.all()
+    categories_tags = get_categories_tags(request)
     ''' Drafts
     '''
     if request.GET.get('draft'):
         posts = Post.objects.filter(draft=True).order_by("-date").all()
         return render(request, 'post/list.html', {
             'posts': posts,
-            'category': categories,
-            'tags': tags,
+            **categories_tags,
             'show_not_categoried': Post.objects.filter(category__isnull=True).exists(),
             'draft_mode': True
         })
@@ -78,8 +92,7 @@ def post_list(request: HttpRequest):
     posts = posts_qs.filter(draft=False).order_by("-date").all()
     return render(request, 'post/list.html', {
         'posts': posts,
-        'category': categories,
-        'tags': tags,
+        **categories_tags,
         'show_not_categoried': Post.objects.filter(category__isnull=True).exists()
     })
 
@@ -88,14 +101,21 @@ def post_page(request: HttpRequest, post_id: int):
     """
     Post detail page. `/post/id/`
     """
-    post = get_object_or_404(Post, pk=post_id)
-    categories = Category.objects.all()
-    tags = Tag.objects.all()
+    lang = get_language_suffix_from_request(request)
+    post: Post = get_object_or_404(Post, pk=post_id)
     return render(request, 'post/detail.html', {
-        'post': post,
-        'post_tags': post.tags.all(),
-        'category': categories,
-        'tags': tags,
+        'post': {
+            'id': post.id,
+            'title': post.title,
+            'cover': post.cover,
+            'date': post.date,
+            'category': post.category.select_language(lang),
+            'tags': [x.select_language(lang) for x in post.tags.all()],
+            'draft': post.draft,
+            'content': post.content
+        },
+        # 'post_tags': post.tags.all(),
+        **get_categories_tags(request),
         'show_not_categoried': Post.objects.filter(category__isnull=True).exists()
     })
 
@@ -105,14 +125,12 @@ def post_new(request: HttpRequest):
     """
     """
     if request.method == "GET":
-        categories = Category.objects.all()
-        tags = Tag.objects.all()
         return render(request, 'post/edit.html', {
-            'categories': categories,
-            'tags': tags
+            **get_categories_tags(request)
         })
     
     elif request.method == "POST":
+        lang = get_language_suffix_from_request(request)
         form = PostForm(request.POST)
         if form.is_valid():
             from_data = form.cleaned_data
@@ -126,10 +144,11 @@ def post_new(request: HttpRequest):
             new_post.date = from_data['date']
             category_name = from_data['category']
             if len(category_name) > 0:
-                if (category_query := Category.objects.filter(name=category_name)).exists():
+                category_filter_options = { f"name_{lang}": category_name }
+                if (category_query := Category.objects.filter(**category_filter_options)).exists():
                     category = category_query.first()
                 else:
-                    category = Category(name=category_name)
+                    category = Category(**category_filter_options)
                     category.save()
                 new_post.category = category
             else:
@@ -138,10 +157,11 @@ def post_new(request: HttpRequest):
             new_post.save()
             tag_name_list = request.POST.getlist('tags')
             for tag in tag_name_list:
-                if (tag_query := Tag.objects.filter(name=tag)).exists():
+                tags_filter_options = { f"name_{lang}": tag }
+                if (tag_query := Tag.objects.filter(**tags_filter_options)).exists():
                     new_post.tags.add(tag_query.first())
                 else:
-                    tag_new = Tag(name=tag)
+                    tag_new = Tag(**tags_filter_options)
                     tag_new.save()
                     new_post.tags.add(tag_new)
             return redirect(to='post_page', post_id=new_post.id)
@@ -154,17 +174,24 @@ def post_edit(request: HttpRequest, post_id: int):
     """
     """
     if request.method == "GET":
+        lang = get_language_suffix_from_request(request)
         post = get_object_or_404(Post, pk=post_id)
-        categories = Category.objects.all()
-        tags = Tag.objects.all()
         return render(request, 'post/edit.html', {
-            'categories': categories,
-            'tags': tags,
-            'post': post,
-            'post_tags': [x.name for x in post.tags.all()]
+            **get_categories_tags(request),
+            'post': {
+                'id': post.id,
+                'title': post.title,
+                'cover': post.cover,
+                'date': post.date,
+                'category': post.category.select_language(lang).name,
+                'tags': [x.select_language(lang).name for x in post.tags.all()],
+                'draft': post.draft,
+                'content': post.content
+            }
         })
     
     elif request.method == "POST":
+        lang = get_language_suffix_from_request(request)
         form = PostForm(request.POST)
         if form.is_valid():
             from_data = form.cleaned_data
@@ -184,10 +211,11 @@ def post_edit(request: HttpRequest, post_id: int):
             new_post.date = from_data['date']
             category_name = from_data['category']
             if len(category_name) > 0:
-                if (category_query := Category.objects.filter(name=category_name)).exists():
+                category_filter_options = { f"name_{lang}": category_name }
+                if (category_query := Category.objects.filter(**category_filter_options)).exists():
                     category = category_query.first()
                 else:
-                    category = Category(name=category_name)
+                    category = Category(**category_filter_options)
                     category.save()
                 new_post.category = category
             else:
@@ -197,10 +225,11 @@ def post_edit(request: HttpRequest, post_id: int):
             new_post.save()
             tag_name_list = request.POST.getlist('tags')
             for tag in tag_name_list:
-                if (tag_query := Tag.objects.filter(name=tag)).exists():
+                tags_filter_options = { f"name_{lang}": tag }
+                if (tag_query := Tag.objects.filter(**tags_filter_options)).exists():
                     new_post.tags.add(tag_query.first())
                 else:
-                    tag_new = Tag(name=tag)
+                    tag_new = Tag(**tags_filter_options)
                     tag_new.save()
                     new_post.tags.add(tag_new)
             return redirect(to='post_page', post_id=new_post.id)

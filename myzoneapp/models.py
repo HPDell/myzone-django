@@ -1,19 +1,107 @@
+from typing import Union
 from email.policy import default
 from django.db import models
 from vditor.fields import VditorTextField
-from myzone.settings import MEDIA_ROOT
+from myzone.settings import MEDIA_ROOT, LANGUAGES
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Category(models.Model):
-    name = models.CharField(max_length=15)
+
+class MultilingualQuerySet(models.query.QuerySet):
+    selected_language = None
+
+    def __init__(self, *args, **kwargs):
+        super(MultilingualQuerySet, self).__init__(*args, **kwargs)
+
+    def select_language(self, lang):
+        self.selected_language = lang
+        return self
+
+    def iterator(self):
+        result_iter = super(MultilingualQuerySet, self).iterator()
+        for result in result_iter:
+            if hasattr(result, 'select_language'):
+                result.select_language(self.selected_language)
+            yield result
+
+    def _clone(self, *args, **kwargs):
+        qs = super(MultilingualQuerySet, self)._clone(*args, **kwargs)
+        if hasattr(qs, 'select_language'):
+            qs.select_language(self.selected_language)
+        return qs
+
+
+class MultilingualManager(models.Manager):
+    use_for_related_fields = True
+    selected_language = None
+
+    def select_language(self, lang):
+        self.selected_language = lang
+        return self
+
+    def get_query_set(self):
+        qs = MultilingualQuerySet(self.model, using=self._db)
+        return qs.select_language(self.selected_language)
+
+
+class MultilingualModel(models.Model):
+    # fallback/default language code
+    default_language = LANGUAGES[0][0]
+
+    # currently selected language
+    selected_language: Union[None, str] = None
+
+    objects = MultilingualManager()
+
+    class Meta:
+        abstract = True
+        default_manager_name = 'objects'
+
+    def select_language(self, lang):
+        """Select a language"""
+        self.selected_language = lang
+        return self
+
+    def __getattribute__(self, name):
+        def get(x):
+            return super(MultilingualModel, self).__getattribute__(x)
+
+        try:
+            # Try to get the original field, if exists
+            value = get(name)
+            # If we can select language on the field as well, do it
+            if isinstance(value, MultilingualModel):
+                value.select_language(get('selected_language'))
+            return value
+        except AttributeError as e:
+            # Try the translated variant, falling back to default if no
+            # language has been explicitly selected
+            lang = self.selected_language
+            if not lang:
+                lang = self.default_language
+            if not lang:
+                raise
+
+            value = get(name + '_' + lang)
+
+            # If the translated variant is empty, fallback to default
+            if isinstance(value, str) and value == u'':
+                value = get(name + '_' + self.default_language)
+
+        return value
+
+
+class Category(MultilingualModel):
+    name_en = models.CharField(max_length=15, default='', blank=True)
+    name_zh_cn = models.CharField(max_length=15, default='', blank=True)
 
     def __str__(self) -> str:
         return f"{self.name}"
 
 
-class Tag(models.Model):
-    name = models.CharField(max_length=15)
+class Tag(MultilingualModel):
+    name_en = models.CharField(max_length=15, default='', blank=True)
+    name_zh_cn = models.CharField(max_length=15, default='', blank=True)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -32,7 +120,8 @@ class Post(models.Model):
         return f"{self.title} | {self.date}"
 
 
-class Profile(models.Model):
+class Profile(MultilingualModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     avatar = models.ImageField(upload_to='avatars', null=True, blank=True)
-    content = VditorTextField(default='')
+    content_en = VditorTextField(default='')
+    content_zh_cn = VditorTextField(default='')
