@@ -74,8 +74,7 @@ def post_list(request: HttpRequest):
                 'content': post.content
             } for post in posts],
             **categories_tags,
-            'show_not_categoried': Post.objects.filter(category__isnull=True).exists(),
-            'draft_mode': True
+            'show_not_categoried': Post.objects.filter(category__isnull=True).exists()
         })
     ''' Non-drafts
     '''

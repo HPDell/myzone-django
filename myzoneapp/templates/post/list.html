@@ -60,7 +60,7 @@
             <strong>{% translate "Post List" %}</strong>
         </h5>
         {% if perms.myzoneapp.change_post %}
-        {% if draft_mode %}
+        {% if "draft" in request.GET %}
         <a href="/post/" class="btn btn-sm btn-outline-secondary me-2" role="button">{% translate "Published" %}</a>
         {% else %}
         <a href="/post/?draft=1" class="btn btn-sm btn-outline-secondary me-2" role="button">{% translate "Drafts" %}</a>
