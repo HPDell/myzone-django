@@ -166,6 +166,8 @@ VDITOR_CONFIGS = { # remember to write "' '"
   }
 }
 
+POSTS_PER_PAGE = 24
+
 mimetypes.add_type("text/css", ".css", True)
 mimetypes.add_type("text/html", ".html", True)
 mimetypes.add_type("application/javascript", ".js", True)

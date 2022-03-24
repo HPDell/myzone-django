@@ -39,6 +39,11 @@
     .card-img-wrapper img {
         width: 100%;
     }
+    @media (max-width: 768px) {
+        div#pagination a.page-can-hide {
+            display: none;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -54,7 +59,7 @@
 {% endblock %}
 
 {% block main_left %}
-<div id="post-list" class="row">
+<div class="row">
     <div class="d-flex flex-row align-items-center">
         <h5 id="post-list-header" class="border-start border-4 border-dark ps-3 my-3 flex-grow-1">
             <strong>{% translate "Post List" %}</strong>
@@ -70,6 +75,8 @@
         <a href="/post/new/" class="btn btn-sm btn-secondary me-2" role="button">{% translate "New" %}</a>
         {% endif %}
     </div>
+</div>
+<div id="post-list" class="row mb-4">
     {% for item in posts %}
     <div class="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12 post-list-col gx-2 gy-3 px-2">
         <a href="/post/{{item.id}}/" class="post-link-card"><div class="card">
@@ -100,4 +107,33 @@
     </div>
     {% endfor %}
 </div>
+{% if pagination %}
+<div class="row">
+    <div class="col text-center">
+        <div class="btn-toolbar justify-content-center" role="toolbar">
+            <div id="pagination" class="btn-group">
+                {% if pagination.page.has_previous %}
+                <a href="/post/?page={{pagination.page.previous_page_number}}{{pagination.tag_qs}}{{pagination.category_qs}}" class="btn btn-outline-secondary"><span>&laquo;</span></a>
+                {% else %}
+                <a href="#" class="btn btn-outline-secondary disabled"><span>&laquo;</span></a>
+                {% endif %}
+                {% for item in pagination.paginator %}
+                    {% if item == pagination.page.number %}
+                    <a href="#" class="btn btn-secondary"><span>{{ item }}</span></a>
+                    {% elif item == pagination.page.paginator.ELLIPSIS %}
+                    <a href="#" class="btn btn-outline-secondary disabled page-can-hide"><span>{{ item }}</span></a>
+                    {% else %}
+                    <a href="/post/?page={{item}}{{pagination.tag_qs}}{{pagination.category_qs}}" class="btn btn-outline-secondary page-can-hide"><span>{{ item }}</span></a>
+                    {% endif %}
+                {% endfor %}
+                {% if pagination.page.has_next %}
+                <a href="/post/?page={{pagination.page.next_page_number}}{{pagination.tag_qs}}{{pagination.category_qs}}" class="btn btn-outline-secondary"><span>&raquo;</span></a>
+                {% else %}
+                <a href="#" class="btn btn-outline-secondary"><span>&raquo;</span></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout, get_user
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator
 from django.utils.translation import get_language_from_request
 from pathlib import Path
 from myzone import settings
@@ -98,21 +99,40 @@ def post_list(request: HttpRequest):
     ''' If not filtered, return all data.
     '''
     posts_qs = Post.objects if posts_qs is None else posts_qs
-    posts = posts_qs.filter(draft=False).order_by("-date").all()
-    return render(request, 'post/list.html', {
-        'posts': [{
-            'id': post.id,
-            'title': post.title,
-            'cover': post.cover,
-            'date': post.date,
-            'category': post.category.select_language(lang),
-            'tags': [x.select_language(lang) for x in post.tags.all()],
-            'draft': post.draft,
-            'content': post.content
-        } for post in posts],
-        **categories_tags,
-        'show_not_categoried': Post.objects.filter(category__isnull=True).exists()
-    })
+    posts = [{
+        'id': post.id,
+        'title': post.title,
+        'cover': post.cover,
+        'date': post.date,
+        'category': post.category.select_language(lang),
+        'tags': [x.select_language(lang) for x in post.tags.all()],
+        'draft': post.draft,
+        'content': post.content
+    } for post in posts_qs.filter(draft=False).order_by("-date").all()]
+    ''' Pagination
+    '''
+    paginator = Paginator(posts, settings.POSTS_PER_PAGE)
+    current_str = request.GET.get("page", 1)
+    try:
+        current = int(current_str)
+        if current < 1:
+            return redirect(f'/post/?page=0')
+        elif current > paginator.num_pages:
+            return redirect(f'/post/?page={paginator.num_pages}')
+        page = paginator.get_page(current)
+        return render(request, 'post/list.html', {
+            'posts': page.object_list,
+            'pagination': None if paginator.num_pages <= 1 else {
+                'page': page,
+                'paginator': paginator.get_elided_page_range(current, on_each_side=2, on_ends=2),
+                'tag_qs': f"&tag={tag_id}" if tag_id else "",
+                'category_qs': f"&category={category_id}" if category_id else ""
+            },
+            **categories_tags,
+            'show_not_categoried': Post.objects.filter(category__isnull=True).exists()
+        })
+    except ValueError:
+        return redirect(r'/post/')
 
 
 def post_page(request: HttpRequest, post_id: int):
