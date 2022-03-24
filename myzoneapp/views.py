@@ -350,6 +350,14 @@ def dist(request: HttpRequest):
     if (not post_dir.exists()):
         post_dir.mkdir()
     (post_dir / 'index.html').write_bytes(post_list(request).content)
+    paginator = Paginator(Post.objects.order_by("-date").all(), settings.POSTS_PER_PAGE)
+    for page in paginator:
+        post_list_page_dir = post_dir / "page" / f"{page.number}"
+        if (not post_list_page_dir.exists()):
+            post_list_page_dir.mkdir(parents=True)
+        qd = QueryDict(f'page={page.number}')
+        request.GET = qd
+        (post_list_page_dir / 'index.html').write_bytes(post_list(request).content)
     for post in Post.objects.all():
         post_page_dir = post_dir / f"{post.id}"
         if not post_page_dir.exists():
@@ -363,9 +371,16 @@ def dist(request: HttpRequest):
         category_dir = category_base / f"{category.id}"
         if not category_dir.exists():
             category_dir.mkdir()
-        qd = QueryDict(f"category={category.id}")
+        qd = QueryDict(f"category={category.id}", mutable=True)
         request.GET = qd
         (category_dir / 'index.html').write_bytes(post_list(request).content)
+        for page in Paginator(Post.objects.filter(category=category).order_by("-date").all(), settings.POSTS_PER_PAGE):
+            category_page_dir = category_dir / "page" / f"{page.number}"
+            if (not category_page_dir.exists()):
+                category_page_dir.mkdir(parents=True)
+            qd['page'] = page.number
+            request.GET = qd
+            (category_page_dir / 'index.html').write_bytes(post_list(request).content)
     ''' Tags
     '''
     if not (tag_base := dist_dir / 'tag').exists():
@@ -374,9 +389,16 @@ def dist(request: HttpRequest):
         tag_dir = tag_base / f"{tag.id}"
         if not tag_dir.exists():
             tag_dir.mkdir()
-        qd = QueryDict(f"tag={tag.id}")
+        qd = QueryDict(f"tag={tag.id}", mutable=True)
         request.GET = qd
         (tag_dir / 'index.html').write_bytes(post_list(request).content)
+        for page in Paginator(Post.objects.filter(tags=tag).order_by("-date").all(), settings.POSTS_PER_PAGE):
+            tag_page_dir = tag_dir / "page" / f"{page.number}"
+            if (not tag_page_dir.exists()):
+                tag_page_dir.mkdir(parents=True)
+            qd['page'] = page.number
+            request.GET = qd
+            (tag_page_dir / 'index.html').write_bytes(post_list(request).content)
     request.GET = qd0
     ''' static files
     '''

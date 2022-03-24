@@ -112,6 +112,77 @@
 {% if pagination %}
 <div class="row">
     <div class="col text-center">
+        {% if "dist" in request.COOKIES %}
+        <div class="btn-toolbar justify-content-center" role="toolbar">
+            {% if "category" in request.GET %}
+            <div id="pagination" class="btn-group">
+                {% if pagination.page.has_previous %}
+                <a href="/category/page/{{pagination.page.previous_page_number}}/" class="btn btn-outline-secondary"><span>&laquo;</span></a>
+                {% else %}
+                <a href="#" class="btn btn-outline-secondary disabled"><span>&laquo;</span></a>
+                {% endif %}
+                {% for item in pagination.paginator %}
+                    {% if item == pagination.page.number %}
+                    <a href="#" class="btn btn-secondary"><span>{{ item }}</span></a>
+                    {% elif item == pagination.page.paginator.ELLIPSIS %}
+                    <a href="#" class="btn btn-outline-secondary disabled page-can-hide"><span>{{ item }}</span></a>
+                    {% else %}
+                    <a href="/category/page/{{item}}/" class="btn btn-outline-secondary page-can-hide"><span>{{ item }}</span></a>
+                    {% endif %}
+                {% endfor %}
+                {% if pagination.page.has_next %}
+                <a href="/category/page/{{pagination.page.next_page_number}}/" class="btn btn-outline-secondary"><span>&raquo;</span></a>
+                {% else %}
+                <a href="#" class="btn btn-outline-secondary"><span>&raquo;</span></a>
+                {% endif %}
+            </div>
+            {% elif "tag" in request.GET %}
+            <div id="pagination" class="btn-group">
+                {% if pagination.page.has_previous %}
+                <a href="/tag/page/{{pagination.page.previous_page_number}}/" class="btn btn-outline-secondary"><span>&laquo;</span></a>
+                {% else %}
+                <a href="#" class="btn btn-outline-secondary disabled"><span>&laquo;</span></a>
+                {% endif %}
+                {% for item in pagination.paginator %}
+                    {% if item == pagination.page.number %}
+                    <a href="#" class="btn btn-secondary"><span>{{ item }}</span></a>
+                    {% elif item == pagination.page.paginator.ELLIPSIS %}
+                    <a href="#" class="btn btn-outline-secondary disabled page-can-hide"><span>{{ item }}</span></a>
+                    {% else %}
+                    <a href="/tag/page/{{item}}/" class="btn btn-outline-secondary page-can-hide"><span>{{ item }}</span></a>
+                    {% endif %}
+                {% endfor %}
+                {% if pagination.page.has_next %}
+                <a href="/tag/page/{{pagination.page.next_page_number}}/" class="btn btn-outline-secondary"><span>&raquo;</span></a>
+                {% else %}
+                <a href="#" class="btn btn-outline-secondary"><span>&raquo;</span></a>
+                {% endif %}
+            </div>
+            {% else %}
+            <div id="pagination" class="btn-group">
+                {% if pagination.page.has_previous %}
+                <a href="/post/page/{{pagination.page.previous_page_number}}/" class="btn btn-outline-secondary"><span>&laquo;</span></a>
+                {% else %}
+                <a href="#" class="btn btn-outline-secondary disabled"><span>&laquo;</span></a>
+                {% endif %}
+                {% for item in pagination.paginator %}
+                    {% if item == pagination.page.number %}
+                    <a href="#" class="btn btn-secondary"><span>{{ item }}</span></a>
+                    {% elif item == pagination.page.paginator.ELLIPSIS %}
+                    <a href="#" class="btn btn-outline-secondary disabled page-can-hide"><span>{{ item }}</span></a>
+                    {% else %}
+                    <a href="/post/page/{{item}}/" class="btn btn-outline-secondary page-can-hide"><span>{{ item }}</span></a>
+                    {% endif %}
+                {% endfor %}
+                {% if pagination.page.has_next %}
+                <a href="/post/page/{{pagination.page.next_page_number}}/" class="btn btn-outline-secondary"><span>&raquo;</span></a>
+                {% else %}
+                <a href="#" class="btn btn-outline-secondary"><span>&raquo;</span></a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
         <div class="btn-toolbar justify-content-center" role="toolbar">
             <div id="pagination" class="btn-group">
                 {% if pagination.page.has_previous %}
@@ -135,6 +206,7 @@
                 {% endif %}
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endif %}
