@@ -69,7 +69,7 @@ def post_list(request: HttpRequest):
                 'title': post.title,
                 'cover': post.cover,
                 'date': post.date,
-                'category': post.category.select_language(lang),
+                'category': post.category.select_language(lang) if post.category else None,
                 'tags': [x.select_language(lang) for x in post.tags.all()],
                 'draft': post.draft,
                 'content': post.content
@@ -104,7 +104,7 @@ def post_list(request: HttpRequest):
         'title': post.title,
         'cover': post.cover,
         'date': post.date,
-        'category': post.category.select_language(lang),
+        'category': post.category.select_language(lang) if post.category else None,
         'tags': [x.select_language(lang) for x in post.tags.all()],
         'draft': post.draft,
         'content': post.content
@@ -147,7 +147,7 @@ def post_page(request: HttpRequest, post_id: int):
             'title': post.title,
             'cover': post.cover,
             'date': post.date,
-            'category': post.category.select_language(lang),
+            'category': post.category.select_language(lang) if post.category else None,
             'tags': [x.select_language(lang) for x in post.tags.all()],
             'draft': post.draft,
             'content': post.content
