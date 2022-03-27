@@ -39,10 +39,10 @@
 {% block breadcrumb %}
 <div class="row">
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/" class="text-muted">Home</a></li>
-            <li class="breadcrumb-item"><a href="/post/" class="text-muted">Posts</a></li>
-            <li class="breadcrumb-item"><span class="text-muted text-truncate">{{post.title}}</span></li>
+        <ol class="breadcrumb align-items-top flex-nowrap">
+            <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="/" class="text-muted text-nowrap">{% translate "Home" %}</a></li>
+            <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="/post/" class="text-muted text-nowrap">{% translate "Posts" %}</a></li>
+            <li class="breadcrumb-item text-truncate"><span class="text-muted">{{post.title}}</span></li>
         </ol>
     </nav>
 </div>

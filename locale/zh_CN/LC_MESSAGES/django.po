@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 17:14+0000\n"
+"POT-Creation-Date: 2022-03-27 00:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: myzoneapp/templates/index.html:23 myzoneapp/templates/post/edit.html:31
-#: myzoneapp/templates/post/list.html:48 myzoneapp/templates/post_base.html:27
-#: templates/base.html:30
+#: myzoneapp/templates/index.html:23 myzoneapp/templates/post/detail.html:43
+#: myzoneapp/templates/post/edit.html:31 myzoneapp/templates/post/list.html:54
+#: myzoneapp/templates/post_base.html:27 templates/base.html:30
 msgid "Home"
 msgstr "首页"
 
@@ -40,30 +40,31 @@ msgstr "查看全部"
 msgid "No posts."
 msgstr "没有博客"
 
-#: myzoneapp/templates/post/detail.html:97
+#: myzoneapp/templates/post/detail.html:44
+#: myzoneapp/templates/post/edit.html:32 myzoneapp/templates/post/list.html:55
+msgid "Posts"
+msgstr "博客"
+
+#: myzoneapp/templates/post/detail.html:98
 msgid "Edit"
 msgstr "编辑"
 
-#: myzoneapp/templates/post/detail.html:100
-#: myzoneapp/templates/post/detail.html:115
+#: myzoneapp/templates/post/detail.html:101
+#: myzoneapp/templates/post/detail.html:116
 msgid "Delete"
 msgstr "删除"
 
-#: myzoneapp/templates/post/detail.html:105
+#: myzoneapp/templates/post/detail.html:106
 msgid "Delete Confirm"
 msgstr "确认删除"
 
-#: myzoneapp/templates/post/detail.html:114
+#: myzoneapp/templates/post/detail.html:115
 msgid "Close"
 msgstr "关闭"
 
-#: myzoneapp/templates/post/detail.html:126
+#: myzoneapp/templates/post/detail.html:127
 msgid "Contents"
 msgstr "目录"
-
-#: myzoneapp/templates/post/edit.html:32 myzoneapp/templates/post/list.html:49
-msgid "Posts"
-msgstr "博客"
 
 #: myzoneapp/templates/post/edit.html:38
 msgid "Edit Post"
@@ -110,19 +111,19 @@ msgstr "保存草稿"
 msgid "Are you sure to leave?"
 msgstr "确定要离开吗？"
 
-#: myzoneapp/templates/post/list.html:59
+#: myzoneapp/templates/post/list.html:65
 msgid "Post List"
 msgstr "博客列表"
 
-#: myzoneapp/templates/post/list.html:63
+#: myzoneapp/templates/post/list.html:69
 msgid "Published"
 msgstr "已发布"
 
-#: myzoneapp/templates/post/list.html:65
+#: myzoneapp/templates/post/list.html:71
 msgid "Drafts"
 msgstr "草稿箱"
 
-#: myzoneapp/templates/post/list.html:69
+#: myzoneapp/templates/post/list.html:75
 msgid "New"
 msgstr "新建"
 
