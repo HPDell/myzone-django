@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block main %}
+<div class="container">
+    <div class="row py-5">
+        <h1>{% translate "Permission Denied" %}</h1>
+        <p class="lead">{% translate "Please login or turn to another page." %}</p>
+    </div>
+</div>
+{% endblock %}

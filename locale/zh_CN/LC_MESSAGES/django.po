@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-27 00:28+0000\n"
+"POT-Creation-Date: 2022-03-30 17:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,26 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: myzoneapp/templates/index.html:23 myzoneapp/templates/post/detail.html:43
+#: myzoneapp/templates/index.html:22 myzoneapp/templates/post/detail.html:43
 #: myzoneapp/templates/post/edit.html:31 myzoneapp/templates/post/list.html:54
-#: myzoneapp/templates/post_base.html:27 templates/base.html:30
+#: myzoneapp/templates/post_base.html:26 templates/base.html:30
 msgid "Home"
 msgstr "首页"
 
-#: myzoneapp/templates/index.html:26 myzoneapp/templates/post_base.html:30
+#: myzoneapp/templates/index.html:25 myzoneapp/templates/post_base.html:29
 #: templates/base.html:33
 msgid "Blog"
 msgstr "博客"
 
-#: myzoneapp/templates/index.html:54
+#: myzoneapp/templates/index.html:52
 msgid "Recent Posts"
 msgstr "最近博客"
 
-#: myzoneapp/templates/index.html:61
+#: myzoneapp/templates/index.html:59
 msgid "See All..."
 msgstr "查看全部"
 
-#: myzoneapp/templates/index.html:63
+#: myzoneapp/templates/index.html:61
 msgid "No posts."
 msgstr "没有博客"
 
@@ -94,7 +94,7 @@ msgstr "日期"
 msgid "Category"
 msgstr "分类"
 
-#: myzoneapp/templates/post/edit.html:104 myzoneapp/templates/post_base.html:59
+#: myzoneapp/templates/post/edit.html:104 myzoneapp/templates/post_base.html:57
 msgid "Tags"
 msgstr "标签"
 
@@ -106,8 +106,8 @@ msgstr "提交"
 msgid "Save Draft"
 msgstr "保存草稿"
 
-#: myzoneapp/templates/post/edit.html:258
-#: myzoneapp/templates/post/edit.html:260
+#: myzoneapp/templates/post/edit.html:252
+#: myzoneapp/templates/post/edit.html:254
 msgid "Are you sure to leave?"
 msgstr "确定要离开吗？"
 
@@ -127,13 +127,47 @@ msgstr "草稿箱"
 msgid "New"
 msgstr "新建"
 
-#: myzoneapp/templates/post_base.html:48
+#: myzoneapp/templates/post_base.html:46
 msgid "Categories"
 msgstr "分类"
 
-#: myzoneapp/templates/post_base.html:54
+#: myzoneapp/templates/post_base.html:52
 msgid "Not Categoried"
 msgstr "未分类"
+
+#: templates/400.html:7
+msgid "Bad Request"
+msgstr "错误的请求"
+
+#: templates/400.html:8
+msgid "This request method is not supported. Please try anther one."
+msgstr "当前请求的方法不受支持。请尝试其他方法。"
+
+#: templates/403.html:7
+msgid "Permission Denied"
+msgstr "访问受限"
+
+#: templates/403.html:8
+msgid "Please login or turn to another page."
+msgstr "请登录或访问其他页面。"
+
+#: templates/404.html:7
+msgid "Page Not Found"
+msgstr "找不到页面"
+
+#: templates/404.html:8
+msgid "Server cannot found the requested page."
+msgstr "请求的页面无法再服务器上找到。"
+
+#: templates/500.html:7
+msgid "Internal Server Error"
+msgstr "内部服务器错误"
+
+#: templates/500.html:8
+msgid ""
+"Sorry, this request raised some internal exceptions. Please check your form "
+"or try again later."
+msgstr "对不起，该请求引发了一些内部错误。请检查表单或在一段时间后重试。"
 
 #: templates/base.html:68
 msgid "Control Panel"

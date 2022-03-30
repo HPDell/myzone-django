@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block main %}
+<div class="container">
+    <div class="row py-5">
+        <h1>{% translate "Internal Server Error" %}</h1>
+        <p class="lead">{% translate "Sorry, this request raised some internal exceptions. Please check your form or try again later." %}</p>
+    </div>
+</div>
+{% endblock %}

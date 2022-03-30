@@ -1,5 +1,3 @@
-import imp
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http.request import HttpRequest
 from django.contrib.auth import authenticate, login, logout, get_user
@@ -7,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
+from django.core.exceptions import PermissionDenied, BadRequest
 from django.utils.translation import get_language_from_request
 from pathlib import Path
 from myzone import settings
@@ -63,7 +62,7 @@ def post_list(request: HttpRequest):
     '''
     if request.GET.get('draft'):
         if not request.user.is_authenticated:
-            return HttpResponseForbidden()
+            raise PermissionDenied
 
         posts = Post.objects.filter(draft=True).order_by("-date").all()
         return render(request, 'post/list.html', {
@@ -147,7 +146,7 @@ def post_page(request: HttpRequest, post_id: int):
     
     if post.draft:
         if not request.user.is_authenticated:
-            return HttpResponseForbidden()
+            raise PermissionDenied
 
     return render(request, 'post/detail.html', {
         'post': {
@@ -212,7 +211,7 @@ def post_new(request: HttpRequest):
                     new_post.tags.add(tag_new)
             return redirect(to='post_page', post_id=new_post.id)
         else:
-            return HttpResponseBadRequest()
+            raise BadRequest
 
 
 @permission_required('myzoneapp.change_post')
@@ -280,7 +279,7 @@ def post_edit(request: HttpRequest, post_id: int):
                     new_post.tags.add(tag_new)
             return redirect(to='post_page', post_id=new_post.id)
         else:
-            return HttpResponseBadRequest()
+            raise BadRequest
 
 
 @permission_required('myzoneapp.delete_post')
@@ -310,7 +309,7 @@ def user_login(request: HttpRequest):
             redirect_to = request.POST.get('redirect') or 'home'
             return redirect(to=redirect_to)
         else:
-            return HttpResponseForbidden()
+            raise PermissionDenied
 
 
 def user_logout(request: HttpRequest):
