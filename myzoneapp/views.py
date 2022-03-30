@@ -198,6 +198,7 @@ def post_new(request: HttpRequest):
                 new_post.category = category
             else:
                 new_post.category = None
+            new_post.draft = True if 'draft' in request.POST else False
             new_post.content = from_data['content']
             new_post.save()
             tag_name_list = request.POST.getlist('tags')
