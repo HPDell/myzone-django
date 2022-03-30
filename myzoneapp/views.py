@@ -25,7 +25,7 @@ def home(request: HttpRequest):
     Home page. `/`
     """
     lang = get_language_suffix_from_request(request)
-    posts = Post.objects.order_by("-date").all()[:5]
+    posts = Post.objects.filter(draft=False).order_by("-date").all()[:5]
     adminUser = User.objects.get(pk=1)
     if (profile_qs := Profile.objects.filter(user=adminUser)).exists() and (profile := profile_qs.first()) is not None:
         return render(request, 'index.html', {
@@ -62,6 +62,9 @@ def post_list(request: HttpRequest):
     ''' Drafts
     '''
     if request.GET.get('draft'):
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden()
+
         posts = Post.objects.filter(draft=True).order_by("-date").all()
         return render(request, 'post/list.html', {
             'posts': [{
@@ -141,6 +144,11 @@ def post_page(request: HttpRequest, post_id: int):
     """
     lang = get_language_suffix_from_request(request)
     post: Post = get_object_or_404(Post, pk=post_id)
+    
+    if post.draft:
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden()
+
     return render(request, 'post/detail.html', {
         'post': {
             'id': post.id,
