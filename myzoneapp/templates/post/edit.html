@@ -134,6 +134,35 @@ New Post
 <script src="/static/latex-macros.js"></script>
 <script>
     const contentElement = document.getElementById("post");
+    const hintMap = (function () {
+        var hints = new Map();
+        const environments = [
+            'matrix', 'vmatrix', 'bmatrix', 'aligned'
+        ]
+        for (const item of environments) {
+            hints.set(item, {
+                value: `\\begin{${item}}\n\\end{${item}}`,
+                html: `\\begin{${item}}`
+            });
+        }
+        const bracketMap = {
+            'r': ['(', ')'],
+            's': ['[', ']'],
+            'c': ['\\{', '\\}'],
+            'v': ['|', '|'],
+            'V': ['\\|', '\\|'],
+        }
+        const brackets = ['brr', 'bss', 'bcc', 'brs', 'bsr', 'bvv', 'bVV']
+        for (const item of brackets) {
+            var left = bracketMap[item.charAt(1)][0]
+            var right = bracketMap[item.charAt(2)][1]
+            hints.set(item, {
+                value: `\\left${left}  \\right${right}`,
+                html: `\\left${left}\\right${right}`
+            });
+        }
+        return hints;
+    })();
     const vditor = new Vditor('vditor', {
         width: '100%',
         value: '',
@@ -169,45 +198,10 @@ New Post
             extend: [{
                 key: "\\",
                 hint: (key) => {
-                    var hintMap = new Map()
-                    // const alphabet = Array(26).fill(0).map((_, index) => [String.fromCharCode(index + 65), String.fromCharCode(index + 97)]).reduce((left, right) => left.concat(right));
-                    // const greek = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "omega", "phi", "pi", "psi", "rho", "sigma", "tau", "theta", "upsilon", "xi", "zeta", "Delta", "Gamma", "Lambda", "Omega", "Phi", "Pi", "Psi", "Sigma", "Theta", "Upsilon", "Xi"];
-                    // const letters = alphabet.concat(greek);
-                    // for (const item of letters) {
-                    //     hintMap['v' + item] = {
-                    //         value: `\\bf{${item}}`,
-                    //         html: `v${item} (\\bf{${item}})`,
-                    //     }
-                    // }
-                    const environments = [
-                        'matrix', 'vmatrix', 'bmatrix', 'aligned'
-                    ]
-                    for (const item of environments) {
-                        hintMap[item] = {
-                            value: `\\begin{${item}}\n\\end{${item}}`,
-                            html: `\\begin{${item}}`
-                        }
-                    }
-                    const bracketMap = {
-                        'r': ['(', ')'],
-                        's': ['[', ']'],
-                        'c': ['\\{', '\\}'],
-                        'v': ['|', '|'],
-                        'V': ['\\|', '\\|'],
-                    }
-                    const brackets = ['brr', 'bss', 'bcc', 'brs', 'bsr', 'bvv', 'bVV']
-                    for (const item of brackets) {
-                        var left = bracketMap[item.charAt(1)][0]
-                        var right = bracketMap[item.charAt(2)][1]
-                        hintMap[item] = {
-                            value: `\\left${left}\\right${right}`,
-                            html: `\\left${left}\\right${right}`
-                        }
-                    }
                     if (key in hintMap) {
-                        return [hintMap[key]]
+                        return [hintMap.get(key)];
                     }
-                    return Array.from(hintMap.values())
+                    return Array.from(hintMap.values());
                 }
             }]
         }
