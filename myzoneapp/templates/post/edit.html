@@ -137,7 +137,7 @@ New Post
     const hintMap = (function () {
         var hints = new Map();
         const environments = [
-            'matrix', 'vmatrix', 'bmatrix', 'aligned'
+            'matrix', 'pmatrix', 'bmatrix', 'vmatrix', 'aligned', 'array'
         ]
         for (const item of environments) {
             hints.set(item, {
@@ -152,10 +152,10 @@ New Post
             'v': ['|', '|'],
             'V': ['\\|', '\\|'],
         }
-        const brackets = ['brr', 'bss', 'bcc', 'brs', 'bsr', 'bvv', 'bVV']
+        const brackets = ['leftrr', 'leftss', 'leftcc', 'leftrs', 'leftsr', 'leftvv', 'leftVV']
         for (const item of brackets) {
-            var left = bracketMap[item.charAt(1)][0]
-            var right = bracketMap[item.charAt(2)][1]
+            var left = bracketMap[item.charAt(4)][0]
+            var right = bracketMap[item.charAt(5)][1]
             hints.set(item, {
                 value: `\\left${left}  \\right${right}`,
                 html: `\\left${left}\\right${right}`
@@ -198,10 +198,8 @@ New Post
             extend: [{
                 key: "\\",
                 hint: (key) => {
-                    if (key in hintMap) {
-                        return [hintMap.get(key)];
-                    }
-                    return Array.from(hintMap.values());
+                    var hints = Array.from(hintMap.keys()).filter(hint => (hint.indexOf(key) >= 0));
+                    return hints.map(item => hintMap.get(item));
                 }
             }]
         }
