@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-30 17:55+0000\n"
+"POT-Creation-Date: 2022-04-14 17:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,6 +44,10 @@ msgstr "没有博客"
 #: myzoneapp/templates/post/edit.html:32 myzoneapp/templates/post/list.html:55
 msgid "Posts"
 msgstr "博客"
+
+#: myzoneapp/templates/post/detail.html:90
+msgid "Thanks for your reading. Copyright preserved by MyZone."
+msgstr "感谢您的阅读。本网站 MyZone 对本文保留所有权利。"
 
 #: myzoneapp/templates/post/detail.html:98
 msgid "Edit"
@@ -106,8 +110,8 @@ msgstr "提交"
 msgid "Save Draft"
 msgstr "保存草稿"
 
+#: myzoneapp/templates/post/edit.html:250
 #: myzoneapp/templates/post/edit.html:252
-#: myzoneapp/templates/post/edit.html:254
 msgid "Are you sure to leave?"
 msgstr "确定要离开吗？"
 
