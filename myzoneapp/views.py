@@ -229,7 +229,7 @@ def post_edit(request: HttpRequest, post_id: int):
                 'title': post.title,
                 'cover': post.cover,
                 'date': post.date,
-                'category': post.category.select_language(lang).name,
+                'category': post.category.select_language(lang).name if post.category else None,
                 'tags': [x.select_language(lang).name for x in post.tags.all()],
                 'draft': post.draft,
                 'content': post.content

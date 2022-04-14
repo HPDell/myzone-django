@@ -89,7 +89,7 @@ New Post
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="post-category"><h5>{% translate "Category" %}</h5></label>
-                    {% if post %}
+                    {% if post and post.category %}
                     <input type="text" name="category" class="form-control" list="category-list-options" id="post-category" placeholder="Select or create one" value="{{post.category}}">
                     {% else %}
                     <input type="text" name="category" class="form-control" list="category-list-options" id="post-category" placeholder="Select or create one">
