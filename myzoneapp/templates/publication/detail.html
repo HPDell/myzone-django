@@ -1,0 +1,113 @@
+{% extends "publication_base.html" %}
+{% load i18n %}
+{% load l10n %}
+
+{% block pre_modules %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/index.css" />
+<script src="https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/method.min.js"></script>
+<style>
+    #pub-intro pre {
+        word-wrap: break-word;
+        white-space: normal;
+    }
+    #toc {
+        position: sticky;
+        top: 1rem;
+    }
+    #toc-content > ul {
+        padding-left: 0rem;
+    }
+    #toc-content ul li span svg {
+        margin-right: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb align-items-top flex-nowrap">
+            <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="/" class="text-muted text-nowrap">{% translate "Home" %}</a></li>
+            <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="/publication/" class="text-muted text-nowrap">{% translate "Publications" %}</a></li>
+            <li class="breadcrumb-item text-truncate"><span class="text-muted">{{publication.title|truncatewords:8}}</span></li>
+            <!-- {% if publication.doi %}
+            <li class="breadcrumb-item text-truncate"><span class="text-muted">{{publication.doi}}</span></li>
+            {% else %}
+            <li class="breadcrumb-item text-truncate"><span class="text-muted">{{publication.title|truncatewords:5}}</span></li>
+            {% endif %}     -->
+        </ol>
+    </nav>
+</div>
+{% endblock %}
+
+{% block main_content %}
+<div class="row">
+    <div id="publication-title" class="py-2">
+        <h2>{{ publication.title }}</h2>
+        <p class="text-muted">{{ publication.authors }}</p>
+    </div>
+    <div class="col-xl-3 col-lg-4 col-xs-12">
+        <!-- <h5 id="pub-list-header" class="border-start border-4 border-dark ps-3 my-3 flex-grow-1 fw-bold">{% translate "Information" %}</h5> -->
+        <dl>
+            <div class="row">
+                {% if publication.publication_type == 'article' %}
+                    <dt class="col-sm-12">{% translate "Journal" %}</dt>
+                    <dd class="col-sm-12">{{ publication.publisher }}</dd>
+                    {% if publication.volume %}
+                    <dt class="col-sm-12">{% translate "Volume" %}</dt>
+                    <dd class="col-sm-12">{{ publication.volume }}</dd>
+                    {% endif %}
+                    {% if publication.issue %}
+                    <dt class="col-sm-12">{% translate "Issue" %}</dt>
+                    <dd class="col-sm-12">{{ publication.issue }}</dd>
+                    {% endif %}
+                    {% if publication.page_start and publication.page_end %}
+                    <dt class="col-sm-12">{% translate "Pages" %}</dt>
+                    <dd class="col-sm-12">{{ publication.page_start }} - {{ publication.page_end }}</dd>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="row">
+                {% if publication.doi %}
+                <dt class="col-sm-12">DOI</dt>
+                <dd class="col-sm-12"><a target="_blank" href="https://doi.org/{{ publication.doi }}" >{{ publication.doi }}</a></dd>
+                {% elif publication.url %}
+                <dt class="col-sm-12">Url</dt>
+                <dd class="col-sm-12"><a target="_blank" href="{{ publication.url }}">{{ publication.url }}</a></dd>
+                {% endif %}
+            </div>
+        </dl>
+    </div>
+    <div class="col-xl-9 col-lg-8 col-xs-12">
+        <!-- <h5 id="pub-list-header" class="border-start border-4 border-dark ps-3 my-3 flex-grow-1 fw-bold">{% translate "Presentation" %}</h5> -->
+        <div id="pub-intro">
+            <pre>{{ publication.abstract }}</pre>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block post_modules %}
+<script src="/static/latex-macros.js"></script>
+<script>
+    const contentElement = document.getElementById("pub-intro");
+    const markdown = contentElement.innerText;
+    Vditor.preview(contentElement, markdown, {
+        after() {
+            // const outlineElement = document.getElementById("toc-content");
+            // Vditor.outlineRender(contentElement, outlineElement);
+            // if (outlineElement.innerText.trim() !== '') {
+            //     outlineElement.style.display = 'block';
+            // }
+        },
+        math: {
+            inlineDigit: true,
+            engine: 'MathJax',
+            macros: latexMacros
+        }
+    });
+</script>
+{% endblock %}
+

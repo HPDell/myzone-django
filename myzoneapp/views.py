@@ -354,3 +354,9 @@ def publication_list(request: HttpRequest):
         'publications': pub_show_list,
         'year_list': year_list
     })
+
+def publication_page(request: HttpRequest, pub_id: int):
+    pub = get_object_or_404(Publication, pk=pub_id)
+    return render(request, 'publication/detail.html', {
+        'publication': pub
+    })

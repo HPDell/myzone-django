@@ -1,4 +1,5 @@
 from email.policy import default
+from tkinter.tix import Balloon
 from typing import Union
 from django.db import models
 from vditor.fields import VditorTextField
@@ -148,5 +149,6 @@ class Publication(models.Model):
     edition = models.PositiveSmallIntegerField(null=True, blank=True)
     page_start = models.PositiveSmallIntegerField(null=True, blank=True)
     page_end = models.PositiveSmallIntegerField(null=True, blank=True)
+    doi = models.CharField(max_length=255, null=True, blank=True)
     url = models.URLField(null=True, blank=True)
     abstract = VditorTextField(default='')
