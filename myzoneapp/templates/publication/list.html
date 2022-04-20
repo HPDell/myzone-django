@@ -28,46 +28,48 @@
 </div>
 {% endblock %}
 
-
-{% block main_left %}
-{% regroup publications by year as pub_year_list %}
-{% for year in pub_year_list %}
+{% block main_content %}
 <div class="row">
-    <h5 id="pub-list-header" class="border-start border-4 border-dark ps-3 my-3 flex-grow-1">
-        <strong>{{ year.grouper }}</strong>
-    </h5>
-    {% for pub in year.list %}
-    <div class="card g-0 mb-3">
-        <div class="d-flex flex-row align-items-stretch">
-            <div class="publication-info">
-                <div class="card-body">
-                    <!-- <h5 class="card-title">{{ pub.publication_type }}</h5> -->
-                    <p class="card-text mb-1"><strong>
-                        <a href="{{pub.url}}" class="stretched-link text-decoration-none text-dark">{{ pub.title }}</a>
-                    </strong></p>
-                    <p class="card-text mb-1"><small>{{ pub.authors }}</small></p>
-                    <p class="card-text mb-1"><small class="text-muted">{{ pub.other }}</small></p>
+    <div id="main-leftpanel" class="col-xl-9 col-lg-8 col-xs-12">
+        {% regroup publications by year as pub_year_list %}
+        {% for year in pub_year_list %}
+        <div class="row px-3">
+            <h5 id="pub-list-header" class="border-start border-4 border-dark ps-3 my-3 flex-grow-1">
+                <strong>{{ year.grouper }}</strong>
+            </h5>
+            {% for pub in year.list %}
+            <div class="card g-0 mb-3">
+                <div class="d-flex flex-row align-items-stretch">
+                    <div class="publication-info">
+                        <div class="card-body">
+                            <!-- <h5 class="card-title">{{ pub.publication_type }}</h5> -->
+                            <p class="card-text mb-1"><strong>
+                                <a href="/publication/{{pub.id}}/" class="stretched-link text-decoration-none text-dark">{{ pub.title }}</a>
+                            </strong></p>
+                            <p class="card-text mb-1"><small>{{ pub.authors }}</small></p>
+                            <p class="card-text mb-1"><small class="text-muted">{{ pub.other }}</small></p>
+                        </div>
+                    </div>
+                    {% if pub.cover %}
+                    <div class="publication-cover shadow-sm m-2">
+                        <img src="/media/{{ pub.cover }}" alt="" class="rounded-start">
+                    </div>
+                    {% endif %}
                 </div>
             </div>
-            {% if pub.cover %}
-            <div class="publication-cover shadow-sm m-2">
-                <img src="/media/{{ pub.cover }}" alt="" class="rounded-start">
-            </div>
-            {% endif %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <div id="main-sidebar" class="col-xl-3 col-lg-4 col-xs-12">
+        <div id="year" class="row my-3 px-3">
+            <h5 id="year-header" class="border-start border-4 border-dark ps-3">{% translate "Year" %}</h5>
+            <ul id="year-list" class="list-group list-group-flush ps-2">
+                {% for year in year_list %}
+                <a href="/publication/?year={{year.publish_date__year}}" class="list-group-item">{{year.publish_date__year}} ({{year.num_pub}})</a>
+                {% endfor %}
+            </ul>
         </div>
     </div>
-    {% endfor %}
-</div>
-{% endfor %}
-{% endblock %}
-
-{% block main_right %}
-<div id="year" class="row my-3 px-3">
-    <h5 id="year-header" class="border-start border-4 border-dark ps-3">{% translate "Year" %}</h5>
-    <ul id="year-list" class="list-group list-group-flush ps-2">
-        {% for year in year_list %}
-        <a href="/publication/?year={{year.publish_date__year}}" class="list-group-item">{{year.publish_date__year}} ({{year.num_pub}})</a>
-        {% endfor %}
-    </ul>
 </div>
 {% endblock %}
