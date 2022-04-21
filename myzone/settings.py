@@ -96,11 +96,11 @@ WSGI_APPLICATION = 'myzone.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'myzone',
-        'USER': 'admin',
-        'PASSWORD': 'myzonepassword',
-        'HOST': 'db',
-        'PORT': 5432
+        'NAME': os.getenv('DJANGO_DATABASE_NAME', 'myzone'),
+        'USER': os.getenv('DJANGO_DATABASE_USER', 'admin'),
+        'PASSWORD': os.getenv('DJANGO_DATABASE_PASSWORD', 'myzonepassword'),
+        'HOST': os.getenv('DJANGO_DATABASE_HOST', 'db'),
+        'PORT': int(os.getenv('DJANGO_DATABASE_PORT', 5432))
     }
 }
 
