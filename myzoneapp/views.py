@@ -349,7 +349,7 @@ def publication_list(request: HttpRequest):
         'url': pub.url if pub.url is not None else '#',
         'other': pub_other_info(pub)
     } for pub in pub_list.all()]
-    year_list = Publication.objects.values('publish_date__year').annotate(num_pub=Count('id'))
+    year_list = Publication.objects.values('publish_date__year').annotate(num_pub=Count('id')).order_by('-publish_date__year')
     return render(request, 'publication/list.html', {
         'publications': pub_show_list,
         'year_list': year_list
