@@ -54,6 +54,11 @@
                 {% if publication.publication_type == 'article' %}
                     <dt class="col-sm-12">{% translate "Journal" %}</dt>
                     <dd class="col-sm-12">{{ publication.publisher }}</dd>
+                    {% if publication.cover %}
+                    <dd class="col-6">
+                        <img src="/media/{{ publication.cover }}" alt="" class="img-fluid">
+                    </dd>
+                    {% endif %}
                     {% if publication.volume %}
                     <dt class="col-sm-12">{% translate "Volume" %}</dt>
                     <dd class="col-sm-12">{{ publication.volume }}</dd>
