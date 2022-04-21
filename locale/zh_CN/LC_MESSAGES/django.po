@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-14 17:01+0000\n"
+"POT-Creation-Date: 2022-04-21 09:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,26 +17,50 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: myzoneapp/models.py:135
+msgid "Journal Article"
+msgstr "期刊论文"
+
+#: myzoneapp/models.py:136
+msgid "Book (Chapter)"
+msgstr "书（章节）"
+
+#: myzoneapp/models.py:137
+msgid "Conference Proceeding"
+msgstr "会议论文"
+
+#: myzoneapp/models.py:139
+msgid "Unknown"
+msgstr "未知类型"
+
 #: myzoneapp/templates/index.html:22 myzoneapp/templates/post/detail.html:43
 #: myzoneapp/templates/post/edit.html:31 myzoneapp/templates/post/list.html:54
-#: myzoneapp/templates/post_base.html:26 templates/base.html:30
+#: myzoneapp/templates/post_base.html:26
+#: myzoneapp/templates/publication/detail.html:35
+#: myzoneapp/templates/publication/list.html:24
+#: myzoneapp/templates/publication_base.html:26 templates/base.html:30
 msgid "Home"
 msgstr "首页"
 
 #: myzoneapp/templates/index.html:25 myzoneapp/templates/post_base.html:29
-#: templates/base.html:33
+#: myzoneapp/templates/publication_base.html:29 templates/base.html:33
 msgid "Blog"
 msgstr "博客"
 
-#: myzoneapp/templates/index.html:52
+#: myzoneapp/templates/index.html:28 myzoneapp/templates/post_base.html:32
+#: myzoneapp/templates/publication_base.html:32
+msgid "Publication"
+msgstr "发表成果"
+
+#: myzoneapp/templates/index.html:55
 msgid "Recent Posts"
 msgstr "最近博客"
 
-#: myzoneapp/templates/index.html:59
+#: myzoneapp/templates/index.html:62
 msgid "See All..."
 msgstr "查看全部"
 
-#: myzoneapp/templates/index.html:61
+#: myzoneapp/templates/index.html:64
 msgid "No posts."
 msgstr "没有博客"
 
@@ -98,7 +122,7 @@ msgstr "日期"
 msgid "Category"
 msgstr "分类"
 
-#: myzoneapp/templates/post/edit.html:104 myzoneapp/templates/post_base.html:57
+#: myzoneapp/templates/post/edit.html:104 myzoneapp/templates/post_base.html:60
 msgid "Tags"
 msgstr "标签"
 
@@ -131,13 +155,50 @@ msgstr "草稿箱"
 msgid "New"
 msgstr "新建"
 
-#: myzoneapp/templates/post_base.html:46
+#: myzoneapp/templates/post_base.html:49
 msgid "Categories"
 msgstr "分类"
 
-#: myzoneapp/templates/post_base.html:52
+#: myzoneapp/templates/post_base.html:55
 msgid "Not Categoried"
 msgstr "未分类"
+
+#: myzoneapp/templates/publication/detail.html:36
+#: myzoneapp/templates/publication/list.html:25
+msgid "Publications"
+msgstr "发表成果"
+
+#: myzoneapp/templates/publication/detail.html:55
+msgid "Information"
+msgstr "信息"
+
+#: myzoneapp/templates/publication/detail.html:59
+msgid "Journal"
+msgstr "期刊"
+
+#: myzoneapp/templates/publication/detail.html:67
+msgid "Volume"
+msgstr "卷"
+
+#: myzoneapp/templates/publication/detail.html:71
+msgid "Issue"
+msgstr "期"
+
+#: myzoneapp/templates/publication/detail.html:75
+msgid "Pages"
+msgstr "页码"
+
+#: myzoneapp/templates/publication/detail.html:92
+msgid "Presentation"
+msgstr "展示"
+
+#: myzoneapp/templates/publication/detail.html:93
+msgid "Abstract"
+msgstr "摘要"
+
+#: myzoneapp/templates/publication/list.html:66
+msgid "Year"
+msgstr "发表年份"
 
 #: templates/400.html:7
 msgid "Bad Request"
