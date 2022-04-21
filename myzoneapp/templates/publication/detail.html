@@ -79,7 +79,7 @@
                 <dd class="col-sm-12"><a target="_blank" href="https://doi.org/{{ publication.doi }}" >{{ publication.doi }}</a></dd>
                 {% elif publication.url %}
                 <dt class="col-sm-12">Url</dt>
-                <dd class="col-sm-12"><a target="_blank" href="{{ publication.url }}">{{ publication.url }}</a></dd>
+                <dd class="col-sm-12"><a target="_blank" href="{{ publication.url }}"><span class="badge bg-secondary">Open<i class="bi bi-box-arrow-up-right ms-1"></i></span></a></dd>
                 {% endif %}
             </div>
         </dl>
