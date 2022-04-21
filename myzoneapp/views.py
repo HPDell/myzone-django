@@ -9,9 +9,9 @@ from django.core.exceptions import PermissionDenied, BadRequest
 from django.utils.translation import get_language_from_request
 from pathlib import Path
 from myzone import settings
-from django.db.models import ImageField
+from django.db.models import ImageField, Count
 
-from .models import Post, Category, Tag, Profile
+from .models import Post, Category, Tag, Profile, Publication
 from .forms import PostForm
 
 # Create your views here.
@@ -318,3 +318,45 @@ def user_logout(request: HttpRequest):
         logout(request)
     redirect_to = request.GET.get('redirect') or 'home'
     return redirect(to=redirect_to)
+
+
+def pub_other_info(pub: Publication):
+    base_info = f"{pub.publisher}"
+    if pub.publication_type == 'article':
+        if pub.volume:
+            base_info += f", {pub.volume}"
+        if pub.issue:
+            base_info += f" ({pub.issue})"
+        if pub.page_start and pub.page_end:
+            base_info += f": {pub.page_start}-{pub.page_end}"
+    else:
+        if pub.page_start and pub.page_end:
+            base_info += f": {pub.page_start}-{pub.page_end}"
+    return base_info + "."
+
+
+def publication_list(request: HttpRequest):
+    pub_list = Publication.objects.order_by('-publish_date')
+    if (query_year := request.GET.get('year')):
+        pub_list = pub_list.filter(publish_date__year=query_year)
+    pub_show_list = [{
+        'id': pub.id,
+        'title': pub.title,
+        'authors': pub.authors,
+        'cover': pub.cover,
+        'publication_type': Publication.PublicationType(pub.publication_type).label,
+        'year': pub.publish_date.year,
+        'url': pub.url if pub.url is not None else '#',
+        'other': pub_other_info(pub)
+    } for pub in pub_list.all()]
+    year_list = Publication.objects.values('publish_date__year').annotate(num_pub=Count('id')).order_by('-publish_date__year')
+    return render(request, 'publication/list.html', {
+        'publications': pub_show_list,
+        'year_list': year_list
+    })
+
+def publication_page(request: HttpRequest, pub_id: int):
+    pub = get_object_or_404(Publication, pk=pub_id)
+    return render(request, 'publication/detail.html', {
+        'publication': pub
+    })

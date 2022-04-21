@@ -1,9 +1,11 @@
-from typing import Union
 from email.policy import default
+from tkinter.tix import Balloon
+from typing import Union
 from django.db import models
 from vditor.fields import VditorTextField
 from myzone.settings import MEDIA_ROOT, LANGUAGES
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
@@ -125,3 +127,28 @@ class Profile(MultilingualModel):
     avatar = models.ImageField(upload_to='avatars', null=True, blank=True)
     content_en = VditorTextField(default='')
     content_zh_cn = VditorTextField(default='')
+
+
+class Publication(models.Model):
+    
+    class PublicationType(models.TextChoices):
+        ARTICLE = 'article', _('Journal Article')
+        BOOK = 'book', _('Book (Chapter)')
+        CONFERENCE = 'conference', _('Conference Proceeding')
+
+        __empty__ = _('Unknown')
+
+    title = models.CharField(max_length=255)
+    publication_type = models.CharField(max_length=10, choices=PublicationType.choices, default=PublicationType.ARTICLE)
+    authors = models.CharField(max_length=255)
+    publisher = models.CharField(max_length=255)
+    cover = models.ImageField(upload_to='publication_covers', null=True, blank=True)
+    publish_date = models.DateField(null=True, blank=True)
+    volume = models.PositiveSmallIntegerField(null=True, blank=True)
+    issue = models.PositiveSmallIntegerField(null=True, blank=True)
+    edition = models.PositiveSmallIntegerField(null=True, blank=True)
+    page_start = models.PositiveIntegerField(null=True, blank=True)
+    page_end = models.PositiveIntegerField(null=True, blank=True)
+    doi = models.CharField(max_length=255, null=True, blank=True)
+    url = models.URLField(null=True, blank=True)
+    abstract = VditorTextField(default='')

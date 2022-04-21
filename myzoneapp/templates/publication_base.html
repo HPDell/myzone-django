@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}
+Publications
+{% endblock %}
+
+{% block pre_modules %}
+<style>
+    div#main-sidebar {
+        font-size: 0.9rem;
+    }
+    #category-header, #tag-header, #toc-header {
+        padding-left: 1rem;
+        font-weight: bold;
+    }
+    .breadcrumb-item a {
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block header_nav %}
+<ul class="navbar-nav me-auto">
+    <li class="nav-item">
+        <a class="nav-link" href="/">{% translate "Home" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/post/">{% translate "Blog" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/publication/">{% translate "Publication" %}</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block main %}
+<div class="container py-3">
+    {% block breadcrumb %}
+    {% endblock %}
+    {% block main_content %}
+    {% endblock %}
+</div>
+{% endblock %}
