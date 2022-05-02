@@ -1,6 +1,7 @@
 {% extends "post_base.html" %}
 {% load i18n %}
 {% load l10n %}
+{% load thumbnail %}
 
 {% block pre_modules %}
 {{ block.super }}
@@ -83,13 +84,15 @@
             {% if item.cover %}
             <div class="card-img-outer">
                 <div class="card-img-wrapper">
-                    <img src="/media/{{item.cover}}" alt="" srcset="">
+                    {% thumbnail item.cover "384x216" as im %}
+                    <img src="{{im.url}}" alt="" srcset="">
+                    {% endthumbnail %}
                 </div>
             </div>
             {% else %}
             <div class="card-img-outer">
                 <div class="card-img-wrapper">
-                    <img src="/static/covers/default.jpg" alt="" srcset="">
+                    <img src="/static/covers/default-384.jpg" alt="" srcset="">
                 </div>
             </div>
             {% endif %}

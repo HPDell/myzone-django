@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'vditor',
-    'myzoneapp'
+    'myzoneapp',
+    'sorl.thumbnail'
 ]
 
 MIDDLEWARE = [

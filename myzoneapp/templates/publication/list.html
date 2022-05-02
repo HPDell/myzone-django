@@ -1,6 +1,7 @@
 {% extends "publication_base.html" %}
 {% load i18n %}
 {% load l10n %}
+{% load thumbnail %}
 
 {% block pre_modules %}
 {{ block.super }}
@@ -52,7 +53,9 @@
                     </div>
                     {% if pub.cover %}
                     <div class="publication-cover shadow-sm m-2">
-                        <img src="/media/{{ pub.cover }}" alt="" class="rounded-start">
+                        {% thumbnail pub.cover "384x216" as im %}
+                        <img src="{{ im.url }}" alt="" class="rounded-start">
+                        {% endthumbnail %}
                     </div>
                     {% endif %}
                 </div>

@@ -6,6 +6,7 @@ from vditor.fields import VditorTextField
 from myzone.settings import MEDIA_ROOT, LANGUAGES
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
+from sorl.thumbnail import ImageField as ThumbImageField
 
 # Create your models here.
 
@@ -111,7 +112,7 @@ class Tag(MultilingualModel):
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
-    cover = models.ImageField(upload_to='covers', null=True, blank=True)
+    cover = ThumbImageField(upload_to='covers', null=True, blank=True)
     date = models.DateField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
@@ -142,7 +143,7 @@ class Publication(models.Model):
     publication_type = models.CharField(max_length=10, choices=PublicationType.choices, default=PublicationType.ARTICLE)
     authors = models.CharField(max_length=255)
     publisher = models.CharField(max_length=255)
-    cover = models.ImageField(upload_to='publication_covers', null=True, blank=True)
+    cover = ThumbImageField(upload_to='publication_covers', null=True, blank=True)
     publish_date = models.DateField(null=True, blank=True)
     volume = models.PositiveSmallIntegerField(null=True, blank=True)
     issue = models.PositiveSmallIntegerField(null=True, blank=True)
