@@ -41,12 +41,13 @@ services:
       - "db:db"
     restart: unless-stopped
     environment:
-      - DJANGO_SUPERUSER_USERNAME=admin
-      - DJANGO_SUPERUSER_EMAIL=admin@example.com
-      - DJANGO_SUPERUSER_PASSWORD=myzonepassword
-      - DJANGO_DATABASE_USER=admin
-      - DJANGO_DATABASE_PASSWORD=myzonepassword
-      - DJANGO_DATABASE_NAME=myzone
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_EMAIL: admin@example.com
+      DJANGO_SUPERUSER_PASSWORD: myzonepassword
+      DJANGO_DATABASE_USER: admin
+      DJANGO_DATABASE_PASSWORD: myzonepassword
+      DJANGO_DATABASE_NAME: myzone
+      MYZONE_HOST: example.com
 
   db:
     image: postgres:latest
