@@ -110,6 +110,13 @@ class Tag(MultilingualModel):
         return f"{self.name}"
 
 
+class PostPermanent(models.Model):
+    title = models.CharField(max_length=255, unique=True)
+
+    def __str__(self) -> str:
+        return f"{self.title}"
+
+
 class Post(models.Model):
     title = models.CharField(max_length=255)
     cover = ThumbImageField(upload_to='covers', null=True, blank=True)
@@ -118,9 +125,19 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     draft = models.BooleanField(default=False)
     content = VditorTextField(default='')
+    permanent = models.ForeignKey(PostPermanent, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.title} | {self.date}"
+
+
+class PostTranslate(models.Model):
+    permanent = models.ForeignKey(PostPermanent, on_delete=models.CASCADE)
+    language = models.CharField(max_length=7, choices=LANGUAGES)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (('permanent', 'language'),)
 
 
 class Profile(MultilingualModel):
