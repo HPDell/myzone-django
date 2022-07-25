@@ -11,7 +11,7 @@ from pathlib import Path
 from myzone import settings
 from django.db.models import ImageField, Count
 
-from .models import Post, Category, Tag, Profile, Publication
+from .models import Post, Category, Tag, Profile, Publication, PostTranslate, PostPermanent
 from .forms import PostForm
 
 # Create your views here.
@@ -55,6 +55,9 @@ def post_list(request: HttpRequest):
     Post list page. `/post/`
     """
     lang = get_language_suffix_from_request(request)
+    post_trans = PostTranslate.objects.filter(language=get_language_from_request(request))
+    post_permanent = PostPermanent.objects.filter(pk__in=[x.id for x in post_trans])
+    posts_qs = Post.objects.filter(permanent__in=post_permanent)
     ''' Get categories and tags
     '''
     categories_tags = get_categories_tags(request)
@@ -64,7 +67,7 @@ def post_list(request: HttpRequest):
         if not request.user.is_authenticated:
             raise PermissionDenied
 
-        posts = Post.objects.filter(draft=True).order_by("-date").all()
+        posts = posts_qs.filter(draft=True).order_by("-date").all()
         return render(request, 'post/list.html', {
             'posts': [{
                 'id': post.id,
@@ -74,33 +77,32 @@ def post_list(request: HttpRequest):
                 'category': post.category.select_language(lang) if post.category else None,
                 'tags': [x.select_language(lang) for x in post.tags.all()],
                 'draft': post.draft,
-                'content': post.content
+                'content': post.content,
+                'permanent': post.permanent.title
             } for post in posts],
             **categories_tags,
             'show_not_categoried': Post.objects.filter(category__isnull=True).exists()
         })
     ''' Non-drafts
     '''
-    posts_qs = None
-    ''' Filter by categories
-    '''
     if (category_id := request.GET.get('category')) is not None:
+        ''' Filter by categories
+        '''
         if category_id == 'null':
-            posts_qs = Post.objects.filter(category__isnull=True)
+            posts_qs = posts_qs.filter(category__isnull=True)
         elif (category := Category.objects.filter(pk=category_id).first()) is not None:
-            posts_qs = Post.objects.filter(category=category)
+            posts_qs = posts_qs.filter(category=category)
         else:
-            posts_qs = Post.objects
-    ''' Filter by tags
-    '''
+            posts_qs = posts_qs
     if (tag_id := request.GET.get('tag')) is not None:
+        ''' Filter by tags
+        '''
         if (tag := Tag.objects.filter(pk=tag_id).first()) is not None:
-            posts_qs = Post.objects.filter(tags=tag)
+            posts_qs = posts_qs.filter(tags=tag)
         else:
-            posts_qs = Post.objects
+            posts_qs = posts_qs
     ''' If not filtered, return all data.
     '''
-    posts_qs = Post.objects if posts_qs is None else posts_qs
     posts = [{
         'id': post.id,
         'title': post.title,
@@ -109,7 +111,8 @@ def post_list(request: HttpRequest):
         'category': post.category.select_language(lang) if post.category else None,
         'tags': [x.select_language(lang) for x in post.tags.all()],
         'draft': post.draft,
-        'content': post.content
+        'content': post.content,
+        'permanent': post.permanent.title
     } for post in posts_qs.filter(draft=False).order_by("-date").all()]
     ''' Pagination
     '''
@@ -137,12 +140,14 @@ def post_list(request: HttpRequest):
         return redirect(r'/post/')
 
 
-def post_page(request: HttpRequest, post_id: int):
+def post_page(request: HttpRequest, permanent_title: str):
     """
     Post detail page. `/post/id/`
     """
     lang = get_language_suffix_from_request(request)
-    post: Post = get_object_or_404(Post, pk=post_id)
+    permanent = get_object_or_404(PostPermanent, title=permanent_title)
+    post_trans = get_object_or_404(PostTranslate, permanent=permanent, language=get_language_from_request(request))
+    post: Post = get_object_or_404(Post, pk=post_trans.post.id)
     
     if post.draft:
         if not request.user.is_authenticated:
