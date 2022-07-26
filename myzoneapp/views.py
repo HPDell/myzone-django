@@ -56,7 +56,7 @@ def post_list(request: HttpRequest):
     """
     lang = get_language_suffix_from_request(request)
     post_trans = PostTranslate.objects.filter(language=get_language_from_request(request))
-    post_permanent = PostPermanent.objects.filter(pk__in=[x.id for x in post_trans])
+    post_permanent = PostPermanent.objects.filter(pk__in=[x.permanent.id for x in post_trans])
     posts_qs = Post.objects.filter(permanent__in=post_permanent)
     ''' Get categories and tags
     '''
@@ -183,16 +183,33 @@ def post_new(request: HttpRequest):
         lang = get_language_suffix_from_request(request)
         form = PostForm(request.POST)
         if form.is_valid():
-            from_data = form.cleaned_data
+            form_data = form.cleaned_data
+            ''' Create Permanent Item
+            '''
+            permanent_title = form_data['permanent']
+            if PostPermanent.objects.filter(title=permanent_title).count() > 0:
+                ''' When permanent title already exists
+                '''
+                post_permanent = PostPermanent.objects.get(title=permanent_title)
+                if PostTranslate.objects.filter(permanent=post_permanent, language=get_language_from_request(request)).count() > 0:
+                    raise BadRequest
+                
+            else:            
+                post_permanent = PostPermanent()
+                post_permanent.title = permanent_title
+                post_permanent.save()
+            ''' Create Post Item
+            '''
             new_post = Post()
-            new_post.title = from_data['title']
+            new_post.title = form_data['title']
+            new_post.permanent = post_permanent
             if (new_cover := request.FILES.get('cover')) is not None:
                 fss = FileSystemStorage()
-                cover_file = request.FILES['cover']
+                cover_file = new_cover
                 cover = fss.save(cover_file.name, cover_file)
                 new_post.cover = cover
-            new_post.date = from_data['date']
-            category_name = from_data['category']
+            new_post.date = form_data['date']
+            category_name = form_data['category']
             if len(category_name) > 0:
                 category_filter_options = { f"name_{lang}": category_name }
                 if (category_query := Category.objects.filter(**category_filter_options)).exists():
@@ -204,7 +221,7 @@ def post_new(request: HttpRequest):
             else:
                 new_post.category = None
             new_post.draft = True if 'draft' in request.POST else False
-            new_post.content = from_data['content']
+            new_post.content = form_data['content']
             new_post.save()
             tag_name_list = request.POST.getlist('tags')
             for tag in tag_name_list:
@@ -215,7 +232,14 @@ def post_new(request: HttpRequest):
                     tag_new = Tag(**tags_filter_options)
                     tag_new.save()
                     new_post.tags.add(tag_new)
-            return redirect(to='post_page', post_id=new_post.id)
+            ''' Create Post Translate
+            '''
+            new_translate = PostTranslate()
+            new_translate.permanent = post_permanent
+            new_translate.language = get_language_from_request(request)
+            new_translate.post = new_post
+            new_translate.save()
+            return redirect(to='post_page', permanent_title=post_permanent.title)
         else:
             raise BadRequest
 
