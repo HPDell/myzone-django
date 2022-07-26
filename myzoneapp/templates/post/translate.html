@@ -1,0 +1,176 @@
+{% extends "post_base.html" %}
+{% load i18n %}
+
+{% block title %}
+{% if post %}
+{{post.title}} | {{post.date|date:"Y-m-d"}}
+{% else %}
+New Post
+{% endif %}
+{% endblock %}
+
+{% block pre_modules %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/index.css" />
+<script src="https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/index.min.js"></script>
+<style>
+    #post-origin {
+        height: calc(100vh - 9rem);
+    }
+    #vditor {
+        height: calc(100vh - 12rem);
+    }
+    #post-origin pre {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+    #post-content {
+        display: none;
+    }
+    #vditor {
+        min-height: 60vh;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="container py-3">
+    {% block breadcrumb %}
+    <div class="row">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb align-items-top flex-nowrap">
+                <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="/" class="text-muted text-nowrap">{% translate "Home" %}</a></li>
+                <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="/post/" class="text-muted text-nowrap">{% translate "Posts" %}</a></li>
+                <li class="breadcrumb-item text-truncate"><span class="text-muted">{{post_origin.title}}</span></li>
+            </ol>
+        </nav>
+    </div>
+    {% endblock %}
+    <div class="row pt-3">
+        <div class="col-6 d-flex flex-column">
+            <h5 id="post-origin-header" class="fw-bold border-start border-4 border-dark ps-3 mb-4">{% translate "Origin Post" %}</h5>
+            <div id="post-origin">
+                <pre>{{ post_origin.content }}</pre>
+            </div>
+        </div>
+        <div class="col-6">
+            <h5 id="post-translate-header" class="fw-bold border-start border-4 border-dark ps-3 mb-4">{% translate "Translate Post" %}</h5>
+            <form action="/post/{{permanent}}/translate/{{language}}/" method="POST">
+                {% csrf_token %}
+                <div class="mb-3 ">
+                    {% translate "Title" as post_title_placeholder %}
+                    <input name="title" id="post-title" class="form-control form-control-sm" type="text" placeholder="{{ post_title_placeholder }}">
+                </div>
+                <div id="post-translate" class="mb-3">
+                    <div id="vditor"></div>
+                    <textarea name="content" id="post-content" cols="40" rows="10"></textarea>
+                </div>
+                <div class="hstack gap-2">
+                    <button type="submit" name="publish" class="btn btn-primary" onclick="formSubmit()">{% translate "Submit" %}</button>
+                    <div class="vr"></div>
+                    <button type="submit" name="draft" class="btn btn-outline-secondary" onclick="formSubmit()">{% translate "Save Draft" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block post_modules %}
+<script src="/static/latex-macros.js"></script>
+<script>
+    const contentElement = document.getElementById("post-origin");
+    const markdown = contentElement.innerText;
+    Vditor.preview(contentElement, markdown, {
+        math: {
+            inlineDigit: true,
+            engine: 'MathJax',
+            macros: latexMacros
+        }
+    });
+    const hintMap = (function () {
+        var hints = new Map();
+        const environments = [
+            'matrix', 'pmatrix', 'bmatrix', 'vmatrix', 'aligned', 'array'
+        ]
+        for (const item of environments) {
+            hints.set(item, {
+                value: `\\begin{${item}}\n\\end{${item}}`,
+                html: `\\begin{${item}}`
+            });
+        }
+        const bracketMap = {
+            'r': ['(', ')'],
+            's': ['[', ']'],
+            'c': ['\\{', '\\}'],
+            'v': ['|', '|'],
+            'V': ['\\|', '\\|'],
+        }
+        const brackets = ['leftrr', 'leftss', 'leftcc', 'leftrs', 'leftsr', 'leftvv', 'leftVV']
+        for (const item of brackets) {
+            var left = bracketMap[item.charAt(4)][0]
+            var right = bracketMap[item.charAt(5)][1]
+            hints.set(item, {
+                value: `\\left${left}  \\right${right}`,
+                html: `\\left${left}\\right${right}`
+            });
+        }
+        return hints;
+    })();
+    const vditor = new Vditor('vditor', {
+        width: '100%',
+        value: '',
+        cache: {
+            enabled: false
+        },
+        preview: {
+            math: {
+                inlineDigit: true,
+                engine: 'MathJax',
+                macros: latexMacros
+            }
+        },
+        upload: {
+            url: '/vditor/uploads/',
+            linkToImgUrl: '/vditor/uploads/',
+            accept: '.jpg,.png,.gif,.jpeg',
+            filename(name) {
+                return name.replace(/\?|\\|\/|:|\||<|>|\*|\[|\]|\s+/g, '-')
+            },
+        },
+        after() {
+            vditor.clearCache()
+            vditor.setValue(document.getElementById('post-content').value)
+        },
+        input(md) {
+            document.getElementById('post-content').value = md
+        },
+        hint: {
+            extend: [{
+                key: "\\",
+                hint: (key) => {
+                    var hints = Array.from(hintMap.keys()).filter(hint => (hint.indexOf(key) >= 0));
+                    return hints.map(item => hintMap.get(item));
+                }
+            }]
+        }
+    });
+</script>
+<script>
+    var showLeaveAlert = true;
+    function formSubmit() {
+        console.log("formSubmit");
+        showLeaveAlert = false;
+    }
+    window.addEventListener("beforeunload", function (e) {
+        e = e || window.event;
+        if (showLeaveAlert) {
+            e.preventDefault()
+            if (e) {
+                e.returnValue = '{% translate "Are you sure to leave?" %}';
+            }
+            return '{% translate "Are you sure to leave?" %}';
+        }
+    }, false);
+</script>
+{% endblock %}

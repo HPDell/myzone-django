@@ -6,13 +6,13 @@ from django.contrib.auth.decorators import permission_required
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied, BadRequest
-from django.utils.translation import get_language_from_request
+from django.utils.translation import get_language_from_request, get_language_info
 from pathlib import Path
 from myzone import settings
 from django.db.models import ImageField, Count
 
 from .models import Post, Category, Tag, Profile, Publication, PostTranslate, PostPermanent
-from .forms import PostForm
+from .forms import PostForm, PostTranslateForm
 
 # Create your views here.
 def get_language_suffix_from_request(request: HttpRequest):
@@ -56,8 +56,7 @@ def post_list(request: HttpRequest):
     """
     lang = get_language_suffix_from_request(request)
     post_trans = PostTranslate.objects.filter(language=get_language_from_request(request))
-    post_permanent = PostPermanent.objects.filter(pk__in=[x.permanent.id for x in post_trans])
-    posts_qs = Post.objects.filter(permanent__in=post_permanent)
+    posts_qs = Post.objects.filter(pk__in=[x.post.id for x in post_trans])
     ''' Get categories and tags
     '''
     categories_tags = get_categories_tags(request)
@@ -152,6 +151,11 @@ def post_page(request: HttpRequest, permanent_title: str):
     if post.draft:
         if not request.user.is_authenticated:
             raise PermissionDenied
+    
+    ''' Find languages that this post hasn't been translated to
+    '''
+    post_languages = [x.language for x in PostTranslate.objects.filter(permanent=permanent).all()]
+    translatable_language = [get_language_info(x) for x in [l[0] for l in settings.LANGUAGES] if x not in post_languages]
 
     return render(request, 'post/detail.html', {
         'post': {
@@ -167,7 +171,8 @@ def post_page(request: HttpRequest, permanent_title: str):
         },
         # 'post_tags': post.tags.all(),
         **get_categories_tags(request),
-        'show_not_categoried': Post.objects.filter(category__isnull=True).exists()
+        'show_not_categoried': Post.objects.filter(category__isnull=True).exists(),
+        'translatable_language': translatable_language
     })
 
 
@@ -317,6 +322,51 @@ def post_edit(request: HttpRequest, permanent_title: str):
         else:
             raise BadRequest
 
+
+@permission_required('myzoneapp.create_post')
+def post_translate(request: HttpRequest, permanent_title: str, lang_code: str):
+    current_lang = get_language_from_request(request)
+    permanent = get_object_or_404(PostPermanent, title=permanent_title)
+    post_origin = get_object_or_404(PostTranslate, permanent=permanent, language=current_lang).post
+
+    if PostTranslate.objects.filter(permanent=permanent, language=lang_code).count() > 0:
+        raise BadRequest
+
+    if request.method == 'GET':
+        return render(request, 'post/translate.html', {
+            'post_origin': post_origin,
+            'permanent': permanent_title,
+            'language': lang_code
+        })
+    
+    if request.method == 'POST':
+        form = PostTranslateForm(request.POST)
+        if form.is_valid():
+            form_data = form.cleaned_data
+            ''' Create Post Item
+            '''
+            new_post = Post()
+            new_post.title = form_data['title']
+            new_post.cover = post_origin.cover
+            new_post.date = post_origin.date
+            new_post.category = post_origin.category
+            new_post.draft = post_origin.draft
+            new_post.content = form_data['content']
+            new_post.permanent = post_origin.permanent
+            new_post.draft = True if 'draft' in request.POST else False
+            new_post.save()
+            new_post.tags.set(post_origin.tags.all())
+            ''' Create PostTranslate Item
+            '''
+            new_post_trans = PostTranslate()
+            new_post_trans.permanent = permanent
+            new_post_trans.language = lang_code
+            new_post_trans.post = new_post
+            new_post_trans.save()
+            return redirect('post_page', permanent_title=permanent_title)
+        else:
+            raise BadRequest("Submitted form is not valid.")
+    
 
 @permission_required('myzoneapp.delete_post')
 def post_delete(request: HttpRequest, permanent_title: str):
