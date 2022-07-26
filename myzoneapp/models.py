@@ -96,7 +96,7 @@ class MultilingualModel(models.Model):
 
 class Category(MultilingualModel):
     name_en = models.CharField(max_length=15, default='', blank=True)
-    name_zh_cn = models.CharField(max_length=15, default='', blank=True)
+    name_zh_hans = models.CharField(max_length=15, default='', blank=True)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -104,7 +104,7 @@ class Category(MultilingualModel):
 
 class Tag(MultilingualModel):
     name_en = models.CharField(max_length=15, default='', blank=True)
-    name_zh_cn = models.CharField(max_length=15, default='', blank=True)
+    name_zh_hans = models.CharField(max_length=15, default='', blank=True)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -144,7 +144,7 @@ class Profile(MultilingualModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     avatar = models.ImageField(upload_to='avatars', null=True, blank=True)
     content_en = VditorTextField(default='')
-    content_zh_cn = VditorTextField(default='')
+    content_zh_hans = VditorTextField(default='')
 
 
 class Publication(models.Model):

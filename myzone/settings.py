@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 import mimetypes
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,19 +56,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
-USE_I18N = True
-USE_TZ = True
-LANGUAGES = [
-    ("en", "English"),
-    ("zh-cn", "Chinese")
-]
-LOCALE_PATHS = [
-    BASE_DIR / 'locale'
-]
-FORMAT_MODULE_PATH = [
-    'myzoneapp.formats'
 ]
 
 ROOT_URLCONF = 'myzone.urls'
@@ -128,13 +116,26 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+
+LANGUAGES = [
+    ("en", _("English")),
+    ("zh-hans", _("Chinese"))
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale'
+]
+
+FORMAT_MODULE_PATH = [
+    'myzoneapp.formats'
+]
 
 
 # Static files (CSS, JavaScript, Images)

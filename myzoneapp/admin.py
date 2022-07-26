@@ -9,11 +9,11 @@ class PostAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name_en', 'name_zh_cn')
+    list_display = ('id', 'name_en', 'name_zh_hans')
 
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name_en', 'name_zh_cn')
+    list_display = ('id', 'name_en', 'name_zh_hans')
 
 
 class PublicationAdmin(admin.ModelAdmin):
