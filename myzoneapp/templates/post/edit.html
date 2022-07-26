@@ -36,7 +36,7 @@ New Post
     </div>
     {% if post %}
     <h1 class="fw-bold">{% translate "Edit Post" %}</h1>
-    <form action="/post/{{post.id}}/edit/" method="post" class="py-3" enctype="multipart/form-data">
+    <form action="/post/{{post.permanent.title}}/edit/" method="post" class="py-3" enctype="multipart/form-data">
     {% else %}
     <h1 class="fw-bold">{% translate "New Post" %}</h1>
     <form action="/post/new/" method="post" class="py-3" enctype="multipart/form-data">
@@ -62,12 +62,14 @@ New Post
                 </div>
             </div>
             <div class="col-xl-4 col-lg-3 col-xs-12">
-                {% if not post %}
                 <div class="mb-3">
                     <label class="form-label" for="post-permanent"><h5>{% translate "Permanent Link" %}</h5></label>
+                    {% if post %}
+                    <input type="input" name="permanent" class="form-control" id="post-permanent" value="{{ post.permanent.title }}" readonly>
+                    {% else %}
                     <input type="input" name="permanent" class="form-control" id="post-permanent" value="post-{% now 'Ymd' %}">
+                    {% endif %}
                 </div>
-                {% endif %}
                 <div class="mb-3">
                     <label class="form-label" for="post-cover"><h5>{% translate "Cover" %}</h5></label>
                     {% if post %}

@@ -162,7 +162,8 @@ def post_page(request: HttpRequest, permanent_title: str):
             'category': post.category.select_language(lang) if post.category else None,
             'tags': [x.select_language(lang) for x in post.tags.all()],
             'draft': post.draft,
-            'content': post.content
+            'content': post.content,
+            'permanent': post.permanent
         },
         # 'post_tags': post.tags.all(),
         **get_categories_tags(request),
@@ -245,11 +246,15 @@ def post_new(request: HttpRequest):
 
 
 @permission_required('myzoneapp.change_post')
-def post_edit(request: HttpRequest, post_id: int):
+def post_edit(request: HttpRequest, permanent_title: str):
     """
     """
+    lang = get_language_from_request(request)
+    lang_suffix = get_language_suffix_from_request(request)
+    permanent = get_object_or_404(PostPermanent, title=permanent_title)
+    post_id = get_object_or_404(PostTranslate, permanent=permanent, language=lang).post.id
+
     if request.method == "GET":
-        lang = get_language_suffix_from_request(request)
         post = get_object_or_404(Post, pk=post_id)
         return render(request, 'post/edit.html', {
             **get_categories_tags(request),
@@ -258,15 +263,16 @@ def post_edit(request: HttpRequest, post_id: int):
                 'title': post.title,
                 'cover': post.cover,
                 'date': post.date,
-                'category': post.category.select_language(lang).name if post.category else None,
-                'tags': [x.select_language(lang).name for x in post.tags.all()],
+                'category': post.category.select_language(lang_suffix).name if post.category else None,
+                'tags': [x.select_language(lang_suffix).name for x in post.tags.all()],
                 'draft': post.draft,
-                'content': post.content
+                'content': post.content,
+                'permanent': post.permanent
             }
         })
     
     elif request.method == "POST":
-        lang = get_language_suffix_from_request(request)
+        lang_suffix = get_language_suffix_from_request(request)
         form = PostForm(request.POST)
         if form.is_valid():
             from_data = form.cleaned_data
@@ -286,7 +292,7 @@ def post_edit(request: HttpRequest, post_id: int):
             new_post.date = from_data['date']
             category_name = from_data['category']
             if len(category_name) > 0:
-                category_filter_options = { f"name_{lang}": category_name }
+                category_filter_options = { f"name_{lang_suffix}": category_name }
                 if (category_query := Category.objects.filter(**category_filter_options)).exists():
                     category = category_query.first()
                 else:
@@ -300,14 +306,14 @@ def post_edit(request: HttpRequest, post_id: int):
             new_post.save()
             tag_name_list = request.POST.getlist('tags')
             for tag in tag_name_list:
-                tags_filter_options = { f"name_{lang}": tag }
+                tags_filter_options = { f"name_{lang_suffix}": tag }
                 if (tag_query := Tag.objects.filter(**tags_filter_options)).exists():
                     new_post.tags.add(tag_query.first())
                 else:
                     tag_new = Tag(**tags_filter_options)
                     tag_new.save()
                     new_post.tags.add(tag_new)
-            return redirect(to='post_page', post_id=new_post.id)
+            return redirect(to='post_page', permanent_title=new_post.permanent.title)
         else:
             raise BadRequest
 

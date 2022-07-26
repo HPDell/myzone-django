@@ -99,7 +99,7 @@
 {% if user.is_authenticated %}
 <div id="actions" class="row d-grid gap-2 my-3 px-3">
     {% if perms.myzoneapp.change_post %}
-    <a href="/post/{{post.id}}/edit/" class="btn btn-sm btn-secondary" role="button">{% translate "Edit" %}</a>
+    <a href="/post/{{post.permanent.title}}/edit/" class="btn btn-sm btn-secondary" role="button">{% translate "Edit" %}</a>
     {% endif %}
     {% if perms.myzoneapp.delete_post %}
     <a href="#" class="btn btn-sm btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#post-delete-modal">{% translate "Delete" %}</a>
@@ -114,7 +114,7 @@
                     Are you sure to delete post <i>{{post.title}}</i>?
                 </div>
                 <div class="modal-footer">
-                    <form action="/post/{{post.id}}/delete/" method="post">
+                    <form action="/post/{{post.permanent.title}}/delete/" method="post">
                         {% csrf_token %}
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</button>
                         <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
