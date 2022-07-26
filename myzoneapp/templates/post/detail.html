@@ -58,14 +58,14 @@
     <img src="/media/{{post.cover}}" id="post-cover" class="py-3" alt="" srcset="">
     {% endif %}
     <h1 id="title" class="py-2 fw-bold">
-        <span class="position-relative">{{ post.title }}
-            {% if post.draft %}
-            <span class="position-absolute top-0 start-100 rounded-pill bg-secondary text-white fs-6 px-2 py-1 ms-1">Draft</span>
-            {% endif %}
-        </span>
+        <span>{{ post.title }}</span>
     </h1>
     <div class="d-flex flex-row flex-wrap gap-3 text-muted post-info">
         <div class="gap-3 d-flex flex-row flex-wrap">
+            {% if post.draft %}
+            <div><span class="rounded-pill bg-secondary text-white fs-6 px-2 ms-1">Draft</span></div>
+            <div class="vr"></div>
+            {% endif %}
             <div id="post-author" class="post-info-item"><i class="bi bi-pencil-fill pe-2"></i><span>HPDell</span></div>
             <div class="vr"></div>
             <div id="post-date" class="post-info-item"><i class="bi bi-calendar pe-2"></i><span>{{ post.date|localize }}</span></div>
