@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-21 09:47+0000\n"
+"POT-Creation-Date: 2022-07-26 11:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,28 +16,37 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
-#: myzoneapp/models.py:135
+#: myzone/settings.py:128
+msgid "English"
+msgstr ""
+
+#: myzone/settings.py:129
+msgid "Chinese"
+msgstr "简体中文"
+
+#: myzoneapp/models.py:153
 msgid "Journal Article"
-msgstr "期刊论文"
+msgstr "期刊文章"
 
-#: myzoneapp/models.py:136
+#: myzoneapp/models.py:154
 msgid "Book (Chapter)"
 msgstr "书（章节）"
 
-#: myzoneapp/models.py:137
+#: myzoneapp/models.py:155
 msgid "Conference Proceeding"
 msgstr "会议论文"
 
-#: myzoneapp/models.py:139
+#: myzoneapp/models.py:157
 msgid "Unknown"
 msgstr "未知类型"
 
-#: myzoneapp/templates/index.html:22 myzoneapp/templates/post/detail.html:43
-#: myzoneapp/templates/post/edit.html:31 myzoneapp/templates/post/list.html:54
+#: myzoneapp/templates/index.html:22 myzoneapp/templates/post/detail.html:47
+#: myzoneapp/templates/post/edit.html:31 myzoneapp/templates/post/list.html:55
 #: myzoneapp/templates/post_base.html:26
 #: myzoneapp/templates/publication/detail.html:35
-#: myzoneapp/templates/publication/list.html:24
+#: myzoneapp/templates/publication/list.html:25
 #: myzoneapp/templates/publication_base.html:26 templates/base.html:30
 msgid "Home"
 msgstr "首页"
@@ -62,41 +71,45 @@ msgstr "查看全部"
 
 #: myzoneapp/templates/index.html:64
 msgid "No posts."
-msgstr "没有博客"
+msgstr "没有博客。"
 
-#: myzoneapp/templates/post/detail.html:44
-#: myzoneapp/templates/post/edit.html:32 myzoneapp/templates/post/list.html:55
+#: myzoneapp/templates/post/detail.html:48
+#: myzoneapp/templates/post/edit.html:32 myzoneapp/templates/post/list.html:56
 msgid "Posts"
 msgstr "博客"
 
-#: myzoneapp/templates/post/detail.html:90
+#: myzoneapp/templates/post/detail.html:94
 msgid "Thanks for your reading. Copyright preserved by MyZone."
 msgstr "感谢您的阅读。本网站 MyZone 对本文保留所有权利。"
 
-#: myzoneapp/templates/post/detail.html:98
+#: myzoneapp/templates/post/detail.html:102
 msgid "Edit"
 msgstr "编辑"
 
-#: myzoneapp/templates/post/detail.html:101
-#: myzoneapp/templates/post/detail.html:116
+#: myzoneapp/templates/post/detail.html:107
+msgid "Translate"
+msgstr "翻译"
+
+#: myzoneapp/templates/post/detail.html:122
+#: myzoneapp/templates/post/detail.html:137
 msgid "Delete"
 msgstr "删除"
 
-#: myzoneapp/templates/post/detail.html:106
+#: myzoneapp/templates/post/detail.html:127
 msgid "Delete Confirm"
 msgstr "确认删除"
 
-#: myzoneapp/templates/post/detail.html:115
+#: myzoneapp/templates/post/detail.html:136
 msgid "Close"
 msgstr "关闭"
 
-#: myzoneapp/templates/post/detail.html:127
+#: myzoneapp/templates/post/detail.html:148
 msgid "Contents"
 msgstr "目录"
 
 #: myzoneapp/templates/post/edit.html:38
 msgid "Edit Post"
-msgstr "编辑"
+msgstr "编辑博客"
 
 #: myzoneapp/templates/post/edit.html:41
 msgid "New Post"
@@ -107,51 +120,55 @@ msgid "Title"
 msgstr "标题"
 
 #: myzoneapp/templates/post/edit.html:66
+msgid "Permanent Link"
+msgstr "永久链接"
+
+#: myzoneapp/templates/post/edit.html:74
 msgid "Cover"
 msgstr "封面"
 
-#: myzoneapp/templates/post/edit.html:72
+#: myzoneapp/templates/post/edit.html:80
 msgid "Clear"
 msgstr "清除"
 
-#: myzoneapp/templates/post/edit.html:83
+#: myzoneapp/templates/post/edit.html:91
 msgid "Date"
 msgstr "日期"
 
-#: myzoneapp/templates/post/edit.html:91
+#: myzoneapp/templates/post/edit.html:99
 msgid "Category"
 msgstr "分类"
 
-#: myzoneapp/templates/post/edit.html:104 myzoneapp/templates/post_base.html:60
+#: myzoneapp/templates/post/edit.html:112 myzoneapp/templates/post_base.html:60
 msgid "Tags"
 msgstr "标签"
 
-#: myzoneapp/templates/post/edit.html:124
+#: myzoneapp/templates/post/edit.html:132
 msgid "Submit"
 msgstr "提交"
 
-#: myzoneapp/templates/post/edit.html:126
+#: myzoneapp/templates/post/edit.html:134
 msgid "Save Draft"
 msgstr "保存草稿"
 
-#: myzoneapp/templates/post/edit.html:250
-#: myzoneapp/templates/post/edit.html:252
+#: myzoneapp/templates/post/edit.html:258
+#: myzoneapp/templates/post/edit.html:260
 msgid "Are you sure to leave?"
 msgstr "确定要离开吗？"
 
-#: myzoneapp/templates/post/list.html:65
+#: myzoneapp/templates/post/list.html:66
 msgid "Post List"
 msgstr "博客列表"
 
-#: myzoneapp/templates/post/list.html:69
+#: myzoneapp/templates/post/list.html:70
 msgid "Published"
 msgstr "已发布"
 
-#: myzoneapp/templates/post/list.html:71
+#: myzoneapp/templates/post/list.html:72
 msgid "Drafts"
 msgstr "草稿箱"
 
-#: myzoneapp/templates/post/list.html:75
+#: myzoneapp/templates/post/list.html:76
 msgid "New"
 msgstr "新建"
 
@@ -164,7 +181,7 @@ msgid "Not Categoried"
 msgstr "未分类"
 
 #: myzoneapp/templates/publication/detail.html:36
-#: myzoneapp/templates/publication/list.html:25
+#: myzoneapp/templates/publication/list.html:26
 msgid "Publications"
 msgstr "发表成果"
 
@@ -196,9 +213,9 @@ msgstr "展示"
 msgid "Abstract"
 msgstr "摘要"
 
-#: myzoneapp/templates/publication/list.html:66
+#: myzoneapp/templates/publication/list.html:69
 msgid "Year"
-msgstr "发表年份"
+msgstr "年"
 
 #: templates/400.html:7
 msgid "Bad Request"
