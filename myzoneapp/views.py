@@ -319,10 +319,19 @@ def post_edit(request: HttpRequest, permanent_title: str):
 
 
 @permission_required('myzoneapp.delete_post')
-def post_delete(request: HttpRequest, post_id: int):
+def post_delete(request: HttpRequest, permanent_title: str):
+    lang = get_language_from_request(request)
+    permanent = get_object_or_404(PostPermanent, title=permanent_title)
+    post_id = get_object_or_404(PostTranslate, permanent=permanent, language=lang).post.id
+
     if request.method == 'POST':
         post = get_object_or_404(Post, pk=post_id)
+        post_permanent = post.permanent
         post.delete()
+        ''' If there is no other version, delete the permanent
+        '''
+        if post_permanent is not None and PostTranslate.objects.filter(permanent=post_permanent).count() < 1:
+            post_permanent.delete()
         return redirect(to='post_list')
 
 
