@@ -101,6 +101,23 @@
     {% if perms.myzoneapp.change_post %}
     <a href="/post/{{post.permanent.title}}/edit/" class="btn btn-sm btn-secondary" role="button">{% translate "Edit" %}</a>
     {% endif %}
+    {% if perms.myzoneapp.create_post %}
+    <div class="dropdown d-grid px-0">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% translate "Translate" %}
+        </button>
+        <ul class="dropdown-menu">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+            {% for language in languages %}
+            {% if language.code is not LANGUAGE_CODE %}
+            <li><a href="/post/{{post.permanent.title}}/translate/{{language.code}}" class="dropdown-item" role="button">{{language.name_local}}</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
     {% if perms.myzoneapp.delete_post %}
     <a href="#" class="btn btn-sm btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#post-delete-modal">{% translate "Delete" %}</a>
     <div class="modal fade" id="post-delete-modal" tabindex="-1" aria-labelledby="post-delete-modal-label" aria-hidden="true">
