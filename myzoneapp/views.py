@@ -19,6 +19,12 @@ def get_language_suffix_from_request(request: HttpRequest):
     return get_language_from_request(request).replace('-', '_')
 
 
+VDITOR_LANG_MAP = {
+    'en': 'en_US',
+    'zh-hans': 'zh_CN'
+}
+
+
 def home(request: HttpRequest):
     """
     Home page. `/`
@@ -187,7 +193,8 @@ def post_new(request: HttpRequest):
     """
     if request.method == "GET":
         return render(request, 'post/edit.html', {
-            **get_categories_tags(request)
+            **get_categories_tags(request),
+            'vditor_lang': VDITOR_LANG_MAP.get(get_language_from_request(request), 'en_US')
         })
     
     elif request.method == "POST":
@@ -278,7 +285,8 @@ def post_edit(request: HttpRequest, permanent_title: str):
                 'draft': post.draft,
                 'content': post.content,
                 'permanent': post.permanent
-            }
+            },
+            'vditor_lang': VDITOR_LANG_MAP.get(lang, 'en_US')
         })
     
     elif request.method == "POST":
@@ -341,7 +349,8 @@ def post_translate(request: HttpRequest, permanent_title: str, lang_code: str):
         return render(request, 'post/translate.html', {
             'post_origin': post_origin,
             'permanent': permanent_title,
-            'language': lang_code
+            'language': lang_code,
+            'vditor_lang': VDITOR_LANG_MAP.get(current_lang, 'en_US')
         })
     
     if request.method == 'POST':

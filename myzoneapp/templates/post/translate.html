@@ -120,6 +120,8 @@ New Post
     const vditor = new Vditor('vditor', {
         width: '100%',
         value: '',
+        typewriterMode: true,
+        lang: '{{ vditor_lang|safe }}',
         cache: {
             enabled: false
         },
