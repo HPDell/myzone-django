@@ -24,7 +24,8 @@ def home(request: HttpRequest):
     Home page. `/`
     """
     lang = get_language_suffix_from_request(request)
-    posts = Post.objects.filter(draft=False).order_by("-date").all()[:5]
+    post_trans = PostTranslate.objects.filter(language=get_language_from_request(request))
+    posts = Post.objects.filter(pk__in=[x.post.id for x in post_trans], draft=False).order_by("-date").all()[:5]
     adminUser = User.objects.get(pk=1)
     if (profile_qs := Profile.objects.filter(user=adminUser)).exists() and (profile := profile_qs.first()) is not None:
         return render(request, 'index.html', {
