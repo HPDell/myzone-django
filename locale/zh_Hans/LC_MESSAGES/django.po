@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-26 11:46+0000\n"
+"POT-Creation-Date: 2022-07-27 13:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,6 +44,7 @@ msgstr "未知类型"
 
 #: myzoneapp/templates/index.html:22 myzoneapp/templates/post/detail.html:47
 #: myzoneapp/templates/post/edit.html:31 myzoneapp/templates/post/list.html:55
+#: myzoneapp/templates/post/translate.html:42
 #: myzoneapp/templates/post_base.html:26
 #: myzoneapp/templates/publication/detail.html:35
 #: myzoneapp/templates/publication/list.html:25
@@ -75,6 +76,7 @@ msgstr "没有博客。"
 
 #: myzoneapp/templates/post/detail.html:48
 #: myzoneapp/templates/post/edit.html:32 myzoneapp/templates/post/list.html:56
+#: myzoneapp/templates/post/translate.html:43
 msgid "Posts"
 msgstr "博客"
 
@@ -86,24 +88,24 @@ msgstr "感谢您的阅读。本网站 MyZone 对本文保留所有权利。"
 msgid "Edit"
 msgstr "编辑"
 
-#: myzoneapp/templates/post/detail.html:107
+#: myzoneapp/templates/post/detail.html:108
 msgid "Translate"
 msgstr "翻译"
 
-#: myzoneapp/templates/post/detail.html:122
-#: myzoneapp/templates/post/detail.html:137
+#: myzoneapp/templates/post/detail.html:119
+#: myzoneapp/templates/post/detail.html:134
 msgid "Delete"
 msgstr "删除"
 
-#: myzoneapp/templates/post/detail.html:127
+#: myzoneapp/templates/post/detail.html:124
 msgid "Delete Confirm"
 msgstr "确认删除"
 
-#: myzoneapp/templates/post/detail.html:136
+#: myzoneapp/templates/post/detail.html:133
 msgid "Close"
 msgstr "关闭"
 
-#: myzoneapp/templates/post/detail.html:148
+#: myzoneapp/templates/post/detail.html:145
 msgid "Contents"
 msgstr "目录"
 
@@ -116,6 +118,7 @@ msgid "New Post"
 msgstr "新建博客"
 
 #: myzoneapp/templates/post/edit.html:48
+#: myzoneapp/templates/post/translate.html:61
 msgid "Title"
 msgstr "标题"
 
@@ -144,15 +147,19 @@ msgid "Tags"
 msgstr "标签"
 
 #: myzoneapp/templates/post/edit.html:132
+#: myzoneapp/templates/post/translate.html:69
 msgid "Submit"
 msgstr "提交"
 
 #: myzoneapp/templates/post/edit.html:134
+#: myzoneapp/templates/post/translate.html:71
 msgid "Save Draft"
 msgstr "保存草稿"
 
 #: myzoneapp/templates/post/edit.html:258
 #: myzoneapp/templates/post/edit.html:260
+#: myzoneapp/templates/post/translate.html:170
+#: myzoneapp/templates/post/translate.html:172
 msgid "Are you sure to leave?"
 msgstr "确定要离开吗？"
 
@@ -171,6 +178,14 @@ msgstr "草稿箱"
 #: myzoneapp/templates/post/list.html:76
 msgid "New"
 msgstr "新建"
+
+#: myzoneapp/templates/post/translate.html:51
+msgid "Origin Post"
+msgstr "原文"
+
+#: myzoneapp/templates/post/translate.html:57
+msgid "Translate Post"
+msgstr "译文"
 
 #: myzoneapp/templates/post_base.html:49
 msgid "Categories"
