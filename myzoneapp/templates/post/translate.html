@@ -15,10 +15,10 @@ New Post
 <script src="https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/index.min.js"></script>
 <style>
     #post-origin {
-        height: calc(100vh - 9rem);
+        height: calc(100vh - 12rem);
     }
     #vditor {
-        height: calc(100vh - 12rem);
+        height: calc(100vh - 15rem);
     }
     #post-origin pre {
         word-wrap: break-word;
@@ -54,7 +54,7 @@ New Post
             </div>
         </div>
         <div class="col-xs-12 col-md-6">
-            <h5 id="post-translate-header" class="fw-bold border-start border-4 border-dark ps-3 mb-4">{% translate "Translate Post" %}</h5>
+            <!-- <h5 id="post-translate-header" class="fw-bold border-start border-4 border-dark ps-3 mb-4">{% translate "Translate Post" %}</h5> -->
             <form action="/post/{{permanent}}/translate/{{language}}/" method="POST">
                 {% csrf_token %}
                 <div class="mb-3 ">
@@ -66,9 +66,9 @@ New Post
                     <textarea name="content" id="post-content" cols="40" rows="10"></textarea>
                 </div>
                 <div class="hstack gap-2">
-                    <button type="submit" name="publish" class="btn btn-primary" onclick="formSubmit()">{% translate "Submit" %}</button>
+                    <button type="submit" name="publish" class="btn btn-sm btn-primary" onclick="formSubmit()">{% translate "Submit" %}</button>
                     <div class="vr"></div>
-                    <button type="submit" name="draft" class="btn btn-outline-secondary" onclick="formSubmit()">{% translate "Save Draft" %}</button>
+                    <button type="submit" name="draft" class="btn btn-sm btn-outline-secondary" onclick="formSubmit()">{% translate "Save Draft" %}</button>
                 </div>
             </form>
         </div>
@@ -124,6 +124,9 @@ New Post
         lang: '{{ vditor_lang|safe }}',
         cache: {
             enabled: false
+        },
+        toolbarConfig: {
+            pin: true
         },
         preview: {
             math: {
