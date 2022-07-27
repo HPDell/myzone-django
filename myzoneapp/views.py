@@ -145,7 +145,11 @@ def post_page(request: HttpRequest, permanent_title: str):
     """
     lang = get_language_suffix_from_request(request)
     permanent = get_object_or_404(PostPermanent, title=permanent_title)
-    post_trans = get_object_or_404(PostTranslate, permanent=permanent, language=get_language_from_request(request))
+    if PostTranslate.objects.filter(permanent=permanent, language=get_language_from_request(request)).count() < 1:
+        ''' If no such a post, redirect to post list page.
+        '''
+        return redirect('post_list')
+    post_trans = PostTranslate.objects.get(permanent=permanent, language=get_language_from_request(request))
     post: Post = get_object_or_404(Post, pk=post_trans.post.id)
     
     if post.draft:
