@@ -2,3 +2,4 @@ django==3.2.12
 psycopg2==2.9.3
 Pillow==9.0.1
 sorl-thumbnail==12.8.0
+django-modern-rpc==1.0.1

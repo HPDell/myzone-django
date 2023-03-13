@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vditor',
     'myzoneapp',
-    'sorl.thumbnail'
+    'sorl.thumbnail',
+    'modernrpc'
 ]
 
 MIDDLEWARE = [
@@ -175,3 +176,7 @@ mimetypes.add_type("text/html", ".html", True)
 mimetypes.add_type("application/javascript", ".js", True)
 mimetypes.add_type("image/png", ".png", True)
 mimetypes.add_type("image/jpg", ".jpg", True)
+
+MODERNRPC_METHODS_MODULES = [
+    'myzoneapp.xmlrpc'
+]
