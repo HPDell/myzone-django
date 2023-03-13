@@ -3,6 +3,13 @@
 {% load l10n %}
 {% load thumbnail %}
 
+{% block title %}
+{% translate "Posts" %}
+{% if "draft" in request.GET %}
+| {% translate "Drafts" %}
+{% endif %}
+{% endblock %}
+
 {% block pre_modules %}
 {{ block.super }}
 <style>
