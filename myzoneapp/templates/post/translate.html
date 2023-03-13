@@ -2,10 +2,10 @@
 {% load i18n %}
 
 {% block title %}
-{% if post %}
-{{post.title}} | {{post.date|date:"Y-m-d"}}
+{% if post_origin %}
+{% translate "Translate Post" %} | {{post_origin.title}} | {{post_origin.date|date:"Y-m-d"}}
 {% else %}
-New Post
+{% translate "Translate Post" %}
 {% endif %}
 {% endblock %}
 
@@ -54,7 +54,7 @@ New Post
             </div>
         </div>
         <div class="col-xs-12 col-md-6">
-            <!-- <h5 id="post-translate-header" class="fw-bold border-start border-4 border-dark ps-3 mb-4">{% translate "Translate Post" %}</h5> -->
+            <!-- <h5 id="post-translate-header" class="fw-bold border-start border-4 border-dark ps-3 mb-4">{% translate "Translated Post" %}</h5> -->
             <form action="/post/{{permanent}}/translate/{{language}}/" method="POST">
                 {% csrf_token %}
                 <div class="mb-3 ">

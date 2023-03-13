@@ -3,9 +3,9 @@
 
 {% block title %}
 {% if post %}
-{{post.title}} | {{post.date|date:"Y-m-d"}}
+{% translate "Edit Post" %} | {{post.title}} | {{post.date|date:"Y-m-d"}}
 {% else %}
-New Post
+{% translate "New Post" %}
 {% endif %}
 {% endblock %}
 
@@ -30,16 +30,20 @@ New Post
             <ol class="breadcrumb text-muted">
                 <li class="breadcrumb-item"><a href="/" class="text-muted">{% translate "Home" %}</a></li>
                 <li class="breadcrumb-item"><a href="/post/" class="text-muted">{% translate "Posts" %}</a></li>
+                {% if post %}
                 <li class="breadcrumb-item"><span class="text-muted">{{post.title}}</span></li>
+                {% else %}
+                <li class="breadcrumb-item"><span class="text-muted">{% translate "New Post" %}</span></li>
+                {% endif %}            
             </ol>
         </nav>
     </div>
     {% if post %}
-    <h1 class="fw-bold">{% translate "Edit Post" %}</h1>
-    <form action="/post/{{post.permanent.title}}/edit/" method="post" class="py-3" enctype="multipart/form-data">
+    <!-- <h1 class="fw-bold">{% translate "Edit Post" %}</h1> -->
+    <form action="/post/{{post.permanent.title}}/edit/" method="post" class="pb-3" enctype="multipart/form-data">
     {% else %}
-    <h1 class="fw-bold">{% translate "New Post" %}</h1>
-    <form action="/post/new/" method="post" class="py-3" enctype="multipart/form-data">
+    <!-- <h1 class="fw-bold">{% translate "New Post" %}</h1> -->
+    <form action="/post/new/" method="post" class="pb-3" enctype="multipart/form-data">
     {% endif %}
         {% csrf_token %}
         <div class="row">
