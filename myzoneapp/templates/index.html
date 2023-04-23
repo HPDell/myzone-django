@@ -19,13 +19,13 @@
 {% block header_nav %}
 <ul class="navbar-nav me-auto">
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="/">{% translate "Home" %}</a>
+        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">{% translate "Home" %}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/post/">{% translate "Blog" %}</a>
+        <a class="nav-link" href="{% url 'post_list' %}">{% translate "Blog" %}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/publication/">{% translate "Publication" %}</a>
+        <a class="nav-link" href="{% url 'pub_list' %}">{% translate "Publication" %}</a>
     </li>
 </ul>
 {% endblock %}
@@ -56,10 +56,10 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     {% for item in posts %}
-                    <a class="list-group-item text-truncate" href="/post/{{item.id}}/">{{ item.title }}</a>
+                    <a class="list-group-item text-truncate" href="{% url 'post_page' item.permanent.title %}">{{ item.title }}</a>
                     {% endfor %}
                     {% if posts %}
-                    <a class="list-group-item" href="/post/">{% translate "See All..." %}</a>
+                    <a class="list-group-item" href="{% url 'post_list' %}">{% translate "See All..." %}</a>
                     {% else %}
                     <li class="list-group-item text-truncate">{% translate "No posts." %}</li>
                     {% endif %}

@@ -39,8 +39,8 @@
     <div class="row">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb align-items-top flex-nowrap">
-                <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="/" class="text-muted text-nowrap">{% translate "Home" %}</a></li>
-                <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="/post/" class="text-muted text-nowrap">{% translate "Posts" %}</a></li>
+                <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="{% url 'home' %}" class="text-muted text-nowrap">{% translate "Home" %}</a></li>
+                <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="{% url 'post_list' %}" class="text-muted text-nowrap">{% translate "Posts" %}</a></li>
                 <li class="breadcrumb-item text-truncate"><span class="text-muted">{{post_origin.title}}</span></li>
             </ol>
         </nav>

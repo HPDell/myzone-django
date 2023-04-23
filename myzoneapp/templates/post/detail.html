@@ -44,8 +44,8 @@
 <div class="row">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb align-items-top flex-nowrap">
-            <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="/" class="text-muted text-nowrap">{% translate "Home" %}</a></li>
-            <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="/post/" class="text-muted text-nowrap">{% translate "Posts" %}</a></li>
+            <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="{% url 'home' %}" class="text-muted text-nowrap">{% translate "Home" %}</a></li>
+            <li class="breadcrumb-item d-flex flex-row align-items-top"><a href="{% url 'post_list' %}" class="text-muted text-nowrap">{% translate "Posts" %}</a></li>
             <li class="breadcrumb-item text-truncate"><span class="text-muted">{{post.title}}</span></li>
         </ol>
     </nav>
@@ -99,7 +99,7 @@
 {% if user.is_authenticated %}
 <div id="actions" class="row d-grid gap-2 my-3 px-3">
     {% if perms.myzoneapp.change_post %}
-    <a href="/post/{{post.permanent.title}}/edit/" class="btn btn-sm btn-secondary" role="button">{% translate "Edit" %} <i class="bi bi-pencil-fill"></i></a>
+    <a href="{% url 'post_edit' post.permanent.title %}" class="btn btn-sm btn-secondary" role="button">{% translate "Edit" %} <i class="bi bi-pencil-fill"></i></a>
     {% endif %}
     {% if perms.myzoneapp.create_post %}
     {% if translatable_language|length > 0 %}
@@ -109,7 +109,7 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-dark">
             {% for language in translatable_language %}
-            <li><a href="/post/{{post.permanent.title}}/translate/{{language.code}}/" class="dropdown-item" role="button">{{language.name_local}}</a></li>
+            <li><a href="{% url 'post_translate' post.permanent.title language.code %}" class="dropdown-item" role="button">{{language.name_local}}</a></li>
             {% endfor %}
         </ul>
     </div>
