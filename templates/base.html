@@ -68,12 +68,12 @@
                                 <li><a href="{% url 'admin:index' %}" class="dropdown-item">{% translate "Control Panel" %}</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 {% endif %}
-                                <li><a href="/logout/?redirect={{request.get_full_path | escape}}" class="dropdown-item">{% translate "Logout" %}</a></li>
+                                <li><a href="{% url 'logout' %}?redirect={{request.get_full_path | escape}}" class="dropdown-item">{% translate "Logout" %}</a></li>
                             </ul>
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a href="/login/?redirect={{ request.get_full_path | escape }}" class="nav-link">{% translate "Login" %}</a>
+                            <a href="{% url 'login' %}?redirect={{ request.get_full_path | escape }}" class="nav-link">{% translate "Login" %}</a>
                         </li>
                         {% endif %}
                     </ul>
