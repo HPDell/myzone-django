@@ -17,16 +17,21 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.conf.urls.static import static, serve
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from .settings import STATIC_ROOT, MEDIA_ROOT
 
 urlpatterns = [
+    re_path(r'^static/(?P<path>.*)$', serve, { 'document_root': STATIC_ROOT }),
+    re_path(r'^media/(?P<path>.*)$', serve, { 'document_root': MEDIA_ROOT }),
+]
+
+urlpatterns += i18n_patterns(
     path('', include('myzoneapp.urls')),
     path('admin/', admin.site.urls),
     path('vditor/', include('vditor.urls')),
-    re_path(r'^static/(?P<path>.*)$', serve, { 'document_root': STATIC_ROOT }),
-    re_path(r'^media/(?P<path>.*)$', serve, { 'document_root': MEDIA_ROOT }),
-    path('i18n/', include('django.conf.urls.i18n'))
-]
+    path('i18n/', include('django.conf.urls.i18n')),
+    prefix_default_language=False
+)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

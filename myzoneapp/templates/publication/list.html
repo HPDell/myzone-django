@@ -22,7 +22,7 @@
 <div class="row">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb text-muted">
-            <li class="breadcrumb-item"><a href="/" class="text-muted">{% translate "Home" %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-muted">{% translate "Home" %}</a></li>
             <li class="breadcrumb-item">{% translate "Publications" %}</li>
         </ol>
     </nav>
@@ -45,7 +45,7 @@
                         <div class="card-body">
                             <!-- <h5 class="card-title">{{ pub.publication_type }}</h5> -->
                             <p class="card-text mb-1"><strong>
-                                <a href="/publication/{{pub.id}}/" class="stretched-link text-decoration-none text-dark">{{ pub.title }}</a>
+                                <a href="{% url 'pub_page' pub.id %}" class="stretched-link text-decoration-none text-dark">{{ pub.title }}</a>
                             </strong></p>
                             <p class="card-text mb-1"><small>{{ pub.authors }}</small></p>
                             <p class="card-text mb-1"><small class="text-muted">{{ pub.other }}</small></p>
@@ -69,7 +69,7 @@
             <h5 id="year-header" class="border-start border-4 border-dark ps-3 fw-bold">{% translate "Year" %}</h5>
             <ul id="year-list" class="list-group list-group-flush ps-2">
                 {% for year in year_list %}
-                <a href="/publication/?year={{year.publish_date__year}}" class="list-group-item">{{year.publish_date__year}} ({{year.num_pub}})</a>
+                <a href="{% url 'pub_list' %}?year={{year.publish_date__year}}" class="list-group-item">{{year.publish_date__year}} ({{year.num_pub}})</a>
                 {% endfor %}
             </ul>
         </div>

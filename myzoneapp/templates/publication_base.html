@@ -23,13 +23,13 @@ Publications
 {% block header_nav %}
 <ul class="navbar-nav me-auto">
     <li class="nav-item">
-        <a class="nav-link" href="/">{% translate "Home" %}</a>
+        <a class="nav-link" href="{% url 'home' %}">{% translate "Home" %}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/post/">{% translate "Blog" %}</a>
+        <a class="nav-link" href="{% url 'post_list' %}">{% translate "Blog" %}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="/publication/">{% translate "Publication" %}</a>
+        <a class="nav-link active" aria-current="page" href="{% url 'pub_list' %}">{% translate "Publication" %}</a>
     </li>
 </ul>
 {% endblock %}

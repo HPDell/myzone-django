@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-13 17:38+0000\n"
+"POT-Creation-Date: 2023-04-23 20:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgid "Unknown"
 msgstr "未知类型"
 
 #: myzoneapp/templates/index.html:22 myzoneapp/templates/post/detail.html:47
-#: myzoneapp/templates/post/edit.html:31 myzoneapp/templates/post/list.html:59
+#: myzoneapp/templates/post/edit.html:31 myzoneapp/templates/post/list.html:62
 #: myzoneapp/templates/post/translate.html:42
 #: myzoneapp/templates/post_base.html:25
 #: myzoneapp/templates/publication/detail.html:35
@@ -74,9 +74,33 @@ msgstr "查看全部"
 msgid "No posts."
 msgstr "没有博客。"
 
+#: myzoneapp/templates/login.html:12
+msgid "Signin"
+msgstr "登录"
+
+#: myzoneapp/templates/login.html:49
+msgid "Please sign in"
+msgstr "请登录"
+
+#: myzoneapp/templates/login.html:53
+msgid "Username"
+msgstr "用户名"
+
+#: myzoneapp/templates/login.html:57
+msgid "Password"
+msgstr "密码"
+
+#: myzoneapp/templates/login.html:62
+msgid "Remember me"
+msgstr "记住我"
+
+#: myzoneapp/templates/login.html:65
+msgid "Sign in"
+msgstr "登录"
+
 #: myzoneapp/templates/post/detail.html:48
 #: myzoneapp/templates/post/edit.html:32 myzoneapp/templates/post/list.html:7
-#: myzoneapp/templates/post/list.html:60
+#: myzoneapp/templates/post/list.html:63
 #: myzoneapp/templates/post/translate.html:43
 msgid "Posts"
 msgstr "博客"
@@ -165,19 +189,19 @@ msgstr "保存草稿"
 msgid "Are you sure to leave?"
 msgstr "确定要离开吗？"
 
-#: myzoneapp/templates/post/list.html:70
-msgid "Post List"
-msgstr "博客列表"
-
-#: myzoneapp/templates/post/list.html:74
-msgid "Published"
-msgstr "已发布"
-
-#: myzoneapp/templates/post/list.html:76
+#: myzoneapp/templates/post/list.html:9 myzoneapp/templates/post/list.html:79
 msgid "Drafts"
 msgstr "草稿箱"
 
-#: myzoneapp/templates/post/list.html:80
+#: myzoneapp/templates/post/list.html:73
+msgid "Post List"
+msgstr "博客列表"
+
+#: myzoneapp/templates/post/list.html:77
+msgid "Published"
+msgstr "已发布"
+
+#: myzoneapp/templates/post/list.html:83
 msgid "New"
 msgstr "新建"
 

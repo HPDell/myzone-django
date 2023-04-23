@@ -28,8 +28,8 @@
     <div class="row py-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb text-muted">
-                <li class="breadcrumb-item"><a href="/" class="text-muted">{% translate "Home" %}</a></li>
-                <li class="breadcrumb-item"><a href="/post/" class="text-muted">{% translate "Posts" %}</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-muted">{% translate "Home" %}</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'post_list' %}" class="text-muted">{% translate "Posts" %}</a></li>
                 {% if post %}
                 <li class="breadcrumb-item"><span class="text-muted">{{post.title}}</span></li>
                 {% else %}

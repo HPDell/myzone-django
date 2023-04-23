@@ -59,7 +59,7 @@
 <div class="row">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb text-muted">
-            <li class="breadcrumb-item"><a href="/" class="text-muted">{% translate "Home" %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-muted">{% translate "Home" %}</a></li>
             <li class="breadcrumb-item">{% translate "Posts" %}</li>
         </ol>
     </nav>
@@ -74,20 +74,20 @@
         </h5>
         {% if perms.myzoneapp.change_post %}
         {% if "draft" in request.GET %}
-        <a href="/post/" class="btn btn-sm btn-outline-secondary me-2" role="button">{% translate "Published" %}</a>
+        <a href="{% url 'post_list' %}" class="btn btn-sm btn-outline-secondary me-2" role="button">{% translate "Published" %}</a>
         {% else %}
-        <a href="/post/?draft=1" class="btn btn-sm btn-outline-secondary me-2" role="button">{% translate "Drafts" %}</a>
+        <a href="{% url 'post_list' %}?draft=1" class="btn btn-sm btn-outline-secondary me-2" role="button">{% translate "Drafts" %}</a>
         {% endif %}
         {% endif %}
         {% if perms.myzoneapp.add_post %}
-        <a href="/post/new/" class="btn btn-sm btn-secondary me-2" role="button">{% translate "New" %}</a>
+        <a href="{% url 'post_new' %}" class="btn btn-sm btn-secondary me-2" role="button">{% translate "New" %}</a>
         {% endif %}
     </div>
 </div>
 <div id="post-list" class="row mb-4">
     {% for item in posts %}
     <div class="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12 post-list-col gx-2 gy-3 px-2">
-        <a href="/post/{{item.permanent}}/" class="post-link-card"><div class="card">
+        <a href="{% url 'post_page' item.permanent %}" class="post-link-card"><div class="card">
             {% if item.cover %}
             <div class="card-img-outer">
                 <div class="card-img-wrapper">
@@ -123,7 +123,7 @@
         <div class="btn-toolbar justify-content-center" role="toolbar">
             <div id="pagination" class="btn-group">
                 {% if pagination.page.has_previous %}
-                <a href="/post/?page={{pagination.page.previous_page_number}}{{pagination.tag_qs}}{{pagination.category_qs}}" class="btn btn-outline-secondary"><span>&laquo;</span></a>
+                <a href="{% url 'post_list' %}?page={{pagination.page.previous_page_number}}{{pagination.tag_qs}}{{pagination.category_qs}}" class="btn btn-outline-secondary"><span>&laquo;</span></a>
                 {% else %}
                 <a href="#" class="btn btn-outline-secondary disabled"><span>&laquo;</span></a>
                 {% endif %}
@@ -133,11 +133,11 @@
                     {% elif item == pagination.page.paginator.ELLIPSIS %}
                     <a href="#" class="btn btn-outline-secondary disabled page-can-hide"><span>{{ item }}</span></a>
                     {% else %}
-                    <a href="/post/?page={{item}}{{pagination.tag_qs}}{{pagination.category_qs}}" class="btn btn-outline-secondary page-can-hide"><span>{{ item }}</span></a>
+                    <a href="{% url 'post_list' %}?page={{item}}{{pagination.tag_qs}}{{pagination.category_qs}}" class="btn btn-outline-secondary page-can-hide"><span>{{ item }}</span></a>
                     {% endif %}
                 {% endfor %}
                 {% if pagination.page.has_next %}
-                <a href="/post/?page={{pagination.page.next_page_number}}{{pagination.tag_qs}}{{pagination.category_qs}}" class="btn btn-outline-secondary"><span>&raquo;</span></a>
+                <a href="{% url 'post_list' %}?page={{pagination.page.next_page_number}}{{pagination.tag_qs}}{{pagination.category_qs}}" class="btn btn-outline-secondary"><span>&raquo;</span></a>
                 {% else %}
                 <a href="#" class="btn btn-outline-secondary"><span>&raquo;</span></a>
                 {% endif %}
