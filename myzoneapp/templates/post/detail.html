@@ -93,6 +93,7 @@
 <p id="copyright" class="lead mt-4 text-muted">
     <small>{% translate "Thanks for your reading. Copyright preserved by MyZone."%}</small>
 </p>
+<div class="giscus"></div>
 {% endblock %}
 
 {% block main_right %}
@@ -166,5 +167,20 @@
             macros: latexMacros
         }
     });
+</script>
+<script src="https://giscus.app/client.js"
+        data-repo="hpdell/myzone-django"
+        data-repo-id="R_kgDOHA8aNg"
+        data-category="Post comments"
+        data-category-id="DIC_kwDOHA8aNs4CWu7L"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="{{giscus_language}}"
+        crossorigin="anonymous"
+        async>
 </script>
 {% endblock %}

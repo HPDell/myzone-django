@@ -183,7 +183,11 @@ def post_page(request: HttpRequest, permanent_title: str):
         # 'post_tags': post.tags.all(),
         **get_categories_tags(request),
         'show_not_categoried': Post.objects.filter(category__isnull=True).exists(),
-        'translatable_language': translatable_language
+        'translatable_language': translatable_language,
+        'giscus_language': {
+            'en': 'en',
+            'zh-hans': 'zh-CN'
+        }[get_language_from_request(request, check_path=True)]
     })
 
 
