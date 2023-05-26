@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import permission_required
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied, BadRequest
-from django.utils.translation import get_language_from_request, get_language_info
+from django.utils.translation import get_language_info, get_language
 from pathlib import Path
 from myzone import settings
 from django.db.models import ImageField, Count
@@ -15,8 +15,8 @@ from .models import Post, Category, Tag, Profile, Publication, PostTranslate, Po
 from .forms import PostForm, PostTranslateForm
 
 # Create your views here.
-def get_language_suffix_from_request(request: HttpRequest):
-    return get_language_from_request(request).replace('-', '_')
+def get_language_suffix():
+    return get_language().replace('-', '_')
 
 
 VDITOR_LANG_MAP = {
@@ -29,8 +29,8 @@ def home(request: HttpRequest):
     """
     Home page. `/`
     """
-    lang = get_language_suffix_from_request(request)
-    post_trans = PostTranslate.objects.filter(language=get_language_from_request(request))
+    lang = get_language_suffix()
+    post_trans = PostTranslate.objects.filter(language=get_language())
     posts = Post.objects.filter(pk__in=[x.post.id for x in post_trans], draft=False).order_by("-date").all()[:5]
     adminUser = User.objects.get(pk=1)
     if (profile_qs := Profile.objects.filter(user=adminUser)).exists() and (profile := profile_qs.first()) is not None:
@@ -48,7 +48,7 @@ def home(request: HttpRequest):
 
 
 def get_categories_tags(request: HttpRequest):
-    lang = get_language_suffix_from_request(request)
+    lang = get_language_suffix()
     categories = Category.objects.all()
     tags = Tag.objects.all()
     return {
@@ -61,8 +61,8 @@ def post_list(request: HttpRequest):
     """
     Post list page. `/post/`
     """
-    lang = get_language_suffix_from_request(request)
-    post_trans = PostTranslate.objects.filter(language=get_language_from_request(request))
+    lang = get_language_suffix()
+    post_trans = PostTranslate.objects.filter(language=get_language())
     posts_qs = Post.objects.filter(pk__in=[x.post.id for x in post_trans])
     ''' Get categories and tags
     '''
@@ -150,13 +150,13 @@ def post_page(request: HttpRequest, permanent_title: str):
     """
     Post detail page. `/post/id/`
     """
-    lang = get_language_suffix_from_request(request)
+    lang = get_language_suffix()
     permanent = get_object_or_404(PostPermanent, title=permanent_title)
-    if PostTranslate.objects.filter(permanent=permanent, language=get_language_from_request(request)).count() < 1:
+    if PostTranslate.objects.filter(permanent=permanent, language=get_language()).count() < 1:
         ''' If no such a post, redirect to post list page.
         '''
         return redirect('post_list')
-    post_trans = PostTranslate.objects.get(permanent=permanent, language=get_language_from_request(request))
+    post_trans = PostTranslate.objects.get(permanent=permanent, language=get_language())
     post: Post = get_object_or_404(Post, pk=post_trans.post.id)
     
     if post.draft:
@@ -187,7 +187,7 @@ def post_page(request: HttpRequest, permanent_title: str):
         'giscus_language': {
             'en': 'en',
             'zh-hans': 'zh-CN'
-        }[get_language_from_request(request, check_path=True)]
+        }[get_language()]
     })
 
 
@@ -198,11 +198,11 @@ def post_new(request: HttpRequest):
     if request.method == "GET":
         return render(request, 'post/edit.html', {
             **get_categories_tags(request),
-            'vditor_lang': VDITOR_LANG_MAP.get(get_language_from_request(request), 'en_US')
+            'vditor_lang': VDITOR_LANG_MAP.get(get_language(), 'en_US')
         })
     
     elif request.method == "POST":
-        lang = get_language_suffix_from_request(request)
+        lang = get_language_suffix()
         form = PostForm(request.POST)
         if form.is_valid():
             form_data = form.cleaned_data
@@ -213,7 +213,7 @@ def post_new(request: HttpRequest):
                 ''' When permanent title already exists
                 '''
                 post_permanent = PostPermanent.objects.get(title=permanent_title)
-                if PostTranslate.objects.filter(permanent=post_permanent, language=get_language_from_request(request)).count() > 0:
+                if PostTranslate.objects.filter(permanent=post_permanent, language=get_language()).count() > 0:
                     raise BadRequest
                 
             else:            
@@ -258,7 +258,7 @@ def post_new(request: HttpRequest):
             '''
             new_translate = PostTranslate()
             new_translate.permanent = post_permanent
-            new_translate.language = get_language_from_request(request)
+            new_translate.language = get_language()
             new_translate.post = new_post
             new_translate.save()
             return redirect(to='post_page', permanent_title=post_permanent.title)
@@ -270,8 +270,8 @@ def post_new(request: HttpRequest):
 def post_edit(request: HttpRequest, permanent_title: str):
     """
     """
-    lang = get_language_from_request(request)
-    lang_suffix = get_language_suffix_from_request(request)
+    lang = get_language()
+    lang_suffix = get_language_suffix()
     permanent = get_object_or_404(PostPermanent, title=permanent_title)
     post_id = get_object_or_404(PostTranslate, permanent=permanent, language=lang).post.id
 
@@ -294,7 +294,7 @@ def post_edit(request: HttpRequest, permanent_title: str):
         })
     
     elif request.method == "POST":
-        lang_suffix = get_language_suffix_from_request(request)
+        lang_suffix = get_language_suffix()
         form = PostForm(request.POST)
         if form.is_valid():
             from_data = form.cleaned_data
@@ -342,7 +342,7 @@ def post_edit(request: HttpRequest, permanent_title: str):
 
 @permission_required('myzoneapp.create_post')
 def post_translate(request: HttpRequest, permanent_title: str, lang_code: str):
-    current_lang = get_language_from_request(request)
+    current_lang = get_language()
     permanent = get_object_or_404(PostPermanent, title=permanent_title)
     post_origin = get_object_or_404(PostTranslate, permanent=permanent, language=current_lang).post
 
@@ -388,7 +388,7 @@ def post_translate(request: HttpRequest, permanent_title: str, lang_code: str):
 
 @permission_required('myzoneapp.delete_post')
 def post_delete(request: HttpRequest, permanent_title: str):
-    lang = get_language_from_request(request)
+    lang = get_language()
     permanent = get_object_or_404(PostPermanent, title=permanent_title)
     post_id = get_object_or_404(PostTranslate, permanent=permanent, language=lang).post.id
 
