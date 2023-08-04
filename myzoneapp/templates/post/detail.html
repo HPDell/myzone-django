@@ -129,7 +129,7 @@
                     Are you sure to delete post <i>{{post.title}}</i>?
                 </div>
                 <div class="modal-footer">
-                    <form action="/post/{{post.permanent.title}}/delete/" method="post">
+                    <form action="{% url 'post_delete' post.permanent.title %}" method="post">
                         {% csrf_token %}
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</button>
                         <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>

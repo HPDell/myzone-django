@@ -55,7 +55,7 @@
         </div>
         <div class="col-xs-12 col-md-6">
             <!-- <h5 id="post-translate-header" class="fw-bold border-start border-4 border-dark ps-3 mb-4">{% translate "Translated Post" %}</h5> -->
-            <form action="/post/{{permanent}}/translate/{{language}}/" method="POST">
+            <form action="{% url 'post_translate' permanent language %}" method="POST">
                 {% csrf_token %}
                 <div class="mb-3 ">
                     {% translate "Title" as post_title_placeholder %}
