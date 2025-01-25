@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import feeds
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -12,5 +13,6 @@ urlpatterns = [
     path('post/<str:permanent_title>/delete/', views.post_delete, name='post_delete'),
     path('post/<str:permanent_title>/translate/<str:lang_code>/', views.post_translate, name='post_translate'),
     path('publication/', views.publication_list, name='pub_list'),
-    path('publication/<int:pub_id>/', views.publication_page, name='pub_page')
+    path('publication/<int:pub_id>/', views.publication_page, name='pub_page'),
+    path('rss/', feeds.LatestPostFeed(), name="fedd_post"),
 ]
