@@ -12,6 +12,11 @@ FEED_DESCRIPTION = {
     "en": "HPDell's Blog",
 }
 
+CLAIM_DESCRIPTION = {
+    "zh-hans": "feedId:106084893890443264+userId:46662346918514688",
+    "en": "feedId:106090697091066880+userId:46662346918514688",
+}
+
 @dataclass
 class PostItem:
     title: str
@@ -23,7 +28,7 @@ class LatestPostFeed(Feed):
     title = "HPDell's Zone"
     
     def description(self):
-        return FEED_DESCRIPTION[get_language()]
+        return " ".join([FEED_DESCRIPTION[get_language()], CLAIM_DESCRIPTION[get_language()]])
 
     def link(self):
         return reverse('post_list')
