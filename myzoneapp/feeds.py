@@ -1,21 +1,14 @@
 from typing import Optional
 from datetime import datetime
+from xml.sax.saxutils import XMLGenerator
 from django.contrib.syndication.views import Feed
 from django.urls import reverse
-from django.utils.translation import get_language
+from django.utils.feedgenerator import Rss201rev2Feed
+from django.utils.translation import get_language, get_language_info
 from dataclasses import dataclass
-from .models import Post, PostTranslate
 from markdown2 import Markdown
-
-FEED_DESCRIPTION = {
-    "zh-hans": "HPDell的个人博客",
-    "en": "HPDell's Blog",
-}
-
-CLAIM_DESCRIPTION = {
-    "zh-hans": "feedId:106084893890443264+userId:46662346918514688",
-    "en": "feedId:106090697091066880+userId:46662346918514688",
-}
+from .models import Post, PostTranslate
+from myzone import settings
 
 @dataclass
 class PostItem:
@@ -24,11 +17,35 @@ class PostItem:
     link: Optional[str]
     pubdate: datetime
 
+class FollowFeed(Rss201rev2Feed):
+    follow_feed_id = settings.FOLLOW_FEED_ID["zh-hans"]
+    follow_user_id = settings.FOLLOW_USER_ID
+
+    def __init__(self, title, link, description, language = ..., author_email = ..., author_name = ..., author_link = ..., subtitle = ..., categories = ..., feed_url = ..., feed_copyright = ..., feed_guid = ..., ttl = ..., **kwargs):
+        super().__init__(title, link, description, language, author_email, author_name, author_link, subtitle, categories, feed_url, feed_copyright, feed_guid, ttl, **kwargs)
+        self.follow_feed_id = settings.FOLLOW_FEED_ID[language]
+    
+    def add_root_elements(self, handler: XMLGenerator):
+        super().add_root_elements(handler)
+        handler.startElement("follow_challenge", {})
+        handler.startElement("feedId", {})
+        handler.characters(self.follow_feed_id)
+        handler.endElement("feedId")
+        handler.startElement("userId", {})
+        handler.characters(self.follow_user_id)
+        handler.endElement("userId")
+        handler.endElement("follow_challenge")
+
 class LatestPostFeed(Feed):
-    title = "HPDell's Zone"
+    feed_type = FollowFeed
+
+    def title(self):
+        lang = get_language()
+        lang_name = get_language_info(lang)["name_local"]
+        return settings.FEED_TITLE_BASE + " " + (f"({lang_name})" if lang != "zh-hans" else "")
     
     def description(self):
-        return " ".join([FEED_DESCRIPTION[get_language()], CLAIM_DESCRIPTION[get_language()]])
+        return settings.FEED_DESCRIPTION[get_language()]
 
     def link(self):
         return reverse('post_list')

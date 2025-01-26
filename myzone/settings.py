@@ -175,3 +175,17 @@ mimetypes.add_type("text/html", ".html", True)
 mimetypes.add_type("application/javascript", ".js", True)
 mimetypes.add_type("image/png", ".png", True)
 mimetypes.add_type("image/jpg", ".jpg", True)
+
+FEED_DESCRIPTION = {
+    "zh-hans": "HPDell的个人博客",
+    "en": "HPDell's Blog",
+}
+
+FEED_TITLE_BASE = "HPDell's Zone"
+
+FOLLOW_FEED_ID = {
+    "zh-hans": "106084893890443264",
+    "en": "106090697091066880"
+}
+
+FOLLOW_USER_ID = "46662346918514688"
