@@ -56,14 +56,14 @@ class LatestPostFeed(Feed):
         return settings.FEED_DESCRIPTION[get_language()]
 
     def link(self):
-        return reverse('post_list')
+        return f"{self.request.scheme}://{self.request.get_host()}{reverse('post_list')}"
 
     def fix_html_img_src(self, html: str) -> str:
         soup = BeautifulSoup(html, "html.parser")
         for img in soup.find_all("img"):
             src = img.get("src")
             if src and not src.startswith(("http://", "https://")):
-                img["src"] = self.request.build_absolute_uri(src)
+                img["src"] = f"{self.request.scheme}://{self.request.get_host()}{src}"
         return str(soup)
 
     def items(self):
@@ -89,7 +89,7 @@ class LatestPostFeed(Feed):
         return item.description
 
     def item_link(self, item):
-        return item.link
+        return f"{self.request.scheme}://{self.request.get_host()}{item.link}"
 
     def item_pubdate(self, item):
         return item.pubdate
