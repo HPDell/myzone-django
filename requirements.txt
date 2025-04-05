@@ -4,3 +4,4 @@ Pillow==9.0.1
 sorl-thumbnail==12.8.0
 markdown2[all]
 latex2mathml==3.77.0
+beautifulsoup4==4.13.3

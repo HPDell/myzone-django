@@ -9,6 +9,8 @@ from dataclasses import dataclass
 from markdown2 import Markdown
 from .models import Post, PostTranslate
 from myzone import settings
+from bs4 import BeautifulSoup
+
 
 @dataclass
 class PostItem:
@@ -16,6 +18,7 @@ class PostItem:
     description: str
     link: Optional[str]
     pubdate: datetime
+
 
 class FollowFeed(Rss201rev2Feed):
     follow_feed_id = settings.FOLLOW_FEED_ID["zh-hans"]
@@ -36,8 +39,13 @@ class FollowFeed(Rss201rev2Feed):
         handler.endElement("userId")
         handler.endElement("follow_challenge")
 
+
 class LatestPostFeed(Feed):
     feed_type = FollowFeed
+
+    def __call__(self, request, *args, **kwargs):
+        self.request = request
+        return super().__call__(request, *args, **kwargs)
 
     def title(self):
         lang = get_language()
@@ -50,6 +58,14 @@ class LatestPostFeed(Feed):
     def link(self):
         return reverse('post_list')
 
+    def fix_html_img_src(self, html: str) -> str:
+        soup = BeautifulSoup(html, "html.parser")
+        for img in soup.find_all("img"):
+            src = img.get("src")
+            if src and not src.startswith(("http://", "https://")):
+                img["src"] = self.request.build_absolute_uri(src)
+        return str(soup)
+
     def items(self):
         post_trans = PostTranslate.objects.filter(language=get_language())
         posts_qs = Post.objects.filter(pk__in=[x.post.id for x in post_trans])
@@ -60,7 +76,7 @@ class LatestPostFeed(Feed):
         ])
         post_items = [PostItem(
             title=post.title,
-            description=renderer.convert(post.content),
+            description=self.fix_html_img_src(renderer.convert(post.content)),
             link=reverse('post_page', args=[post.permanent]),
             pubdate=datetime(post.date.year, post.date.month, post.date.day)
         ) for post in posts]
