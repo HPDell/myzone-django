@@ -3,7 +3,7 @@
 {% load l10n %}
 
 {% block title %}
-{{post.title}} | {{post.date|date:"Y-m-d"}}
+{{post.title}} | {{post.date|date:"Y-m-d"}} | 地与码之间
 {% endblock %}
 
 {% block pre_modules %}
@@ -91,7 +91,7 @@
     <pre>{{ post.content }}</pre>
 </div>
 <p id="copyright" class="lead mt-4 text-muted">
-    <small>{% translate "Thanks for your reading. Copyright preserved by MyZone."%}</small>
+    <small>{% translate "Thanks for your reading. Copyright preserved by Geo Code Zone."%}</small>
 </p>
 <div class="giscus"></div>
 {% endblock %}
