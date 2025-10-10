@@ -106,8 +106,8 @@ msgid "Posts"
 msgstr "博客"
 
 #: myzoneapp/templates/post/detail.html:94
-msgid "Thanks for your reading. Copyright preserved by MyZone."
-msgstr "感谢您的阅读。本网站 MyZone 对本文保留所有权利。"
+msgid "Thanks for your reading. Copyright preserved by Geo Code Zone."
+msgstr "感谢您的阅读。本网站「地与码之间」对本文保留所有权利。"
 
 #: myzoneapp/templates/post/detail.html:102
 msgid "Edit"
