@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-23 20:20+0000\n"
+"POT-Creation-Date: 2025-10-30 02:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,16 +48,17 @@ msgstr "未知类型"
 #: myzoneapp/templates/post_base.html:25
 #: myzoneapp/templates/publication/detail.html:35
 #: myzoneapp/templates/publication/list.html:25
-#: myzoneapp/templates/publication_base.html:26 templates/base.html:30
+#: myzoneapp/templates/publication_base.html:26 templates/base.html:36
 msgid "Home"
 msgstr "首页"
 
 #: myzoneapp/templates/index.html:25 myzoneapp/templates/post_base.html:28
-#: myzoneapp/templates/publication_base.html:29 templates/base.html:33
+#: myzoneapp/templates/publication_base.html:29 templates/base.html:39
 msgid "Blog"
 msgstr "博客"
 
 #: myzoneapp/templates/index.html:28 myzoneapp/templates/post_base.html:31
+#: myzoneapp/templates/publication_base.html:5
 #: myzoneapp/templates/publication_base.html:32
 msgid "Publication"
 msgstr "发表成果"
@@ -77,6 +78,14 @@ msgstr "没有博客。"
 #: myzoneapp/templates/login.html:12
 msgid "Signin"
 msgstr "登录"
+
+#: myzoneapp/templates/login.html:12 myzoneapp/templates/post/detail.html:6
+#: myzoneapp/templates/post/edit.html:6 myzoneapp/templates/post/list.html:10
+#: myzoneapp/templates/post/translate.html:9
+#: myzoneapp/templates/publication_base.html:5 templates/base.html:11
+#: templates/base.html:26 templates/base.html:99
+msgid "GeoCodeZone"
+msgstr "地与码之间"
 
 #: myzoneapp/templates/login.html:49
 msgid "Please sign in"
@@ -109,28 +118,28 @@ msgstr "博客"
 msgid "Thanks for your reading. Copyright preserved by Geo Code Zone."
 msgstr "感谢您的阅读。本网站「地与码之间」对本文保留所有权利。"
 
-#: myzoneapp/templates/post/detail.html:102
+#: myzoneapp/templates/post/detail.html:103
 msgid "Edit"
 msgstr "编辑"
 
-#: myzoneapp/templates/post/detail.html:108
+#: myzoneapp/templates/post/detail.html:109
 msgid "Translate"
 msgstr "翻译"
 
-#: myzoneapp/templates/post/detail.html:119
-#: myzoneapp/templates/post/detail.html:134
+#: myzoneapp/templates/post/detail.html:120
+#: myzoneapp/templates/post/detail.html:135
 msgid "Delete"
 msgstr "删除"
 
-#: myzoneapp/templates/post/detail.html:124
+#: myzoneapp/templates/post/detail.html:125
 msgid "Delete Confirm"
 msgstr "确认删除"
 
-#: myzoneapp/templates/post/detail.html:133
+#: myzoneapp/templates/post/detail.html:134
 msgid "Close"
 msgstr "关闭"
 
-#: myzoneapp/templates/post/detail.html:145
+#: myzoneapp/templates/post/detail.html:146
 msgid "Contents"
 msgstr "目录"
 
@@ -297,14 +306,14 @@ msgid ""
 "or try again later."
 msgstr "对不起，该请求引发了一些内部错误。请检查表单或在一段时间后重试。"
 
-#: templates/base.html:68
+#: templates/base.html:74
 msgid "Control Panel"
 msgstr "管理平台"
 
-#: templates/base.html:71
+#: templates/base.html:77
 msgid "Logout"
 msgstr "注销"
 
-#: templates/base.html:76
+#: templates/base.html:82
 msgid "Login"
 msgstr "登录"
