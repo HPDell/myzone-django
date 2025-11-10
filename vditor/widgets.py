@@ -40,9 +40,9 @@ class VditorWidget(forms.Textarea):
     def _get_media(self):
         return forms.Media(
             css={
-                "all": ("https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/index.css",)
+                "all": ("https://cdn.bootcdn.net/ajax/libs/vditor/3.11.2/index.min.css",)
             },
             js=(
-                "https://cdn.jsdelivr.net/npm/vditor@3.8.12/dist/index.min.js",
+                "https://cdn.bootcdn.net/ajax/libs/vditor/3.11.2/index.min.js",
             ))
     media = property(_get_media)
